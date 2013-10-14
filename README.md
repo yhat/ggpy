@@ -35,14 +35,13 @@ painless. You should be able to `apt-get` or `yum` all of these.
 - `numpy`
 - `scipy`
 - `statsmodels`
+- `mpltools`
 
 #### Installation
-Ok the hard part is over. Installing `ggplot` is really easy. Just use `pip`! An item on the TODO
-is to add the matplotlibrc files to the pip installable (let me know if you'd like to help!).
+Ok the hard part is over. Installing `ggplot` is really easy. Just use `pip`! 
 
-    # matplotlibrc from Huy Nguyen (http://www.huyng.com/posts/sane-color-scheme-for-matplotlib/)
-    $ curl https://github.com/yhat/ggplot/raw/master/matplotlibrc.zip > matplotlibrc.zip 
-    $ unzip matplotlibrc.zip -d ~/
+    # ggplot style for matplotlib
+    $ pip install mpltools
     # install ggplot using pip
     $ pip install ggplot
 
@@ -51,53 +50,14 @@ is to add the matplotlibrc files to the pip installable (let me know if you'd li
     # run an IPython shell (or don't)
     $ ipython
     In [1]: from ggplot import *
+    In [2]: from mpltools import style
+            style.use('ggplot')
+            
 That's it! You're ready to go!
 
 ### Examples
-```
-meat_lng = pd.melt(meat[['date', 'beef', 'pork', 'broilers']], id_vars='date')
-ggplot(aes(x='date', y='value', colour='variable'), data=meat_lng) + \
-    geom_point() + \
-    stat_smooth(color='red')
-```
-<img src="public/img/ggplot_meat.png">
 
-####`geom_point`
-```
-from ggplot import *
-ggplot(diamonds, aes('carat', 'price')) + \
-    geom_point(alpha=1/20.) + \
-    ylim(0, 20000)
-```
-<img src="public/img/diamonds_geom_point_alpha.png">
-
-####`geom_hist`
-```
-p = ggplot(aes(x='carat'), data=diamonds)
-p + geom_hist() + ggtitle("Histogram of Diamond Carats") + labs("Carats", "Freq") 
-```
-<img src="public/img/diamonds_carat_hist.png">
-
-####`geom_density`
-```
-ggplot(diamonds, aes(x='price', color='cut')) + \
-    geom_density()
-```
-<img src="public/img/geom_density_example.png">
-
-```
-meat_lng = pd.melt(meat[['date', 'beef', 'broilers', 'pork']], id_vars=['date'])
-p = ggplot(aes(x='value', colour='variable', fill=True, alpha=0.3), data=meat_lng)
-p + geom_density()
-```
-<img src="public/img/density_with_fill.png">
-
-####`geom_bar`
-```
-p = ggplot(mtcars, aes('factor(cyl)'))
-p + geom_bar()
-```
-<img src="public/img/mtcars_geom_bar_cyl.png">
+See [this IPython notebook](http://nbviewer.ipython.org/urls/raw.github.com/yoavram/ipython-notebooks/master/ggplot%20test%20run.ipynb).
 
 
 ### TODO
