@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width">
         <title>ggplot by yhat</title>
 
-        <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700|Inconsolata' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/ggplot.min.css">
     </head>
     <body onload="prettyPrint()">
@@ -17,13 +17,15 @@
             </div>
         </div>
 	    <div class="container">
-            <h1><strong>{ggplot}</strong> from <a href="http://yhathq.com">Yhat</a></h1>
+            <h1><strong>{ggplot}</strong> from <a href="http://yhathq.com" target="_blank"><span class="yo">&#375;</span><span class="yg">hat</span></a></h1>
 
             <h3>What is it?</h3>
 
 	        <p>Yes, it's another port of <a href="https://github.com/hadley/ggplot2"><code>ggplot2</code></a>. One of the biggest reasons why I continue to reach for <code>R</code> instead of <code>Python</code> for data analysis is the lack of an easy to use, high level plotting package like <code>ggplot2</code>. I've tried other libraries like <a href="https://github.com/continuumio/bokeh"><code>bokeh</code></a> and <a href="https://github.com/mikedewar/d3py"><code>d3py</code></a> but what I really want is <code>ggplot2</code>.</p>
 
 	        <p><code>ggplot</code> is just that. It's an extremely un-pythonic package for doing exactly what <code>ggplot2</code> does. The goal of the package is to mimic the <code>ggplot2</code> API. This makes it super easy for people coming over from <code>R</code> to use, and prevents you from having to re-learn how to plot stuff.</p>
+
+            <p>Read more on our <a href="http://blog.yhathq.com/posts/ggplot-for-python.html" target="_blank">blog</a>.</p>
 
 
 	        <pre class="prettyprint lang-py">from ggplot import *
@@ -134,6 +136,10 @@ p + geom_bar()
 	        <h3>TODO</h3>
 
 	        <p>The list is long, but distinguished. <a href="https://github.com/yhat/ggplot/blob/master/TODO.md" target="_blank">TODO</a></p>
+
+            <footer>
+                &copy; 2013 <a href="http://yhathq.com" target="_blank">&#375;hat</a>
+            </footer>
 	    </div>
 
         <script src="js/ggplot.min.js"></script>

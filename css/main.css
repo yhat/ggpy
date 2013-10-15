@@ -72,7 +72,8 @@ h3 {
 h1 {
   font-size: 44px;
   margin-bottom: 40px;
-  font-weight: 100;
+  font-weight: 300;
+  line-height: 130%;
 }
 h2 {
   font-size: 36px;
@@ -200,24 +201,23 @@ address {
 }
 body {
   margin: 0;
-  font-family: 'Droid Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  color: #333333;
+  color: #394755;
   background-color: #ffffff;
 }
 .container {
   position: relative;
-  max-width: 1000px;
+  max-width: 980px;
   overflow: hidden;
   margin: 0 auto;
-  padding: 0;
+  padding: 10px;
   text-align: left;
 }
 a {
-  color: #1591d0;
+  color: #11acee;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
   -webkit-transition: all 0.3s ease-in;
   -moz-transition: all 0.3s ease-in;
   -ms-transition: all 0.3s ease-in;
@@ -226,9 +226,8 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0e618b;
+  color: #0c78a7;
   text-decoration: none;
-  border-bottom: 1px solid #0e618b;
 }
 img {
   max-width: 100%;
@@ -249,10 +248,10 @@ img {
 .github-fork-ribbon-wrapper .github-fork-ribbon {
   position: absolute;
   padding: 2px 0;
-  background-color: #a00;
-  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  background-color: #ee5311;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   top: 42px;
   right: -43px;
@@ -269,13 +268,36 @@ img {
   font-weight: 700;
   color: white;
   text-decoration: none;
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
   text-align: center;
   width: 200px;
   line-height: 20px;
   display: inline-block;
   padding: 2px 0;
   border: 1px dotted rgba(255, 255, 255, 0.7);
+}
+footer {
+  *zoom: 1;
+  margin: 70px 0 0 0;
+  padding: 0px 0;
+  font-size: 14px;
+  text-align: right;
+  color: #555555;
+}
+footer:before,
+footer:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+footer:after {
+  clear: both;
+}
+footer a {
+  color: #555555;
+}
+footer a:hover,
+footer a:focus {
+  color: #222222;
 }
 code,
 kdb,
@@ -286,11 +308,21 @@ samp {
 code {
   padding: 2px 4px;
   font-size: 95%;
-  color: #009999;
+  color: #ee5311;
   background-color: #f7f7f9;
   white-space: nowrap;
-  vertical-align: middle;
   -webkit-font-smoothing: auto;
+}
+a code {
+  -webkit-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -ms-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+a:hover code,
+a:focus code {
+  color: #a73a0c;
 }
 pre {
   display: block;
@@ -300,7 +332,7 @@ pre {
   line-height: 22px;
   word-break: break-all;
   word-wrap: break-word;
-  color: #333333;
+  color: #394755;
   background-color: #f7f7f9;
   border: 1px solid #cccccc;
 }
@@ -436,4 +468,10 @@ ol.linenums li {
 }
 .affix {
   position: fixed;
+}
+.yo {
+  color: #ee5311;
+}
+.yg {
+  color: #898989;
 }

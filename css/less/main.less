@@ -2,29 +2,22 @@
 // -------------------------
 @black:                 #000;
 @grayDarker:            #222;
-@grayDark:              #333;
+@grayDark:              #394755;
 @gray:                  #555;
 @grayLight:             #999;
 @grayLighter:           #eee;
 @white:                 #fff;
-
-@blue:                  #049cdb;
-@blueDark:              #0064cd;
-@green:                 #46a546;
-@red:                   #9d261d;
-@yellow:                #ffc40d;
-@orange:                #f89406;
-@pink:                  #c3325f;
-@purple:                #7a43b6;
+@yhatGrey:              #898989;
+@yhatOrange:            #EE5311;
 
 @bodyBackground:        @white;
 @textColor:             @grayDark;
 @hrBorder:              @grayLighter;
 
-@linkColor:             #1591D0;
+@linkColor:             #11ACEE;
 @linkColorHover:        darken(@linkColor, 15%);
 
-@sansFontFamily:        'Droid Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+@sansFontFamily:        'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        'Inconsolata','Inconsolata-dz', Monaco, Menlo, Consolas, "Courier New", monospace;
 
@@ -39,7 +32,7 @@
 
 // Code
 // ------------------------
-@code-color:                  #009999;
+@code-color:                  @yhatOrange;
 @code-bg:                     #F7F7F9;
 
 @pre-bg:                      #F7F7F9;
@@ -62,10 +55,10 @@ body {
 }
 .container {
 	position:relative;
-	max-width:1000px;
+	max-width:980px;
 	overflow:hidden;
 	margin:0 auto;
-	padding:0;
+	padding:10px;
 	text-align:left;
 }
 
@@ -74,15 +67,13 @@ body {
 // -------------------------
 a {
   color: @linkColor;
-  text-decoration: none;
-  border-bottom:1px solid transparent;
+  text-decoration: none; 
   .transition(all 0.3s ease-in);
 }
 a:hover,
 a:focus {
   color: @linkColorHover;
   text-decoration: none;
-  border-bottom:1px solid @linkColorHover;
 }
 
 img {
@@ -109,9 +100,9 @@ img {
     .github-fork-ribbon {
         position: absolute;
         padding: 2px 0;
-        background-color: #a00;
+        background-color: @code-color;
         //.gradient(rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
-        .box-shadow(0px 2px 3px 0px rgba(0, 0, 0, 0.5));
+        .box-shadow(0px 2px 3px 0px rgba(0, 0, 0, 0.2));
         z-index: 9999;
         top: 42px;
         right: -43px;
@@ -124,13 +115,27 @@ img {
             font-weight: 700;
             color: white;
             text-decoration: none;
-            text-shadow: 0 -1px rgba(0,0,0,0.5);
             text-align: center;
             width: 200px;
             line-height: 20px;
             display: inline-block;
             padding: 2px 0;
             border: 1px dotted rgba(255,255,255,0.7);
+        }
+    }
+}
+
+footer {
+    .clearfix;
+    margin:70px 0 0 0;
+    padding:0px 0;
+    font-size:14px;
+    text-align:right;
+    color:#555555;
+    a {
+        color:#555555;
+        &:hover, &:focus {
+            color:#222222;
         }
     }
 }
