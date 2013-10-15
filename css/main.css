@@ -70,9 +70,10 @@ h3 {
   line-height: 44px;
 }
 h1 {
-  font-size: 44px;
+  font-size: 48px;
   margin-bottom: 40px;
-  font-weight: 100;
+  line-height: 130%;
+  font-weight: 400;
 }
 h2 {
   font-size: 36px;
@@ -147,13 +148,13 @@ dd {
 hr {
   margin: 22px 0;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #ffffff;
 }
 blockquote {
   padding: 0 0 0 15px;
   margin: 0 0 22px;
-  border-left: 5px solid #eeeeee;
+  border-left: 5px solid #e1e1e1;
 }
 blockquote p {
   margin-bottom: 0;
@@ -173,7 +174,7 @@ blockquote.pull-right {
   float: right;
   padding-right: 15px;
   padding-left: 0;
-  border-right: 5px solid #eeeeee;
+  border-right: 5px solid #e1e1e1;
   border-left: 0;
 }
 blockquote.pull-right p,
@@ -200,24 +201,23 @@ address {
 }
 body {
   margin: 0;
-  font-family: 'Droid Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  color: #333333;
+  color: #313131;
   background-color: #ffffff;
 }
 .container {
   position: relative;
-  max-width: 1000px;
+  max-width: 980px;
   overflow: hidden;
   margin: 0 auto;
-  padding: 0;
+  padding: 10px;
   text-align: left;
 }
 a {
-  color: #1591d0;
+  color: #0f8bd6;
   text-decoration: none;
-  border-bottom: 1px solid transparent;
   -webkit-transition: all 0.3s ease-in;
   -moz-transition: all 0.3s ease-in;
   -ms-transition: all 0.3s ease-in;
@@ -226,9 +226,8 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0e618b;
+  color: #0a5d8f;
   text-decoration: none;
-  border-bottom: 1px solid #0e618b;
 }
 img {
   max-width: 100%;
@@ -249,10 +248,10 @@ img {
 .github-fork-ribbon-wrapper .github-fork-ribbon {
   position: absolute;
   padding: 2px 0;
-  background-color: #a00;
-  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.5);
+  background-color: #ee5311;
+  -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
   z-index: 9999;
   top: 42px;
   right: -43px;
@@ -269,13 +268,59 @@ img {
   font-weight: 700;
   color: white;
   text-decoration: none;
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
   text-align: center;
   width: 200px;
   line-height: 20px;
   display: inline-block;
   padding: 2px 0;
   border: 1px dotted rgba(255, 255, 255, 0.7);
+}
+nav {
+  *zoom: 1;
+  margin: 20px 0 20px 0;
+  padding: 0px 0;
+  color: #898989;
+}
+nav:before,
+nav:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+nav:after {
+  clear: both;
+}
+nav a {
+  font-weight: bold;
+  display: inline-block;
+  margin: 0 10px;
+}
+nav a:first-child {
+  margin-left: 0px;
+}
+footer {
+  *zoom: 1;
+  margin: 70px 0 0 0;
+  padding: 0px 0;
+  font-size: 14px;
+  text-align: right;
+  color: #898989;
+}
+footer:before,
+footer:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+footer:after {
+  clear: both;
+}
+footer a {
+  color: #898989;
+}
+footer a:hover,
+footer a:focus {
+  color: #636363;
 }
 code,
 kdb,
@@ -286,11 +331,21 @@ samp {
 code {
   padding: 2px 4px;
   font-size: 95%;
-  color: #009999;
-  background-color: #f7f7f9;
+  color: #ee5311;
+  background-color: #f7f7f7;
   white-space: nowrap;
-  vertical-align: middle;
   -webkit-font-smoothing: auto;
+}
+a code {
+  -webkit-transition: all 0.3s ease-in;
+  -moz-transition: all 0.3s ease-in;
+  -ms-transition: all 0.3s ease-in;
+  -o-transition: all 0.3s ease-in;
+  transition: all 0.3s ease-in;
+}
+a:hover code,
+a:focus code {
+  color: #a73a0c;
 }
 pre {
   display: block;
@@ -300,9 +355,9 @@ pre {
   line-height: 22px;
   word-break: break-all;
   word-wrap: break-word;
-  color: #333333;
-  background-color: #f7f7f9;
-  border: 1px solid #cccccc;
+  color: #313131;
+  background-color: #f7f7f7;
+  border: 1px solid #cecece;
 }
 pre code {
   padding: 0;
@@ -436,4 +491,10 @@ ol.linenums li {
 }
 .affix {
   position: fixed;
+}
+.yo {
+  color: #ee5311;
+}
+.yg {
+  color: #898989;
 }

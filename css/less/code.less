@@ -18,8 +18,14 @@ code {
   color: @code-color;
   background-color: @code-bg;
   white-space: nowrap;
-  vertical-align:middle;
   -webkit-font-smoothing:auto;
+}
+
+a code {
+    .transition(all 0.3s ease-in);
+}
+a:hover code, a:focus code {
+    color: darken(@code-color, 15%);
 }
 
 // Blocks of code
