@@ -148,13 +148,13 @@ dd {
 hr {
   margin: 22px 0;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #e1e1e1;
   border-bottom: 1px solid #ffffff;
 }
 blockquote {
   padding: 0 0 0 15px;
   margin: 0 0 22px;
-  border-left: 5px solid #eeeeee;
+  border-left: 5px solid #e1e1e1;
 }
 blockquote p {
   margin-bottom: 0;
@@ -174,7 +174,7 @@ blockquote.pull-right {
   float: right;
   padding-right: 15px;
   padding-left: 0;
-  border-right: 5px solid #eeeeee;
+  border-right: 5px solid #e1e1e1;
   border-left: 0;
 }
 blockquote.pull-right p,
@@ -204,7 +204,7 @@ body {
   font-family: 'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 22px;
-  color: #394755;
+  color: #313131;
   background-color: #ffffff;
 }
 .container {
@@ -216,7 +216,7 @@ body {
   text-align: left;
 }
 a {
-  color: #11acee;
+  color: #0f8bd6;
   text-decoration: none;
   -webkit-transition: all 0.3s ease-in;
   -moz-transition: all 0.3s ease-in;
@@ -226,7 +226,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0c78a7;
+  color: #0a5d8f;
   text-decoration: none;
 }
 img {
@@ -332,7 +332,7 @@ code {
   padding: 2px 4px;
   font-size: 95%;
   color: #ee5311;
-  background-color: #f7f7f9;
+  background-color: #f7f7f7;
   white-space: nowrap;
   -webkit-font-smoothing: auto;
 }
@@ -355,9 +355,9 @@ pre {
   line-height: 22px;
   word-break: break-all;
   word-wrap: break-word;
-  color: #394755;
-  background-color: #f7f7f9;
-  border: 1px solid #cccccc;
+  color: #313131;
+  background-color: #f7f7f7;
+  border: 1px solid #cecece;
 }
 pre code {
   padding: 0;
