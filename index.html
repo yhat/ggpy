@@ -9,6 +9,8 @@
 
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600|Inconsolata' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="css/ggplot.min.css">
+
+        <script src="js/lib/modernizr-2.6.2.min.js"></script>
     </head>
     <body onload="prettyPrint()">
         <div class="github-fork-ribbon-wrapper">
@@ -18,6 +20,13 @@
         </div>
 	    <div class="container">
             <h1><strong>{ggplot}</strong> from <a href="http://yhathq.com" target="_blank"><span class="yo">&#375;</span><span class="yg">hat</span></a></h1>
+
+            <nav>
+                <a href="#getting-started">Getting Started</a> |
+                <a href="#examples">Code Examples</a>
+            </nav>
+
+            <hr />
 
             <h3>What is it?</h3>
 
@@ -51,7 +60,7 @@ ggplot(aes(x='date', y='beef'), data=meat) + \
 	            <li>pip installable</li>
 	        </ul>
 
-	        <h3>Getting Started</h3>
+	        <h3 id="getting-started">Getting Started</h3>
 
 	        <h4>Dependencies</h4>
 
@@ -85,7 +94,7 @@ In [1]: from ggplot import *
 
 	        <p>That's it! You're ready to go!</p>
 
-	        <h3>Examples</h3>
+	        <h3 id="examples">Examples</h3>
 
 	        <pre class="prettyprint lang-py">meat_lng = pd.melt(meat[['date', 'beef', 'pork', 'broilers']], id_vars='date')
 ggplot(aes(x='date', y='value', colour='variable'), data=meat_lng) + \

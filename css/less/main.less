@@ -125,17 +125,32 @@ img {
     }
 }
 
+nav {
+    .clearfix;
+    margin:20px 0 20px 0;
+    padding:0px 0;
+    color:@yhatGrey;
+    a {
+        font-weight:bold;
+        display:inline-block;
+        margin:0 10px;
+        &:first-child {
+            margin-left:0px;
+        }
+    }
+}
+
 footer {
     .clearfix;
     margin:70px 0 0 0;
     padding:0px 0;
     font-size:14px;
     text-align:right;
-    color:#555555;
+    color:@yhatGrey;
     a {
-        color:#555555;
+        color:@yhatGrey;
         &:hover, &:focus {
-            color:#222222;
+            color:darken(@yhatGrey, 15%);
         }
     }
 }

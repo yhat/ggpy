@@ -275,13 +275,36 @@ img {
   padding: 2px 0;
   border: 1px dotted rgba(255, 255, 255, 0.7);
 }
+nav {
+  *zoom: 1;
+  margin: 20px 0 20px 0;
+  padding: 0px 0;
+  color: #898989;
+}
+nav:before,
+nav:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+nav:after {
+  clear: both;
+}
+nav a {
+  font-weight: bold;
+  display: inline-block;
+  margin: 0 10px;
+}
+nav a:first-child {
+  margin-left: 0px;
+}
 footer {
   *zoom: 1;
   margin: 70px 0 0 0;
   padding: 0px 0;
   font-size: 14px;
   text-align: right;
-  color: #555555;
+  color: #898989;
 }
 footer:before,
 footer:after {
@@ -293,11 +316,11 @@ footer:after {
   clear: both;
 }
 footer a {
-  color: #555555;
+  color: #898989;
 }
 footer a:hover,
 footer a:focus {
-  color: #222222;
+  color: #636363;
 }
 code,
 kdb,
