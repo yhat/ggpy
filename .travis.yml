@@ -17,6 +17,7 @@ env:
 install:
     - sudo apt-get update
     - sudo apt-get install $PYTHON-numpy
+    - sudo apt-get install $PYTHON-matplotlib
     - sudo apt-get install $PYTHON-scipy
     - sudo apt-get install $PYTHON-setuptools
     - sudo apt-get install $PYTHON-nose
@@ -28,7 +29,6 @@ install:
     - sudo apt-get --no-install-recommends install $PYTHON-pandas $PYTHON-statsmodels
     - if [ "${PYSUF}" != "3" ]; then sudo pip install coverage; fi
     - if [ "${PYSUF}" != "3" ]; then sudo pip install coveralls; fi
-script:
     - SRCDIR=$PWD
     - sudo $PYTHON setup.py install
     # Ubuntu 12.04 installs statsmodels under the wrong path for Python 3
@@ -37,8 +37,9 @@ script:
          sudo mv /usr/local/lib/python3.2/dist-packages/statsmodels-*/statsmodels /usr/local/lib/python3.2/dist-packages/statsmodels ;
          sudo rm -rf /usr/lib/python3.2/dist-packages/statsmodels-* ;
       fi
+script:
     # ggplot was installed "system-wide" thus cd under dedicated
-    # travis-test/ directory to not try using local version without built extensions
+    # travis-test/ directory to not try using local version
     - mkdir -p "${SRCDIR}/travis-test"; cd "${SRCDIR}/travis-test"
     - if [ "${PYSUF}" != "3" ]; then MATPLOTLIB_BACKEND=agg coverage run --rcfile=$PWD/.travis_coveragerc /usr/bin/nosetests -s -v ggplot; else $PYTHON /usr/bin/nosetests -s -v ggplot; fi
 after_success:
