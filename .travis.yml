@@ -1,0 +1,45 @@
+# Adapted for statsmodels from M. Brett's .yaml file for nipy:
+# https://github.com/nipy/nipy/blob/master/.travis.yml
+# and then from statsmodels into ggplot
+#
+# We pretend to be erlang because we can't use the python support in
+# travis-ci; it uses virtualenvs, they do not have numpy, scipy, matplotlib,
+# and it is impractical to build them
+language: erlang
+#notifications:
+#    email:
+#        - statsmodels-commits@googlegroups.com
+env:
+    # Enable python 2 builds. Python3.2 available in Ubuntu 12.04.
+    - PYTHON=python PYSUF=''
+    # would need python3-statsmodels which Yarik hasn't done yet
+    #   - PYTHON=python3 PYSUF=3
+install:
+    - sudo apt-get update
+    - sudo apt-get install $PYTHON-numpy
+    - sudo apt-get install $PYTHON-scipy
+    - sudo apt-get install $PYTHON-setuptools
+    - sudo apt-get install $PYTHON-nose
+    - echo ${DISTRIB_CODENAME}
+    - wget -O- http://neuro.debian.net/lists/precise.us-nh.full | sudo tee /etc/apt/sources.list.d/neurodebian.sources.list
+    - sudo apt-key adv --recv-keys --keyserver pgp.mit.edu 2649A5A9
+    - sudo apt-get update -qq
+    - sudo apt-get install $PYTHON-dateutil
+    - sudo apt-get --no-install-recommends install $PYTHON-pandas $PYTHON-statsmodels
+    - if [ "${PYSUF}" != "3" ]; then sudo pip install coverage; fi
+    - if [ "${PYSUF}" != "3" ]; then sudo pip install coveralls; fi
+script:
+    - SRCDIR=$PWD
+    - sudo $PYTHON setup.py install
+    # Ubuntu 12.04 installs statsmodels under the wrong path for Python 3
+    # yarik: left as a reminder for possible issues happen we test for Python 3 as well
+    - if [ "${PYSUF}" == "3" ]; then
+         sudo mv /usr/local/lib/python3.2/dist-packages/statsmodels-*/statsmodels /usr/local/lib/python3.2/dist-packages/statsmodels ;
+         sudo rm -rf /usr/lib/python3.2/dist-packages/statsmodels-* ;
+      fi
+    # statsmodels was installed "system-wide" thus cd under dedicated
+    # travis-test/ directory to not try using local version without built extensions
+    - mkdir -p "${SRCDIR}/travis-test"; cd "${SRCDIR}/travis-test"
+    - if [ "${PYSUF}" != "3" ]; then MATPLOTLIB_BACKEND=agg coverage run --rcfile=$PWD/.travis_coveragerc /usr/bin/nosetests -s -v ggplot; else $PYTHON /usr/bin/nosetests -s -v ggplot; fi
+after_success:
+    - if [ "${PYSUF}" != "3" ]; then coveralls; fi
