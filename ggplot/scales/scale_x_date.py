@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from scale import scale
 from ..utils import date_breaks, date_format
 from .scale import scale
