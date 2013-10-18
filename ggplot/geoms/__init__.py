@@ -14,4 +14,4 @@ from .facet_wrap import facet_wrap
 from .stat_bin2d import stat_bin2d
 from .stat_smooth import stat_smooth
 from .chart_components import *
-
+from .geom_boxplot import geom_boxplot
