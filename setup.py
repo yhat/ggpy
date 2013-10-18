@@ -1,5 +1,4 @@
 from distutils.core import setup
-from setuptools import find_packages
 
 
 required = []
@@ -11,7 +10,7 @@ setup(
     author_email="greg@yhathq.com",
     url="https://github.com/yhat/ggplot/",
     license="BSD",
-    packages=find_packages(),
+    packages=['ggplot'], 
     package_dir={"ggplot": "ggplot"},
     package_data={"ggplot": ["exampledata/*.csv", "geoms/*.png"]},
     description="ggplot for python",
