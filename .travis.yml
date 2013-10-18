@@ -41,6 +41,6 @@ script:
     # ggplot was installed "system-wide" thus cd under dedicated
     # travis-test/ directory to not try using local version
     - mkdir -p "${SRCDIR}/travis-test"; cd "${SRCDIR}/travis-test"
-    - if [ "${PYSUF}" != "3" ]; then MATPLOTLIB_BACKEND=agg coverage run --rcfile=$PWD/.travis_coveragerc /usr/bin/nosetests -s -v ggplot; else $PYTHON /usr/bin/nosetests -s -v ggplot; fi
+    - if [ "${PYSUF}" != "3" ]; then MATPLOTLIB_BACKEND=agg coverage run --rcfile=$PWD/../.travis_coveragerc /usr/bin/nosetests -s -v ggplot; else $PYTHON /usr/bin/nosetests -s -v ggplot; fi
 after_success:
     - if [ "${PYSUF}" != "3" ]; then coveralls; fi
