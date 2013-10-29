@@ -15,6 +15,9 @@ read more on our
         xlab("Date") + \
         ylab("Head of Cattle Slaughtered")
 
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/ggplot_demo_beef.png
+   :height: 300px
+
 What is it?
 ~~~~~~~~~~~
 
@@ -50,33 +53,25 @@ Getting Started
 Dependencies
 ^^^^^^^^^^^^
 
-I realize that these are not fun to install. My best luck has always
-been using ``brew`` if you're on a Mac or just using `the
-binaries <http://www.lfd.uci.edu/~gohlke/pythonlibs/>`__ if you're on
-Windows. If you're using Linux then this should be relatively painless.
-You should be able to ``apt-get`` or ``yum`` all of these. -
-``matplotlib`` - ``pandas`` - ``numpy`` - ``scipy`` - ``statsmodels`` -
-``patsy``
+This package depends on the following packages, although they should be
+automatically installed if you use ``pip``:
+
+- ``matplotlib``
+- ``pandas``
+- ``numpy``
+- ``scipy``
+- ``statsmodels``
+- ``patsy``
 
 Installation
 ^^^^^^^^^^^^
 
-Ok the hard part is over. Installing ``ggplot`` is really easy. Just use
-``pip``! An item on the TODO is to add the matplotlibrc files to the pip
-installable (let me know if you'd like to help!).
-
-*``matplotlibrc`` will be replaced with themes in the 0.3 release*
+Installing ``ggplot`` is really easy. Just use
+``pip``!
 
 ::
 
-    # matplotlibrc from Huy Nguyen (http://www.huyng.com/posts/sane-color-scheme-for-matplotlib/)
-    $ curl -O https://raw.github.com/yhat/ggplot/master/matplotlibrcs/matplotlibrc-osx.zip
-    $ unzip matplotlibrc-osx.zip -d ~/
-    # install ggplot using pip
     $ pip install ggplot
-
-NOTE: You might want to install matplotlibrc files for other platforms
-(e.g., Windows). See ``matplotlibrcs``.
 
 Loading ``ggplot``
 ^^^^^^^^^^^^^^^^^^
@@ -99,6 +94,8 @@ Examples
         geom_point() + \
         stat_smooth(color='red')
 
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/ggplot_meat.png
+
 ``geom_point``
 ^^^^^^^^^^^^^^
 
@@ -109,13 +106,17 @@ Examples
         geom_point(alpha=1/20.) + \
         ylim(0, 20000)
 
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/diamonds_geom_point_alpha.png
+
 ``geom_histogram``
 ^^^^^^^^^^^^^^^^^^
 
 ::
 
     p = ggplot(aes(x='carat'), data=diamonds)
-    p + geom_histogram() + ggtitle("Histogram of Diamond Carats") + labs("Carats", "Freq") 
+    p + geom_histogram() + ggtitle("Histogram of Diamond Carats") + labs("Carats", "Freq")
+
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/diamonds_carat_hist.png
 
 ``geom_density``
 ^^^^^^^^^^^^^^^^
@@ -125,11 +126,16 @@ Examples
     ggplot(diamonds, aes(x='price', color='cut')) + \
         geom_density()
 
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/geom_density_example.png
+
 ::
 
     meat_lng = pd.melt(meat[['date', 'beef', 'broilers', 'pork']], id_vars=['date'])
     p = ggplot(aes(x='value', colour='variable', fill=True, alpha=0.3), data=meat_lng)
     p + geom_density()
+
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/density_with_fill.png
+
 
 ``geom_bar``
 ^^^^^^^^^^^^
@@ -139,11 +145,12 @@ Examples
     p = ggplot(mtcars, aes('factor(cyl)'))
     p + geom_bar()
 
+.. image:: http://github.com/yhat/ggplot/raw/master/public/img/mtcars_geom_bar_cyl.png
+
+
 TODO
 ~~~~
 
-`The list is long, but
-distinguished. <https://github.com/yhat/ggplot/blob/master/TODO.md>`__
-We're looking for contributors! Email greg at yhathq.com for more info.
-For getting started with contributing, check out `these
-docs <https://github.com/yhat/ggplot/blob/master/docs/contributing.md>`__
+`The list is long, but distinguished. <https://github.com/yhat/ggplot/blob/master/TODO.md>`__
+We're looking for contributors! Email greg at yhathq.com for more info. For getting
+started with contributing, check out `these docs <https://github.com/yhat/ggplot/blob/master/docs/contributing.md>`__

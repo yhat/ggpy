@@ -1,0 +1,29 @@
+language: python
+python:
+  - 2.7
+  - 3.3
+notifications:
+  email: false
+
+# Setup anaconda
+before_install:
+  - travis/miniconda.sh -b
+  - export PATH=/home/travis/anaconda/bin:$PATH
+  # The next couple lines fix a crash with multiprocessing on Travis
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
+# Install packages
+install:
+  - conda install --yes pip python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib nose dateutil pandas statsmodels
+  - pip install python-coveralls --use-mirrors
+  - pip install nose-cov --use-mirrors
+  - python setup.py install
+  - export MATPLOTLIB_BACKEND=agg
+
+# Run test
+script:
+  - nosetests --with-cov --cov ggplot --cov-config .coveragerc --logging-level=INFO
+
+# Calculate coverage
+after_success:
+  - coveralls --config_file .coveragerc
