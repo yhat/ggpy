@@ -19,4 +19,4 @@ from .stat_smooth import stat_smooth
 from .facet_grid import facet_grid
 from .facet_wrap import facet_wrap
 from .chart_components import *
-
+from .geom_boxplot import geom_boxplot
