@@ -8,7 +8,7 @@ from ggplot.components import colors, shapes
 
 __ALL__ = ["build_df_from_transforms","is_identity"]
 
-def build_df_from_transforms(data, aes)
+def build_df_from_transforms(data, aes):
     """Adds columns from the in aes included transformations
     
     Possible transformations are "factor(<col>)" and 
