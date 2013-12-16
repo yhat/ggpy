@@ -153,7 +153,7 @@ class ggplot(object):
                 plots = sorted(plots, key=lambda x: x[1] + x[0] * self.n_high + 1)
             else:
                 fig, axs = plt.subplots(self.n_high, self.n_wide)
-
+            axs = np.atleast_2d(axs)
             # Set the default plot to the first one
             plt.subplot(self.n_wide, self.n_high, 1)
 
@@ -283,7 +283,7 @@ class ggplot(object):
                         callbacks = geom.plot_layer(layer)
                         if callbacks:
                             for callback in callbacks:
-                                fn = getattr(axs, callback['function'])
+                                fn = getattr(axs[0][0], callback['function'])
                                 fn(*callback['args'])
 
             # Handling the details of the chart here; probably be a better
