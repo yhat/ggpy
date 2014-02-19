@@ -34,7 +34,7 @@ def color_gen(n_colors, colors=None):
     """
     while True:
         if colors is None:
-            for idx in range(0, len(COLORS), len(COLORS)/n_colors):
+            for idx in range(0, len(COLORS), max(len(COLORS)//n_colors, 1)):
                 yield COLORS[idx]
         else:
             for color in colors:
