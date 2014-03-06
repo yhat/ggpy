@@ -12,7 +12,7 @@ def test_geom_basics():
     # mock the validd aes and get the geom to accept the color
     # mapping -> only subclasses normally declare which aes mappings
     # are valid and geom.VALID_AES is a empty list
-    geom.VALID_AES = ["color"]
+    geom.VALID_AES = {"color"}
     g = geom(data=meat)
     assert_is(meat, g.data)
     g = geom(meat)

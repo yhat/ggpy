@@ -4,9 +4,9 @@ import numpy as np
 from .geom import geom
 
 class geom_text(geom):
-    VALID_AES = ['label','x','y','alpha','angle','color','family','fontface',
-                 'hjust','size','vjust']
-    REQUIRED_AES = ['label','x','y']
+    VALID_AES = {'label','x','y','alpha','angle','color','family','fontface',
+                 'hjust','size','vjust'}
+    REQUIRED_AES = {'label','x','y'}
 
     def plot_layer(self, layer, ax):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)

@@ -5,7 +5,7 @@ from .geom import geom
 
 
 class geom_histogram(geom):
-    VALID_AES = ['x', 'color', 'alpha', 'label', 'binwidth']
+    VALID_AES = {'x', 'color', 'alpha', 'label', 'binwidth'}
     
     def __init__(self, *args, **kwargs):
         super(geom_histogram, self).__init__(*args, **kwargs)

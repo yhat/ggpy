@@ -96,8 +96,8 @@ class stat_function(geom):
         print(gg)
     
     """
-    VALID_AES = ['x','fun','n','color','args']
-    REQUIRED_AES = ['x','fun']
+    VALID_AES = {'x','fun','n','color','args'}
+    REQUIRED_AES = {'x','fun'}
 
     def plot_layer(self, layer, ax):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)

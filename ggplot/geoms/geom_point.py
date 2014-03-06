@@ -5,8 +5,8 @@ from .geom import geom
 import numpy as np
 
 class geom_point(geom):
-    VALID_AES = ['x', 'y', 'size', 'color', 'alpha', 'shape', 'label', 'cmap',
-                 'position']
+    VALID_AES = {'x', 'y', 'size', 'color', 'alpha', 'shape', 'label', 'cmap',
+                 'position'}
 
     def plot_layer(self, layer, ax):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)

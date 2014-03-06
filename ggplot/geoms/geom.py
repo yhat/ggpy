@@ -8,7 +8,7 @@ __ALL__ = ["geom"]
 
 class geom(object):
     """Base class of all Geoms"""
-    VALID_AES = []
+    VALID_AES = set()
     data = None
     aes = None
     def __init__(self, *args, **kwargs):

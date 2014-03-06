@@ -6,7 +6,7 @@ import matplotlib.pyplot
 
 if hasattr(matplotlib.pyplot, 'hist2d'):
     class stat_bin2d(geom):
-        VALID_AES = ['x', 'y', 'alpha', 'label']
+        VALID_AES = {'x', 'y', 'alpha', 'label'}
 
         def plot_layer(self, layer, ax):
             layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)

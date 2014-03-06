@@ -7,7 +7,7 @@ from pandas.lib import Timestamp
 
 
 class geom_bar(geom):
-    VALID_AES = ['x', 'color', 'alpha', 'fill', 'label', 'weight', 'position']
+    VALID_AES = {'x', 'color', 'alpha', 'fill', 'label', 'weight', 'position'}
 
     def plot_layer(self, layer, ax):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)

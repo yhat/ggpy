@@ -53,8 +53,8 @@ class ggplot(object):
     >>> print(p + geom_point())
     """
 
-    CONTINUOUS = ['x', 'y', 'size', 'alpha']
-    DISCRETE = ['color', 'shape', 'marker', 'alpha', 'linestyle']
+    CONTINUOUS = {'x', 'y', 'size', 'alpha'}
+    DISCRETE = {'color', 'shape', 'marker', 'alpha', 'linestyle'}
 
     def __init__(self, aesthetics, data):
         # ggplot should just 'figure out' which is which

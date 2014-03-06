@@ -20,9 +20,9 @@ class geom_rect(geom):
     size
     """
 
-    VALID_AES = ['xmax', 'xmin', 'ymax', 'ymin', 'color', 'fill',
-                 'linetype', 'size', 'alpha']
-    REQUIRED_AES = ['xmax', 'xmin', 'ymax', 'ymin']
+    VALID_AES = {'xmax', 'xmin', 'ymax', 'ymin', 'color', 'fill',
+                 'linetype', 'size', 'alpha'}
+    REQUIRED_AES = {'xmax', 'xmin', 'ymax', 'ymin'}
 
     def plot_layer(self, layer, ax):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)

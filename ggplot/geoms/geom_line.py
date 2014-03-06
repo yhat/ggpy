@@ -7,7 +7,7 @@ from .geom import geom
 
 
 class geom_line(geom):
-    VALID_AES = ['x', 'y', 'color', 'alpha', 'group', 'linestyle', 'linewidth' 'label', 'size']
+    VALID_AES = {'x', 'y', 'color', 'alpha', 'group', 'linestyle', 'linewidth' 'label', 'size'}
     
     def __init__(self, *args, **kwargs):
         super(geom_line, self).__init__(*args, **kwargs)

@@ -3,8 +3,8 @@ from __future__ import (absolute_import, division, print_function,
 from .geom import geom
 
 class geom_hline(geom):
-    VALID_AES = ['y', 'xmin', 'xmax', 'color', 'linestyle', 'alpha', 'label']
-    def plot_layer(self, layer, ax):
+    VALID_AES = {'y', 'xmin', 'xmax', 'color', 'linestyle', 'alpha', 'label'}
+    def plot_layer(self, layer):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
         layer.update(self.manual_aes)
         if 'y' in layer:
