@@ -8,21 +8,7 @@ class geom_text(geom):
                  'hjust','size','vjust'}
     REQUIRED_AES = {'label','x','y'}
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
-        # Check for required aesthetics
-        missing_aes = []
-        for required_aes in self.REQUIRED_AES:
-            if required_aes not in layer:
-                missing_aes.append(required_aes)
-
-        if len(missing_aes) > 0:
-            raise Exception(
-                "geom_text requires the following missing aesthetics: %s" %\
-                ", ".join(missing_aes))
-
+    def plot(self, layer):
         x = layer.pop('x')
         y = layer.pop('y')
         label = layer.pop('label')

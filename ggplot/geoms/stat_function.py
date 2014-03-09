@@ -99,14 +99,7 @@ class stat_function(geom):
     VALID_AES = {'x','fun','n','color','args'}
     REQUIRED_AES = {'x','fun'}
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
-        miss_aes = [aes for aes in self.REQUIRED_AES if aes not in layer]
-        if(miss_aes):
-            raise Exception("stat_function requires the following " +
-                            "missing aesthetics: %s" % ", ".join(miss_aes))
+    def plot(self, layer):
         x = layer.pop('x')
         fun = layer.pop('fun')
 

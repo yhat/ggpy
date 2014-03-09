@@ -4,9 +4,7 @@ from .geom import geom
 
 class geom_vline(geom):
     VALID_AES = {'x', 'ymin', 'ymax', 'color', 'linestyle', 'alpha', 'label'}
-    def plot_layer(self, layer):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
+    def plot(self, layer):
         if 'x' in layer:
             x = layer.pop('x')
         ymin, ymax = None, None

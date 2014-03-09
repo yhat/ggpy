@@ -13,9 +13,7 @@ class geom_line(geom):
         super(geom_line, self).__init__(*args, **kwargs)
         self._warning_printed = False
     
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
+    def plot(self, layer):
         if 'x' in layer:
             x = layer.pop('x')
         if 'y' in layer:

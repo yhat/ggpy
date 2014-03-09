@@ -24,14 +24,9 @@ class geom_rect(geom):
                  'linetype', 'size', 'alpha'}
     REQUIRED_AES = {'xmax', 'xmin', 'ymax', 'ymin'}
 
-    def plot_layer(self, layer, ax):
+    def plot(self, layer):
         layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
         layer.update(self.manual_aes)
-
-        missing_aes = [aes for aes in self.REQUIRED_AES if aes not in layer]
-        if missing_aes:
-            msg = 'geom_rect requires the following missing aesthetics: {}'
-            raise Exception(msg.format(', '.join(missing_aes)))
 
         if 'xmin' in layer:
             layer['left'] = layer['xmin']

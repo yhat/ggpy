@@ -11,9 +11,7 @@ class geom_histogram(geom):
         super(geom_histogram, self).__init__(*args, **kwargs)
         self._warning_printed = False
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
+    def plot(self, layer):
         if 'binwidth' in layer:
             binwidth = layer.pop('binwidth')
             try:

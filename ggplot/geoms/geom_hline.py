@@ -4,9 +4,7 @@ from .geom import geom
 
 class geom_hline(geom):
     VALID_AES = {'y', 'xmin', 'xmax', 'color', 'linestyle', 'alpha', 'label'}
-    def plot_layer(self, layer):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
+    def plot(self, layer):
         if 'y' in layer:
             y = layer.pop('y')
         xmin, xmax = None, None

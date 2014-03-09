@@ -7,10 +7,7 @@ from .geom import geom
 class geom_tile(geom):
     VALID_AES = {'x', 'y', 'fill'}
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.iteritems() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
+    def plot(self, layer):
         x = layer.pop('x')
         y = layer.pop('y')
         fill = layer.pop('fill')

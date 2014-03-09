@@ -9,10 +9,7 @@ import numpy as np
 class stat_smooth(geom):
     VALID_AES = {'x', 'y', 'color', 'alpha', 'label', 'se', 'linestyle', 'method', 'span', 'level', 'window'}
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
+    def plot(self, layer):
         if 'x' in layer:
             x = layer.pop('x')
         if 'y' in layer:

@@ -8,10 +8,7 @@ class geom_point(geom):
     VALID_AES = {'x', 'y', 'size', 'color', 'alpha', 'shape', 'label', 'cmap',
                  'position'}
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
+    def plot(self, layer):
         if "size" in layer:
             layer["s"] = layer["size"]
             del layer["size"]

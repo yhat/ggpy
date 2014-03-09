@@ -7,9 +7,7 @@ import pandas as pd
 
 class geom_abline(geom):
     VALID_AES = {'x', 'slope', 'intercept', 'color', 'linestyle', 'alpha', 'label'}
-    def plot_layer(self, layer):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
+    def plot(self, layer):
         if 'x' in layer:
             x = layer.pop('x')
         if 'slope' in layer:

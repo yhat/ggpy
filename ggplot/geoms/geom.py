@@ -9,6 +9,7 @@ __ALL__ = ["geom"]
 class geom(object):
     """Base class of all Geoms"""
     VALID_AES = set()
+    REQUIRED_AES = set()
     data = None
     aes = None
     def __init__(self, *args, **kwargs):
@@ -38,8 +39,26 @@ class geom(object):
             if k in self.VALID_AES:
                 self.manual_aes[k] = v
 
+    def plot_layer(self, layer):
+        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
+        layer.update(self.manual_aes)
+
+        self._verify_aesthetics(layer)
+        return self.plot(layer)
+
     def __radd__(self, gg):
         gg = deepcopy(gg)
         gg.geoms.append(self)
         return gg
 
+    def _verify_aesthetics(self, layer):
+        """
+        Check if all the required aesthetics have been specified
+
+        Raise an Exception if an aesthetic is missing
+        """
+        missing_aes = self.REQUIRED_AES - set(layer)
+        if missing_aes:
+            msg = '{} requires the following missing aesthetics: {}'
+            raise Exception(msg.format(
+                self.__class__.__name__, ', '.join(missing_aes)))

@@ -9,10 +9,7 @@ from pandas.lib import Timestamp
 class geom_bar(geom):
     VALID_AES = {'x', 'color', 'alpha', 'fill', 'label', 'weight', 'position'}
 
-    def plot_layer(self, layer, ax):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
+    def plot(self, layer):
         x = layer.pop('x')
         if 'weight' not in layer:
             counts = pd.value_counts(x)

@@ -8,10 +8,7 @@ if hasattr(matplotlib.pyplot, 'hist2d'):
     class stat_bin2d(geom):
         VALID_AES = {'x', 'y', 'alpha', 'label'}
 
-        def plot_layer(self, layer, ax):
-            layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-            layer.update(self.manual_aes)
-
+        def plot(self, layer):
             x = layer.pop('x')
             y = layer.pop('y')
 
