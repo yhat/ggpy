@@ -5,9 +5,11 @@ from .geom import geom
 
 
 class geom_tile(geom):
-    VALID_AES = {'x', 'y', 'fill'}
+    VALID_AES = {'x', 'y', 'alpha', 'colour', 'fill', 'linetype', 'size'}
+    REQUIRED_AES = {'x', 'y'}
+    PARAMS = {'stat': 'identity', 'position': 'identity'}
 
-    def plot(self, layer):
+    def plot(self, layer, ax):
         x = layer.pop('x')
         y = layer.pop('y')
         fill = layer.pop('fill')

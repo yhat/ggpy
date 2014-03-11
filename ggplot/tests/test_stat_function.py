@@ -46,4 +46,3 @@ def test_stat_function_exception():
         # 'fun' is a required aes
         print(ggplot(aes(x='price'),data=diamonds) + stat_function())
 
-

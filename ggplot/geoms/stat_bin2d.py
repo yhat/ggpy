@@ -6,9 +6,12 @@ import matplotlib.pyplot
 
 if hasattr(matplotlib.pyplot, 'hist2d'):
     class stat_bin2d(geom):
-        VALID_AES = {'x', 'y', 'alpha', 'label'}
+        VALID_AES = {'x', 'y', 'fill'}
+        REQUIRED_AES = {'x', 'y'}
+        PARAMS = {'geom': None, 'position': 'identity',
+                'bins': 30, 'drop': True}
 
-        def plot(self, layer):
+        def plot(self, layer, ax):
             x = layer.pop('x')
             y = layer.pop('y')
 

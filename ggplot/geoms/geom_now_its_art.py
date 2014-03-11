@@ -11,7 +11,7 @@ _ROOT = os.path.abspath(os.path.dirname(__file__))
 class geom_now_its_art(geom):
     VALID_AES = {'x', 'y'}
 
-    def plot(self, layer):
+    def plot(self, layer, ax):
         x = np.array(layer['x'])
         y = np.array(layer['y'])
 

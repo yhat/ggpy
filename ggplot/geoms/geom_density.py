@@ -6,18 +6,15 @@ import numpy as np
 
 
 class geom_density(geom):
-    VALID_AES = {'x', 'color', 'alpha', 'linestyle', 'fill', 'label'}
+    VALID_AES = {'x', 'alpha', 'color', 'fill',
+                 'linetype', 'size', 'weight'}
+    REQUIRED_AES = {'x'}
+    PARAMS = {'stat': 'density', 'position': 'identity', 'label': ''}
 
-    def plot(self, layer):
-        if 'x' in layer:
-            x = layer.pop('x')
-        else:
-            raise Exception("geom_density(): Need a aesthetic x mapping!")
-            
-        if 'fill' in layer:
-            fill = layer.pop('fill')
-        else:
-            fill = None
+    def plot(self, layer, ax):
+        x = layer.pop('x')
+        fill = layer.pop('fill', None)
+        layer['label'] = self.params['label']
         try:
             float(x[0])
         except:
@@ -25,7 +22,7 @@ class geom_density(geom):
                 # try to use it as a pandas.tslib.Timestamp
                 x = [ts.toordinal() for ts in x]
             except:
-                raise Exception("geom_density(): aesthetic x mapping needs to be convertable to float!")         
+                raise Exception("geom_density(): aesthetic x mapping needs to be convertable to float!")
         kde = gaussian_kde(x)
         bottom = np.min(x)
         top = np.max(x)

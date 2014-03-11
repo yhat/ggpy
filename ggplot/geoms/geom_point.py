@@ -5,25 +5,19 @@ from .geom import geom
 import numpy as np
 
 class geom_point(geom):
-    VALID_AES = {'x', 'y', 'size', 'color', 'alpha', 'shape', 'label', 'cmap',
-                 'position'}
+    VALID_AES = {'x', 'y', 'alpha', 'color', 'fill', 'shape', 'size'}
+    REQUIRED_AES = {'x', 'y'}
+    PARAMS = {'stat': 'identity', 'position': 'identity', 'cmap':None, 'label': ''}
+    TRANSLATIONS = {'size': 's', 'shape': 'marker'}
 
-    def plot(self, layer):
-        if "size" in layer:
-            layer["s"] = layer["size"]
-            del layer["size"]
-
-        if "shape" in layer:
-            layer["marker"] = layer["shape"]
-            del layer["shape"]
-
+    def plot(self, layer, ax):
+        layer['label'] = self.params['label']
         # for some reason, scatter doesn't default to the same color styles
         # as the axes.color_cycle
-        if "color" not in layer and "cmap" not in layer:
+        if "color" not in layer and self.params['cmap'] is None:
             layer["color"] = mpl.rcParams.get("axes.color_cycle", ["#333333"])[0]
-        
-        if "position" in layer:
-            del layer["position"]
+
+        if self.params['position'] == 'jitter':
             layer['x'] *= np.random.uniform(.9, 1.1, len(layer['x']))
             layer['y'] *= np.random.uniform(.9, 1.1, len(layer['y']))
 

@@ -7,7 +7,7 @@ class stat_function(geom):
     """
     Superimpose a function onto a plot
 
-    Uses a 
+    Uses a
 
     Parameters
     ----------
@@ -23,16 +23,16 @@ class stat_function(geom):
     args : list, dict, object
         List or dict of additional arguments to pass to function. If neither
         list or dict, object is passed as second argument.
-        
+
 
     Examples
     --------
 
     Sin vs cos.
-    
+
     .. plot::
         :include-source:
-    
+
         import numpy as np
         import pandas as pd
         from ggplot import *
@@ -40,19 +40,19 @@ class stat_function(geom):
         gg = gg + stat_function(fun=np.sin,color="red")
         gg = gg + stat_function(fun=np.cos,color="blue")
         print(gg)
-        
+
 
     Compare random sample density to normal distribution.
-    
+
     .. plot::
         :include-source:
-        
+
         import numpy as np
         import pandas as pd
         from ggplot import *
         x = np.random.normal(size=100)
         # normal distribution function
-        def dnorm(n): 
+        def dnorm(n):
             return (1.0 / np.sqrt(2 * np.pi)) * (np.e ** (-0.5 * (n ** 2)))
         data = pd.DataFrame({'x':x})
         gg = ggplot(aes(x='x'),data=data) + geom_density()
@@ -60,10 +60,10 @@ class stat_function(geom):
         print(gg)
 
     Passing additional arguments to function as list.
-    
+
     .. plot::
         :include-source:
-        
+
         import numpy as np
         import pandas as pd
         from ggplot import *
@@ -77,15 +77,15 @@ class stat_function(geom):
         print(gg)
 
     Passing additional arguments to function as dict.
-    
+
     .. plot::
         :include-source:
 
         import scipy
         import numpy as np
         import pandas as pd
-        from ggplot import *        
-        def dnorm(x, mean, var): 
+        from ggplot import *
+        def dnorm(x, mean, var):
             return scipy.stats.norm(mean,var).pdf(x)
         data = pd.DataFrame({'x':np.arange(-5,6)})
         gg = ggplot(aes(x='x'),data=data)
@@ -94,34 +94,43 @@ class stat_function(geom):
         gg = gg + stat_function(fun=dnorm,color="yellow",args={'mean':0.0,'var':5.0})
         gg = gg + stat_function(fun=dnorm,color="green",args={'mean':-2.0,'var':0.5})
         print(gg)
-    
+
     """
-    VALID_AES = {'x','fun','n','color','args'}
-    REQUIRED_AES = {'x','fun'}
 
-    def plot(self, layer):
+    VALID_AES = {'x', 'alpha', 'color', 'linetype', 'size'}
+    REQUIRED_AES = {'x'}
+    PARAMS = {'geom': 'path', 'position': 'identity', 'fun': None,
+            'n': 101, 'args': None, 'label': ''}
+    TRANSLATIONS = {'size': 'linewidth'}
+
+    def plot(self, layer, ax):
         x = layer.pop('x')
-        fun = layer.pop('fun')
+        fun = self.params['fun']
+        n = self.params['n']
+        args = self.params['args']
 
-        if 'args' in layer:
-            args = layer.pop('args')
-            old_fun = fun
-            if isinstance(args,list):
-                fun = lambda x: old_fun(x,*args)
-            elif isinstance(args,dict):
-                fun = lambda x: old_fun(x,**args)
-            else:
-                fun = lambda x: old_fun(x,args)
+        if not hasattr(fun, '__call__'):
+            raise Exception("stat_function requires parameter 'fun' to be " +
+                            "a function or any other callable object")
 
-        color = None if 'color' not in layer else layer.pop('color')
-        n = 101 if 'n' not in layer else layer.pop('n')
+        old_fun = fun
+        if isinstance(args,list):
+            fun = lambda x: old_fun(x,*args)
+        elif isinstance(args,dict):
+            fun = lambda x: old_fun(x,**args)
+        elif args is not None:
+            fun = lambda x: old_fun(x, args)
+        else:
+            fun = lambda x: old_fun(x)
 
+        color = layer.pop('color', None)
+        label = self.params['label']
         x_min = min(x)
         x_max = max(x)
         x_values = np.linspace(x_min,x_max,n)
         y_values = list(map(fun,x_values))
 
         if color:
-            ax.plot(x_values,y_values,color=color)
+            ax.plot(x_values,y_values,color=color, label=label)
         else:
-            ax.plot(x_values,y_values)
+            ax.plot(x_values,y_values, label=label)

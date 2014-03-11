@@ -3,21 +3,17 @@ from __future__ import (absolute_import, division, print_function,
 from pandas.lib import Timestamp
 import numpy as np
 from .geom import geom
-import pandas as pd
 
 class geom_abline(geom):
-    VALID_AES = {'x', 'slope', 'intercept', 'color', 'linestyle', 'alpha', 'label'}
-    def plot(self, layer):
-        if 'x' in layer:
-            x = layer.pop('x')
-        if 'slope' in layer:
-            slope = layer.pop('slope')
-        else:
-            slope = 1.0
-        if 'intercept' in layer:
-            intercept = layer.pop('intercept')
-        else:
-            intercept = 0.0
+    VALID_AES = {'x', 'color', 'linestyle', 'alpha', 'size'}
+    PARAMS = {'stat': 'abline', 'position': 'identity', 'slope': 1.0,
+            'intercept': 0.0, 'label': ''}
+
+    def plot(self, layer, ax):
+        x = layer.pop(x)
+        slope = self.params['slope']
+        intercept = self.params['intercept']
+        layer['label'] = self.params['label']
         if isinstance(x[0], Timestamp):
             ax.set_autoscale_on(False)
             ax.plot(ax.get_xlim(),ax.get_ylim())

@@ -7,8 +7,10 @@ class geom_text(geom):
     VALID_AES = {'label','x','y','alpha','angle','color','family','fontface',
                  'hjust','size','vjust'}
     REQUIRED_AES = {'label','x','y'}
+    PARAMS = {'stat': 'identity', 'position': 'identity', 'parse': False}
+    TRANSLATIONS = {'angle': 'rotation'}
 
-    def plot(self, layer):
+    def plot(self, layer, ax):
         x = layer.pop('x')
         y = layer.pop('y')
         label = layer.pop('label')
@@ -54,10 +56,6 @@ class geom_text(geom):
             del layer['vjust']
         else:
             layer['verticalalignment'] = 'center'
-
-        if 'angle' in layer:
-            layer['rotation'] = layer['angle']
-            del layer['angle']
 
         for x_g,y_g,s in zip(x,y,label):
             ax.text(x_g,y_g,s,**layer)

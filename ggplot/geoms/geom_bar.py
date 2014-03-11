@@ -7,9 +7,11 @@ from pandas.lib import Timestamp
 
 
 class geom_bar(geom):
-    VALID_AES = {'x', 'color', 'alpha', 'fill', 'label', 'weight', 'position'}
+    VALID_AES = {'x', 'alpha', 'color', 'fill', 'linetype', 'size', 'weight'}
+    REQUIRED_AES = {'x'}
+    PARAMS = {'stat': 'bin', 'position':'stack'}
 
-    def plot(self, layer):
+    def plot(self, layer, ax):
         x = layer.pop('x')
         if 'weight' not in layer:
             counts = pd.value_counts(x)
@@ -35,17 +37,8 @@ class geom_bar(geom):
         labels, weights = np.array(labels)[idx], np.array(weights)[idx]
         labels = sorted(labels)
 
-        if 'color' in layer:
-            layer['edgecolor'] = layer['color']
-            del layer['color']
-        else:
-            layer['edgecolor'] = '#333333'
-
-        if 'fill' in layer:
-            layer['color'] = layer['fill']
-            del layer['fill']
-        else:
-            layer['color'] = '#333333'
+        layer['edgecolor'] = layer.pop('color', '#333333')
+        layer['color'] = layer.pop('fill', '#333333')
 
         ax.bar(indentation, weights, width, **layer)
         ax.autoscale()
