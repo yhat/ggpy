@@ -1,6 +1,5 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from .geom import geom
@@ -8,12 +7,11 @@ from pandas.lib import Timestamp
 
 
 class geom_bar(geom):
-    VALID_AES = ['x', 'color', 'alpha', 'fill', 'label', 'weight', 'position']
+    VALID_AES = {'x', 'alpha', 'color', 'fill', 'linetype', 'size', 'weight'}
+    REQUIRED_AES = {'x'}
+    PARAMS = {'stat': 'bin', 'position':'stack'}
 
-    def plot_layer(self, layer):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
+    def plot(self, layer, ax):
         x = layer.pop('x')
         if 'weight' not in layer:
             counts = pd.value_counts(x)
@@ -39,21 +37,10 @@ class geom_bar(geom):
         labels, weights = np.array(labels)[idx], np.array(weights)[idx]
         labels = sorted(labels)
 
-        if 'color' in layer:
-            layer['edgecolor'] = layer['color']
-            del layer['color']
-        else:
-            layer['edgecolor'] = '#333333'
+        layer['edgecolor'] = layer.pop('color', '#333333')
+        layer['color'] = layer.pop('fill', '#333333')
 
-        if 'fill' in layer:
-            layer['color'] = layer['fill']
-            del layer['fill']
-        else:
-            layer['color'] = '#333333'
-
-        plt.bar(indentation, weights, width, **layer)
-        plt.autoscale()
-        return [
-                {"function": "set_xticks", "args": [indentation+width/2]},
-                {"function": "set_xticklabels", "args": [labels]}
-            ]
+        ax.bar(indentation, weights, width, **layer)
+        ax.autoscale()
+        ax.set_xticks(indentation+width/2)
+        ax.set_xticklabels(labels)

@@ -1,21 +1,21 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-import matplotlib.pyplot as plt
 from .geom import geom
-import pandas as pd
 
-if hasattr(plt, 'hist2d'):
+import matplotlib.pyplot
+
+if hasattr(matplotlib.pyplot, 'hist2d'):
     class stat_bin2d(geom):
-        VALID_AES = ['x', 'y', 'alpha', 'label']
+        VALID_AES = {'x', 'y', 'fill'}
+        REQUIRED_AES = {'x', 'y'}
+        PARAMS = {'geom': None, 'position': 'identity',
+                'bins': 30, 'drop': True}
 
-        def plot_layer(self, layer):
-            layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-            layer.update(self.manual_aes)
-
+        def plot(self, layer, ax):
             x = layer.pop('x')
             y = layer.pop('y')
 
-            plt.hist2d(x, y, cmap=plt.cm.Blues, **layer)
+            ax.hist2d(x, y, cmap=matplotlib.pyplot.cm.Blues, **layer)
 else:
     def stat_bin2d(*args, **kwargs):
         import matplotlib

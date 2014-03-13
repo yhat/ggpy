@@ -127,7 +127,7 @@ def test_stats_bin2d():
         import nose
         raise nose.SkipTest("stat_bin2d only works with newer matplotlib (1.3) versions.")
     df = _build_testing_df()
-    gg = ggplot(aes(x='x', y='y', shape='cat', color='cat2'), data=df)
+    gg = ggplot(aes(x='x', y='y', shape='cat'), data=df)
     assert_same_ggplot(gg + stat_bin2d(), "stat_bin2d")
 
 @cleanup

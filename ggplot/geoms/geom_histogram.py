@@ -1,27 +1,31 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-import matplotlib.pyplot as plt
 import sys
 from .geom import geom
+import numpy as np
 
 
+# TODO: Rewrite geom_histogram as an alias of stat_bin and geom_bar
 class geom_histogram(geom):
-    VALID_AES = ['x', 'color', 'alpha', 'label', 'binwidth']
-    
+    VALID_AES = {'x', 'alpha', 'color', 'fill', 'linetype',
+                 'size', 'weight'}
+    REQUIRED_AES = {'x'}
+    PARAMS = {'stat': 'bin', 'position': 'stack', 'label': ''}
+
     def __init__(self, *args, **kwargs):
         super(geom_histogram, self).__init__(*args, **kwargs)
         self._warning_printed = False
 
-    def plot_layer(self, layer):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
+    def plot(self, layer, ax):
+        layer['label'] = self.params['label']
+
         if 'binwidth' in layer:
             binwidth = layer.pop('binwidth')
             try:
                 binwidth = float(binwidth)
-                bottom = plt.np.nanmin(layer['x'])
-                top = plt.np.nanmax(layer['x'])
-                layer['bins'] = plt.np.arange(bottom, top + binwidth, binwidth)
+                bottom = np.nanmin(layer['x'])
+                top = np.nanmax(layer['x'])
+                layer['bins'] = np.arange(bottom, top + binwidth, binwidth)
             except:
                 pass
         if 'bins' not in layer:
@@ -30,5 +34,5 @@ class geom_histogram(geom):
                 sys.stderr.write("binwidth defaulted to range/30. " +
                              "Use 'binwidth = x' to adjust this.\n")
                 self._warning_printed = True
-                
-        plt.hist(**layer)
+
+        ax.hist(**layer)

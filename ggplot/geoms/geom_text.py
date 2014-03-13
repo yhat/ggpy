@@ -1,31 +1,16 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import numpy as np
-import pandas as pd
 from .geom import geom
 
 class geom_text(geom):
-    VALID_AES = ['label','x','y','alpha','angle','color','family','fontface',
-                 'hjust','size','vjust']
-    REQUIRED_AES = ['label','x','y']
+    VALID_AES = {'label','x','y','alpha','angle','color','family','fontface',
+                 'hjust','size','vjust'}
+    REQUIRED_AES = {'label','x','y'}
+    PARAMS = {'stat': 'identity', 'position': 'identity', 'parse': False}
+    TRANSLATIONS = {'angle': 'rotation'}
 
-    def plot_layer(self, layer):
-        layer = dict((k, v) for k, v in layer.items() if k in self.VALID_AES)
-        layer.update(self.manual_aes)
-
-        # Check for required aesthetics
-        missing_aes = []
-        for required_aes in self.REQUIRED_AES:
-            if required_aes not in layer:
-                missing_aes.append(required_aes)
-
-        if len(missing_aes) > 0:
-            raise Exception(
-                "geom_text requires the following missing aesthetics: %s" %\
-                ", ".join(missing_aes))
-
+    def plot(self, layer, ax):
         x = layer.pop('x')
         y = layer.pop('y')
         label = layer.pop('label')
@@ -51,7 +36,6 @@ class geom_text(geom):
         # Take current plotting dimension in account for the case that we
         # work on a special dataframe just for this geom!
         if not self.data is None:
-            ax = plt.gca()
             cxmin, cxmax = ax.get_xlim()
             cymin, cymax = ax.get_ylim()
             # there is a problem if geom_text is the first plot, as
@@ -73,12 +57,8 @@ class geom_text(geom):
         else:
             layer['verticalalignment'] = 'center'
 
-        if 'angle' in layer:
-            layer['rotation'] = layer['angle']
-            del layer['angle']
-
         for x_g,y_g,s in zip(x,y,label):
-            plt.text(x_g,y_g,s,**layer)
+            ax.text(x_g,y_g,s,**layer)
 
         # resize axes
-        plt.axis([xmin, xmax, ymin, ymax])
+        ax.axis([xmin, xmax, ymin, ymax])

@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 
-from nose.tools import assert_equal, assert_is, assert_is_not
+from nose.tools import assert_equal, assert_is, assert_is_not, assert_raises
 from ggplot.tests import image_comparison
 
 from ggplot import *
@@ -12,7 +12,7 @@ def test_geom_basics():
     # mock the validd aes and get the geom to accept the color
     # mapping -> only subclasses normally declare which aes mappings
     # are valid and geom.VALID_AES is a empty list
-    geom.VALID_AES = ["color"]
+    geom.VALID_AES = {"color"}
     g = geom(data=meat)
     assert_is(meat, g.data)
     g = geom(meat)
@@ -21,10 +21,8 @@ def test_geom_basics():
     assert_equal("beef", g.aes["color"])
     g = geom(mapping=aes(color="pork"))
     assert_equal("pork", g.aes["color"])
-    # It would probably be better to throw an exception if
-    # two aes are given...
-    g = geom(aes(color="beef"), mapping=aes(color="pork"))
-    assert_equal("pork", g.aes["color"])
+    with assert_raises(Exception):
+        g = geom(aes(color="beef"), mapping=aes(color="pork"))
     # setting, not mapping
     g = geom(color="blue")
     assert_equal("blue", g.manual_aes["color"])
