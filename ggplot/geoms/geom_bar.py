@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 from .geom import geom
 from pandas.lib import Timestamp
-
+from ggplot.components.colors import color_gen
 
 class geom_bar(geom):
     VALID_AES = ['x', 'color', 'alpha', 'fill', 'label', 'weight', 'position']
@@ -46,8 +46,41 @@ class geom_bar(geom):
             layer['edgecolor'] = '#333333'
 
         if 'fill' in layer:
-            layer['color'] = layer['fill']
-            del layer['fill']
+            fill = layer.pop('fill')
+            if type(fill) is list:
+                position = layer.get('position','stacked')
+                fill_labels = np.unique(fill).tolist()
+                bottom = np.zeros(len(labels),dtype=np.int)
+                color_cycle = color_gen(len(fill_labels))
+                for i,fill_label in enumerate(fill_labels):
+                    color = color_cycle.next()
+                    fill_x = np.array(x)[np.array(fill) == np.array(fill_label)]
+                    counts = pd.value_counts(fill_x)
+                    weights = counts.reindex(labels,fill_value=0).tolist()
+                    if position == 'dodge':
+                        bar_width = width / len(fill_labels)
+                        plt.bar(indentation+(bar_width * i),
+                                weights,
+                                bar_width,
+                                color=color,
+                                label=fill_label)
+                    else:
+                        plt.bar(indentation,
+                                weights,
+                                width,
+                                color=color,
+                                bottom=bottom,
+                                label=fill_label)
+                        bottom += weights
+                    plt.autoscale()
+                return [
+                    {"function": "set_xticks", "args": [indentation+width/2]},
+                    {"function": "set_xticklabels", "args": [labels]},
+                    {"function": "set_ylabel", "args": ["count"]},
+                    {"function": "legend","args":[]},
+                ]
+            else:
+                layer['color'] = fill
         else:
             layer['color'] = '#333333'
 
@@ -55,5 +88,6 @@ class geom_bar(geom):
         plt.autoscale()
         return [
                 {"function": "set_xticks", "args": [indentation+width/2]},
-                {"function": "set_xticklabels", "args": [labels]}
+                {"function": "set_xticklabels", "args": [labels]},
+                {"function": "set_ylabel", "args": ["count"]},
             ]
