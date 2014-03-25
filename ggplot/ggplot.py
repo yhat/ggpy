@@ -296,9 +296,9 @@ class ggplot(object):
                         _aes.update(geom.aes)
                     if not geom.data is None:
                         data = _apply_transforms(geom.data, _aes)
-                        data = assign_visual_mapping(data, _aes, self)
                     else:
                         data = self.data
+                    data = assign_visual_mapping(data, _aes, self)
                     for layer in self._get_layers(data, _aes):
                         ax = plt.subplot(1, 1, 1)
                         callbacks = geom.plot_layer(layer)
