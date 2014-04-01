@@ -1,15 +1,16 @@
-# Here lies dict for documenting ggplot geoms to use automatically
-# generated help docstrings (only parameters) 
+# This is dict for documenting ggplot geoms to automatically
+# generat docstrings (only parameters) 
 
-# Informations were taken from matplotlib documentation and from some
-# docstrings, which have been already written (e.g aes.py)
+# Informations are from matplotlib documentation and from some
+# docstrings, which have been already written (e.g in aes.py)
 
 # It's format is in this form:
-# "attribut" : ("possible types", "description")
+# "attribute" : ("possible types", "description")
 # e.g "x" : ("string, pandas series, list, or numpy array", "x values")
 
-# If better descripton was founded later, the first one is uncommented
+# If better descripton was founded later, the first one is commented out
 docs_dict = {
+# These are from qplot.py
     "x": ("string, pandas series, list, or numpy array", "x values"),
     "y": ("string, pandas series, list, or numpy array", "y values"),
 #    "color": ("string", "color values"),
@@ -52,11 +53,11 @@ docs_dict = {
 
 ### Problems ###
 # There is problem with adding default values (they vary somewhere), e.g
-# geom_rect has default 'color': '#333333 and geom_abline 'color': 'black
+# geom_rect has default 'color': '#333333 and geom_abline 'color': 'black'
 
 # Some of the parameters can be required in some geom but are optional
 # for others. Numpy documentation standard doesn't notice adding 
-# bold font to required parameters
+# bold font to required parameters to higlight them.
 
 ### TODO ###
 # Missing docs
