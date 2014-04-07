@@ -30,7 +30,7 @@ def make_marker_key(label, marker):
 def make_size_key(label, size):
     if not isinstance(label, six.string_types):
         label = round(label, 2)
-        label = str(label)
+        label = unicode(label)
     idx = len(label)
     pad = 20 - idx
     lab = label[:max(idx, 20)]
@@ -44,7 +44,7 @@ def make_size_key(label, size):
     return HPacker(children=[viz, label], align="center", pad=5, sep=0)
 
 def make_line_key(label, color):
-    label = str(label)
+    label = unicode(label)
     idx = len(label)
     pad = 20 - idx
     lab = label[:max(idx, 20)]
@@ -81,7 +81,7 @@ def draw_legend(ax, legend, legend_type, legend_title, ith_legend):
     children.append(make_title(legend_title))
     viz_handler = legend_viz[legend_type]
     legend_items = sorted(legend.items(), key=operator.itemgetter(1))
-    children += [viz_handler(str(lab), col) for col, lab in legend_items]
+    children += [viz_handler(unicode(lab), col) for col, lab in legend_items]
     box = VPacker(children=children, align="left", pad=0, sep=5)
 
     # TODO: The vertical spacing between the legends isn't consistent. Should be
