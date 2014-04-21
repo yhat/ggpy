@@ -1,0 +1,159 @@
+// Variables
+// -------------------------
+@black:                 #000;
+@grayDarker:            #222;
+@grayDark:              #313131;
+@gray:                  #555;
+@grayLight:             #999;
+@grayLighter:           #e1e1e1;
+@white:                 #fff;
+@yhatGrey:              #898989;
+@yhatOrange:            #EE5311;
+
+@bodyBackground:        @white;
+@textColor:             @grayDark;
+@hrBorder:              @grayLighter;
+
+@linkColor:             #0f8bd6;
+@linkColorHover:        darken(@linkColor, 15%);
+
+@sansFontFamily:        'Open Sans', "Helvetica Neue", Helvetica, Arial, sans-serif;
+@serifFontFamily:       Georgia, "Times New Roman", Times, serif;
+@monoFontFamily:        'Inconsolata','Inconsolata-dz', Monaco, Menlo, Consolas, "Courier New", monospace;
+
+@baseFontSize:          16px;
+@baseFontFamily:        @sansFontFamily;
+@baseLineHeight:        22px;
+@altFontFamily:         @serifFontFamily;
+
+@headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
+@headingsFontWeight:    bold;    // instead of browser default, bold
+@headingsColor:         inherit; // empty to use BS default, @textColor
+
+// Code
+// ------------------------
+@code-color:                  @yhatOrange;
+@code-bg:                     #f7f7f7;
+
+@pre-bg:                      #f7f7f7;
+@pre-color:                   @grayDark;
+@pre-border-color:            #cecece;
+
+@import "mixins.less";
+@import "type.less";
+
+
+// Scaffolding
+// -------------------------
+body {
+  margin: 0;
+  font-family: @baseFontFamily;
+  font-size: @baseFontSize;
+  line-height: @baseLineHeight;
+  color: @textColor;
+  background-color: @bodyBackground;
+}
+.container {
+	position:relative;
+	max-width:980px;
+	overflow:hidden;
+	margin:0 auto;
+	padding:10px;
+	text-align:left;
+}
+
+
+// Links
+// -------------------------
+a {
+  color: @linkColor;
+  text-decoration: none; 
+  .transition(all 0.3s ease-in);
+}
+a:hover,
+a:focus {
+  color: @linkColorHover;
+  text-decoration: none;
+}
+
+img {
+    max-width:100%;
+    max-height:600px;
+    margin:0 auto;
+    display:block;
+    outline:0;
+}
+
+
+// Styles
+// -------------------------
+
+.github-fork-ribbon-wrapper {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    z-index: 9999;
+    right: 0;
+
+    .github-fork-ribbon {
+        position: absolute;
+        padding: 2px 0;
+        background-color: @code-color;
+        //.gradient(rgba(0, 0, 0, 0.00), rgba(0, 0, 0, 0.15));
+        .box-shadow(0px 2px 3px 0px rgba(0, 0, 0, 0.2));
+        z-index: 9999;
+        top: 42px;
+        right: -43px;
+        .rotate(45deg);
+
+        a, 
+        a:hover,
+        a:focus {
+            font-size: 13px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            width: 200px;
+            line-height: 20px;
+            display: inline-block;
+            padding: 2px 0;
+            border: 1px dotted rgba(255,255,255,0.7);
+        }
+    }
+}
+
+nav {
+    .clearfix;
+    margin:20px 0 20px 0;
+    padding:0px 0;
+    color:@yhatGrey;
+    a {
+        font-weight:bold;
+        display:inline-block;
+        margin:0 10px;
+        &:first-child {
+            margin-left:0px;
+        }
+    }
+}
+
+footer {
+    .clearfix;
+    margin:70px 0 0 0;
+    padding:0px 0;
+    font-size:14px;
+    text-align:right;
+    color:@yhatGrey;
+    a {
+        color:@yhatGrey;
+        &:hover, &:focus {
+            color:darken(@yhatGrey, 15%);
+        }
+    }
+}
+	
+@import "code.less";
+@import "utilities.less";

@@ -1,0 +1,102 @@
+//
+// Code (inline and blocK)
+// --------------------------------------------------
+
+
+// Inline and block code styles
+code,
+kdb,
+pre,
+samp {
+  font-family: @monoFontFamily;
+}
+
+// Inline code
+code {
+  padding: 2px 4px;
+  font-size:95%;
+  color: @code-color;
+  background-color: @code-bg;
+  white-space: nowrap;
+  -webkit-font-smoothing:auto;
+}
+
+a code {
+    .transition(all 0.3s ease-in);
+}
+a:hover code, a:focus code {
+    color: darken(@code-color, 15%);
+}
+
+// Blocks of code
+pre {
+  display: block;
+  padding: ((@baseLineHeight - 1) / 2);
+  margin: 0 0 (@baseLineHeight / 2);
+  font-size: (@baseFontSize - 1); // 14px to 13px
+  line-height: @baseLineHeight;
+  word-break: break-all;
+  word-wrap: break-word;
+  color: @pre-color;
+  background-color: @pre-bg;
+  border: 1px solid @pre-border-color;
+
+  // Account for some code outputs that place code tags in pre tags
+  code {
+    padding: 0;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre-wrap;
+    background-color: transparent;
+  }
+}
+
+.pln { color: #000 }  /* plain text */
+
+@media screen {
+  .str { color: #080 }  /* string content */
+  .kwd { color: #008 }  /* a keyword */
+  .com { color: #800 }  /* a comment */
+  .typ { color: #606 }  /* a type name */
+  .lit { color: #066 }  /* a literal value */
+  /* punctuation, lisp open bracket, lisp close bracket */
+  .pun, .opn, .clo { color: #660 }
+  .tag { color: #008 }  /* a markup tag name */
+  .atn { color: #606 }  /* a markup attribute name */
+  .atv { color: #080 }  /* a markup attribute value */
+  .dec, .var { color: #606 }  /* a declaration; a variable name */
+  .fun { color: red }  /* a function name */
+}
+
+/* Use higher contrast and text-weight for printable form. */
+@media print, projection {
+  .str { color: #060 }
+  .kwd { color: #006; font-weight: bold }
+  .com { color: #600; font-style: italic }
+  .typ { color: #404; font-weight: bold }
+  .lit { color: #044 }
+  .pun, .opn, .clo { color: #440 }
+  .tag { color: #006; font-weight: bold }
+  .atn { color: #404 }
+  .atv { color: #060 }
+}
+
+.prettyprint {
+  &.linenums {
+    @thisboxshadow: inset 40px 0 0 #fbfbfc, inset 41px 0 0 #ececf0;
+    .box-shadow(@thisboxshadow);
+  }
+}
+
+/* Specify class=linenums on a pre to get line numbering */
+ol.linenums {
+	padding:0;
+	margin: 0 0 0 33px; /* IE indents via margin-left */
+    li {
+	    padding:0;
+	    padding-left: 12px;
+	    color: #bebec5;
+	    line-height: 18px;
+	    text-shadow: 0 1px 0 #fff;
+    }
+}
