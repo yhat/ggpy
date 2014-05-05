@@ -96,10 +96,11 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
 
     geom_map = {
         "bar": geom_bar,
+        "boxplot": geom_boxplot,
         "hist": geom_histogram,
         "histogram": geom_histogram,
         "line": geom_line,
-        "point": geom_point
+        "point": geom_point,
     }
     # taking our best guess
     if geom=="auto":
