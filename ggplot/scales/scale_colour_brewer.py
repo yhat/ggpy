@@ -61,7 +61,8 @@ class scale_colour_brewer(scale):
 
         # Try to get colors
         try:
-            color_col = gg.aesthetics.get('color', gg.aesthetics['fill'])
+            fill_col = gg.aesthetics.get('fill', None)
+            color_col = gg.aesthetics.get('color', fill_col)
             n_colors = max(gg.data[color_col].nunique(),3)
         except KeyError :
             # If we are neither using 'color' nor 'fill' then assume there is
