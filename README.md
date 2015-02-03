@@ -56,6 +56,7 @@ automatically installed if you use `pip`:
 -   `scipy`
 -   `statsmodels`
 -   `patsy`
+-  ``husl``
 
 ### Installation
 
