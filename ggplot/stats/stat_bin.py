@@ -67,7 +67,11 @@ class stat_bin(stat):
                 _bin_count = 30
                 self._print_warning(_MSG_BINWIDTH)
             else:
-                _bin_count = int(np.ceil(np.ptp(x))) / binwidth
+                bins = int(np.ceil(np.ptp(x))) / binwidth + 1
+                _bin_count = np.hstack((np.min(x)-binwidth,
+                                        np.linspace(np.min(x), np.max(x), bins),
+                                        np.max(x)+binwidth))
+
             _, self.breaks = pd.cut(x, bins=_bin_count, labels=False,
                                         right=right, retbins=True)
             self.length = len(self.breaks)
