@@ -420,7 +420,7 @@ class ggplot(object):
             # getting set to True.
             if self.legend:
                 # works with faceted and non-faceted plots
-                ax = axs[0][self.n_rows - 1]
+                ax = plt.gcf().axes[self.n_rows - 1]
                 box = ax.get_position()
                 ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
                 add_legend(self.legend, ax)
