@@ -31,9 +31,11 @@ class geom_boxplot(geom):
             g = self.__group(x,y)
             l = sorted(g.keys())
             x = [g[k] for k in l]
-            plt.setp(ax, yticklabels=l)
 
         q = ax.boxplot(x, vert=False)
         plt.setp(q['boxes'], color=color)
         plt.setp(q['whiskers'], color=color)
         plt.setp(q['fliers'], color=color, marker=fliermarker)
+
+        if l:
+            plt.setp(ax, yticklabels=l)
