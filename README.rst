@@ -1,4 +1,4 @@
-|image|
+|travis|
 
 {ggplot} from `Yhat <http://yhathq.com>`__
 ==========================================
@@ -21,6 +21,7 @@ read more on our
    :alt: image
 
    image
+
 What is it?
 -----------
 
@@ -98,6 +99,7 @@ Examples
    :alt: image
 
    image
+
 ``geom_point``
 ~~~~~~~~~~~~~~
 
@@ -112,6 +114,7 @@ Examples
    :alt: image
 
    image
+
 ``geom_histogram``
 ~~~~~~~~~~~~~~~~~~
 
@@ -124,6 +127,7 @@ Examples
    :alt: image
 
    image
+
 ``geom_density``
 ~~~~~~~~~~~~~~~~
 
@@ -136,6 +140,7 @@ Examples
    :alt: image
 
    image
+
 ::
 
     meat_lng = pd.melt(meat[['date', 'beef', 'broilers', 'pork']], id_vars=['date'])
@@ -146,6 +151,7 @@ Examples
    :alt: image
 
    image
+
 ``geom_bar``
 ~~~~~~~~~~~~
 
@@ -158,6 +164,7 @@ Examples
    :alt: image
 
    image
+
 Testing
 -------
 
@@ -181,9 +188,9 @@ We're looking for contributors! Email greg at yhathq.com for more info.
 For getting started with contributing, check out `these
 docs <https://github.com/yhat/ggplot/blob/master/docs/contributing.rst>`__
 
-|image|
+|google_analytics|
 
-.. |image| image:: https://secure.travis-ci.org/yhat/ggplot.png?branch=master
+.. |travis| image:: https://secure.travis-ci.org/yhat/ggplot.png?branch=master
    :target: http://travis-ci.org/yhat/ggplot
-.. |image| image:: https://ga-beacon.appspot.com/UA-46996803-1/ggplot/README.md
+.. |google_analytics| image:: https://ga-beacon.appspot.com/UA-46996803-1/ggplot/README.md
    :target: https://github.com/yhat/ggplot

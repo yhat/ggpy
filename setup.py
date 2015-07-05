@@ -37,7 +37,6 @@ setup(
     package_dir={"ggplot": "ggplot"},
     package_data=get_package_data(),
     description="ggplot for python",
-    # run pandoc --from=markdown --to=rst --output=README.rst README.md
     long_description=open("README.rst").read(),
     # numpy is here to make installing easier... Needs to be at the last position,
     # as that's the first installed with "python setup.py install"
