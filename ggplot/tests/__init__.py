@@ -221,7 +221,7 @@ def _setup():
                 "Some date-related tests may fail")
 
     mpl.use('Agg', warn=False)  # use Agg backend for these tests
-    if mpl.get_backend().lower() != "agg":
+    if mpl.get_backend().lower() != "agg" and mpl.get_backend().lower() != "qt4agg":
         raise Exception(("Using a wrong matplotlib backend ({0}), which will not produce proper "
                         "images").format(mpl.get_backend()))
 
