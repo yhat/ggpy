@@ -5,7 +5,6 @@ from pandas.lib import Timestamp
 import pandas as pd
 import statsmodels.api as sm
 from statsmodels.nonparametric.smoothers_lowess import lowess as smlowess
-from statsmodels.sandbox.regression.predstd import wls_prediction_std
 from statsmodels.stats.outliers_influence import summary_table
 import scipy.stats as stats
 
@@ -29,7 +28,6 @@ def lm(x, y, alpha=ALPHA):
         x = np.array([i.toordinal() for i in x])
     X = sm.add_constant(x)
     fit = sm.OLS(y, X).fit()
-    prstd, iv_l, iv_u = wls_prediction_std(fit)
     _, summary_values, summary_names = summary_table(fit, alpha=alpha)
     df = pd.DataFrame(summary_values, columns=map(snakify, summary_names))
     fittedvalues        = df['predicted_value']
