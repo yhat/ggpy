@@ -97,6 +97,7 @@ class ggplot(object):
         self.legend = None
         # coords
         self.coord_equal = None
+        self.figure = None
 
         # default theme is theme_gray
         self.theme = theme_gray()
@@ -428,7 +429,7 @@ class ggplot(object):
             # Finaly apply any post plot callbacks (theming, etc)
             for ax in plt.gcf().axes:
                 self.theme.post_plot_callback(ax)
-
+            self.figure = fig
         return plt.gcf()
 
     def _make_plot_data(self, data=None, aes=None):
