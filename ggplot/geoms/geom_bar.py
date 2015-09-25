@@ -44,7 +44,7 @@ class geom_bar(geom):
 
         # Make sure bottom is initialized and get heights. If we are working on
         # a new plot (using facet_wrap or grid), then reset bottom
-        _reset = self.bottom == None or (self.ax != None and self.ax != ax)
+        _reset = self.bottom is None or (self.ax != None and self.ax != ax)
         self.bottom = np.zeros(len(x)) if _reset else self.bottom
         self.ax = ax
         heights = np.array(pinfo.pop('y'))
