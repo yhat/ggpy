@@ -45,7 +45,7 @@ scatterplot. You can look at the code here:
 Imports
 -------
 
-The first thing you probably noticed is the imports. First, we imported `pyplot` as `plt`
+The first thing you probably noticed were the imports. First, we imported `pyplot` as `plt`
 since this is the regular convention. `ggplot` uses `pyplot` for (nearly) all plots (as
 opposed to axes). This makes things simple and keeps the geoms focused only on doing 1
 thing.
@@ -65,7 +65,7 @@ Inheriting from `geom`
 ----------------------
 
 As mentioned previously, all of our `geom_*` and `stat_*` (for the time being) inherit
-from `geom`. Each of our geoms inherits from the `geom` object. This is going to give
+from `geom`. Each of our geoms inherit from the `geom` object. This is going to give
 it the delightful `+` properties that make it possible to magically add layers together.
 
 In addition, it keeps things easy so that when it comes time to render the plot, all of
@@ -129,7 +129,7 @@ Unfortunately if you're reading this then you're interested in contributing to
 `ggplot` which means you'll need to write some `matplotlib` code. Ironically even though
 I developed `ggplot` to stop writing `matplotlib`, I now find myself writing more
 `matplotlib` in order to support `ggplot`. In any event, the `matplotlib` plot methods
-do not have consistent names for their arguments. As a result, there are time when you'll
+do not have consistent names for their arguments. As a result, there are times when you'll
 have to edit names of the variables in your layer in order to accomodate `matplotlib`.
 You can see here that we're changing the name of the `size` variable to `s` and the 
 `color` variable to `c`.
@@ -148,7 +148,7 @@ You can see here that we're changing the name of the `size` variable to `s` and 
 Constructing the Plot
 ---------------------
 
-Making the plot is oftentimes the easiest part of building a geom. The key is the know
+Making the plot is oftentimes the easiest part of building a geom. The key is to know
 which arguments are important for the particular plot you're making. In this case, in order
 to make a `geom_point` we need a few basic things:
 
@@ -196,7 +196,7 @@ Pull Requests
 
 Some guidelines on contributing to ggplot:
 
-* Please submit a Pull Requests.
+* Please submit a Pull Request.
 * Pull Requests can be submitted as soon as there is code worth discussing.
   Pull Requests track the branch, so you can continue to work after the PR is submitted.
   Review and discussion can begin well before the work is complete,
@@ -225,11 +225,11 @@ own fork (`mine`) like this:
 * Commit edits belonging together in one go: `git add <files>; git commit`
 * If you need to add or change something to your last commit: `git commit --amend`
 * Push to your own clone: `git push mine` (during the first time it will tell you to
-  use some more arguments to setup the push for this branch)
+  use some more arguments to set up the push for this branch)
 * Add commits to your PR: just push them : `git commit; git push mine`
 * Rebase against master get the latest changes in master and to see if your changes
   still apply cleanly : `git rebase origin/master`. If there are some conflicting
-  changes you will be prompted to cleanup the merge conflict.
+  changes you will be prompted to clean up the merge conflict.
 * Do not use `git merge origin/master` or your PR will be cluttered with merge 
   messages. (Note: this is only valid for your PRs, not if you push your own code
   to your own repo for others to work against!)
@@ -237,10 +237,10 @@ own fork (`mine`) like this:
 * Make changes to old commits (reorder, edits, squash multiple commits into 
   one): `git rebase -i origin/master`:
   
-  - reorder the commits be moving lines up and down
+  - reorder the commits by moving lines up and down
   - prefix the commit you want to edit with 'e' and the ones you want to squash
     into the former one with 's'
-  - for the edits: use `git commit --amend` or `git commit` and after all your
+  - for the edits: use `git commit --amend` or `git commit` and after all of your
     edits are done: `git rebase --continue`
   - for the squash: just edit the commit message
 
