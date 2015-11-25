@@ -8,6 +8,6 @@ numpy
 pandas
 matplotlib
 scipy
-patsy
+patsy >= 0.4.0
 statsmodels
 husl

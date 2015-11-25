@@ -42,7 +42,7 @@ setup(
     # numpy is here to make installing easier... Needs to be at the last position,
     # as that's the first installed with "python setup.py install"
     install_requires=["six", "statsmodels", "brewer2mpl", "matplotlib", "scipy",
-                      "patsy", "pandas", "numpy"],
+                      "patsy>=0.4", "pandas", "numpy"],
     classifiers=['Intended Audience :: Science/Research',
                  'Intended Audience :: Developers',
                  'Programming Language :: Python',

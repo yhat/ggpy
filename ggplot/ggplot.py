@@ -549,7 +549,7 @@ def _apply_transforms(data, aes):
             # use either the captured eval_env from aes or use the env one steps up
             env = EvalEnvironment.capture(eval_env=(aes.__eval_env__ or 1))
             # add factor as a special case
-            env.add_outer_namespace({"factor":factor})
+            env = env.with_outer_namespace({"factor":factor})
             try:
                 new_val = env.eval(name, inner_namespace=data)
             except Exception as e:
