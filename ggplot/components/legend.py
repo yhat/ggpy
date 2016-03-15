@@ -29,7 +29,7 @@ legend_key is either:
 """
 
 
-def add_legend(legend, ax):
+def add_legend(legend, ax, legendposition):
     """
     Add a legend to the axes
 
@@ -38,6 +38,7 @@ def add_legend(legend, ax):
     legend: dictionary
         Specification in components.legend.py
     ax: axes
+    legendposition: v = vertical right, h = horizontal top
     """
     # Group legends by column name and invert color/label mapping
     groups = {}
@@ -54,19 +55,26 @@ def add_legend(legend, ax):
     max_rows = 20
     # py3 and py2 have different sorting order in dics,
     # so make that consistent
+    legends = []
     for i, column_name in enumerate(sorted(groups.keys())):
         legend_group = groups[column_name]
-        legend_box, rows = draw_legend_group(legend_group, column_name, i)
+        legend_box, rows = draw_legend_group(legend_group, column_name, i, legendposition)
         cur_nb_rows = nb_rows
         nb_rows += rows + 1
         if nb_rows > max(max_rows, rows + 1) :
             nb_cols += 1
             nb_rows = rows + 1
             cur_nb_rows = 0
-        anchor_legend(ax, legend_box, cur_nb_rows, nb_cols)
+        #anchor_legend(ax, legend_box, cur_nb_rows, nb_cols)
+        legends.append(legend_box)
+    if legendposition == 'v':
+        legend_box = VPacker(children = legends, align = 'baseline', pad = 0, sep = 10)
+    elif legendposition == 'h':
+        legend_box = HPacker(children = legends, align = 'baseline', pad = 0, sep = 2)
+    anchor_legend(ax, legend_box, cur_nb_rows, nb_cols, legendposition)
 
 
-def draw_legend_group(legends, column_name, ith_group):
+def draw_legend_group(legends, column_name, ith_group, legendposition):
     labels              = get_legend_labels(legends)
     colors, has_color   = get_colors(legends)
     alphas, has_alpha   = get_alphas(legends)
@@ -103,24 +111,48 @@ def draw_legend_group(legends, column_name, ith_group):
     legend_rows = [row(legend_items) for legend_items in zip(*legend_cols)]
 
     # Vertically align items and anchor in plot
-    rows = [legend_title] + legend_rows
-    box = VPacker(children=rows, align="left", pad=0, sep=-10)
-    return box, len(rows)
+    if legendposition == 'v':
+        rows = [legend_title] + legend_rows
+        box = VPacker(children=rows, align="left", pad=0, sep=5)
+        return box, len(rows)
+    elif legendposition == 'h':
+        rows = [legend_title] + legend_rows
+        box = HPacker(children=rows, align="bottom", pad=0, sep=5)
+        return box, len(rows)
 
 
 
-def anchor_legend(ax, box, row, col):
-    anchored = AnchoredOffsetbox(loc=2,
-                                 child=box,
-                                 pad=0.,
-                                 frameon=False,
-                                 bbox_to_anchor=(1 + 0.25*col, 1 - 0.054*row),
-                                 bbox_transform=ax.transAxes,
-                                 )
-    # Workaround for a bug in matplotlib up to 1.3.1
-    # https://github.com/matplotlib/matplotlib/issues/2530
-    anchored.set_clip_on(False)
-    ax.add_artist(anchored)
+def anchor_legend(ax, box, row, col, legendposition):
+    if legendposition == 'v':
+        anchored = AnchoredOffsetbox(loc=2,
+                                     child=box,
+                                     pad=1,
+                                     frameon=False,
+                                     #bbox_to_anchor=(1 + 0.25*col, 1 - 0.054*row),
+                                     bbox_to_anchor=(1.0, 1),
+                                     bbox_transform=ax.transAxes,
+                                     )
+        # Workaround for a bug in matplotlib up to 1.3.1
+        # https://github.com/matplotlib/matplotlib/issues/2530
+        anchored.set_clip_on(False)
+        ax.add_artist(anchored)
+        fig = ax.get_figure()
+        fig.subplots_adjust(right = 0.88)
+    elif legendposition == 'h':
+        anchored = AnchoredOffsetbox(loc=3,
+                                     child=box,
+                                     pad=.2,
+                                     frameon=False,
+                                     #bbox_to_anchor=(1 + 0.25*col, 1 - 0.054*row),
+                                     bbox_to_anchor=(0, 1),
+                                     bbox_transform=ax.transAxes,
+                                     )
+        # Workaround for a bug in matplotlib up to 1.3.1
+        # https://github.com/matplotlib/matplotlib/issues/2530
+        anchored.set_clip_on(False)
+        ax.add_artist(anchored)
+        fig = ax.get_figure()
+        fig.subplots_adjust(top = 0.88)
 
 
 
