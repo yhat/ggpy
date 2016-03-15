@@ -47,6 +47,7 @@ class ggplot(object):
         aesthetics of your plot
     data :  pandas DataFrame (pd.DataFrame)
         a DataFrame with the data you want to plot
+    legendposition : v = vertical right, h = horizontal top
 
     Examples
     ----------
@@ -57,7 +58,7 @@ class ggplot(object):
     CONTINUOUS = ['x', 'y', 'size', 'alpha']
     DISCRETE = ['color', 'shape', 'marker', 'alpha', 'linestyle']
 
-    def __init__(self, aesthetics, data):
+    def __init__(self, aesthetics, data, legendposition = 'v'):
         # ggplot should just 'figure out' which is which
         if not isinstance(data, pd.DataFrame):
             aesthetics, data = data, aesthetics
@@ -95,6 +96,7 @@ class ggplot(object):
         self.scale_y_log = None
         self.scale_x_log = None
         self.legend = None
+        self.legendposition = legendposition
         # coords
         self.coord_equal = None
 
@@ -253,9 +255,7 @@ class ggplot(object):
                     # left column gets y scales and the bottom row gets x scales
                     scale_facet_grid(self.n_rows, self.n_columns,
                                      self.facet_pairs, self.facet_scales)
-
                 else: # now facet_wrap > 2 or facet_grid w/ only 1 facet
-
                     for facet, frame in self.data.groupby(self.facets):
                         frame = self._make_plot_data(frame)
                         for geom in self.geoms:
@@ -320,18 +320,42 @@ class ggplot(object):
                 if self.facets:
                     # This is currently similar what plt.title uses
                     plt.gcf().suptitle(self.title, verticalalignment='baseline',
-                                       fontsize=mpl.rcParams['axes.titlesize'])
+                                       fontsize=mpl.rcParams['axes.titlesize'], x = 0.5, y = 0.97)
                 else:
                     plt.title(self.title)
             if not (self.xlab is None):
                 if self.facet_type == "grid":
-                    fig.text(0.5, 0.025, self.xlab)
+                    #check odd number of columns
+                    if self.n_columns % 2 == 1:  
+                        #calculate the index of the lower, middle subplot
+                        index = (self.n_rows - 1) * self.n_columns + (self.n_columns - 1) * 0.5 + 1
+                        index = int(index)
+                        ax = plt.gcf().add_subplot(self.n_rows, self.n_columns, index)
+                        ax.set_xlabel(self.xlab)
+                    else:
+                        #calculate the index of the lower, left to middle subplot
+                        index = (self.n_rows - 1) * self.n_columns + (self.n_columns) * 0.5
+                        index = int(index)
+                        ax = plt.gcf().add_subplot(self.n_rows, self.n_columns, index)
+                        ax.set_xlabel(self.xlab, x = 1)
                 else:
                     for ax in plt.gcf().axes:
                         ax.set_xlabel(self.xlab)
             if not (self.ylab is None):
                 if self.facet_type == "grid":
-                    fig.text(0.025, 0.5, self.ylab, rotation='vertical')
+                    #check odd number of rows
+                    if self.n_rows % 2 == 1:  
+                        #calculate the index of the left, middle subplot
+                        index = (self.n_rows - 1) * 0.5 * self.n_columns + 1
+                        index = int(index)
+                        ax = plt.gcf().add_subplot(self.n_rows, self.n_columns, index)
+                        ax.set_ylabel(self.ylab)
+                    else:
+                        #calculate the index of the left, below middle subplot
+                        index = self.n_rows * 0.5 * self.n_columns + 1
+                        index = int(index)
+                        ax = plt.gcf().add_subplot(self.n_rows, self.n_columns, index)
+                        ax.set_ylabel(self.ylab, y = 1)
                 else:
                     for ax in plt.gcf().axes:
                         ax.set_ylabel(self.ylab)
@@ -419,11 +443,17 @@ class ggplot(object):
             # some sort of test in place to prevent this OR prevent legend
             # getting set to True.
             if self.legend:
-                # works with faceted and non-faceted plots
-                ax = axs[0][self.n_rows - 1]
-                box = ax.get_position()
-                ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
-                add_legend(self.legend, ax)
+                if self.legendposition == 'v':
+                    # works with faceted and non-faceted plots
+                    #ax = axs[0][self.n_rows - 1]
+                    ax = plt.subplot(self.n_rows, self.n_columns, self.n_columns)
+    #                box = ax.get_position()
+    #                ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+                    add_legend(self.legend, ax, self.legendposition)
+                elif self.legendposition == 'h':
+                    ax = plt.subplot(self.n_rows, self.n_columns, 1)
+                    add_legend(self.legend, ax, self.legendposition)
+                    
 
             # Finaly apply any post plot callbacks (theming, etc)
             for ax in plt.gcf().axes:
