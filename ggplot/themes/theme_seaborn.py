@@ -172,7 +172,7 @@ class theme_seaborn(theme):
         # rcParams["axes.labelsize"] = "large"
         # rcParams["axes.labelcolor"] = "black"
         # rcParams["axes.axisbelow"] = "True"
-        rcParams["axes.color_cycle"] = ["#333333", "348ABD", "7A68A6", "A60628",
+        rcParams["axes.prop_cycle"] = ["#333333", "348ABD", "7A68A6", "A60628",
                 "467821", "CF4457", "188487", "E24A33"]
         # rcParams["grid.color"] = "white"
         # rcParams["grid.linewidth"] = "1.4"

@@ -36,7 +36,7 @@ class theme_gray(theme):
         self._rcParams["axes.labelsize"] = "large"
         self._rcParams["axes.labelcolor"] = "black"
         self._rcParams["axes.axisbelow"] = "True"
-        self._rcParams["axes.color_cycle"] = ["#333333", "348ABD", "7A68A6",
+        self._rcParams["axes.prop_cycle"] = ["#333333", "348ABD", "7A68A6",
                                              "A60628",
                                              "467821", "CF4457", "188487",
                                              "E24A33"]

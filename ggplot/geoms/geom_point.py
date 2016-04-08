@@ -24,9 +24,9 @@ class geom_point(geom):
             pinfo['facecolor'] = ''
 
         # for some reason, scatter doesn't default to the same color styles
-        # as the axes.color_cycle
+        # as the axes.prop_cycle
         if "color" not in pinfo and self.params['cmap'] is None:
-            pinfo["color"] = mpl.rcParams.get("axes.color_cycle", ["#333333"])[0]
+            pinfo["color"] = mpl.rcParams.get("axes.prop_cycle", ["#333333"])[0]
 
         if self.params['position'] == 'jitter':
             pinfo['x'] *= np.random.uniform(.9, 1.1, len(pinfo['x']))

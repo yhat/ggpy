@@ -20,7 +20,7 @@ class theme_538(theme):
         self._rcParams["examples.download"] = "True"
         self._rcParams["patch.linewidth"] = "0.5"
         self._rcParams["legend.fancybox"] = "True"
-        self._rcParams["axes.color_cycle"] = [ "#30a2da", "#fc4f30", "#e5ae38",
+        self._rcParams["axes.prop_cycle"] = [ "#30a2da", "#fc4f30", "#e5ae38",
                                                "#6d904f", "#8b8b8b"]
         self._rcParams["axes.facecolor"] = "#f0f0f0"
         self._rcParams["axes.labelsize"] = "large"

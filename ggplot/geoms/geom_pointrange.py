@@ -124,9 +124,9 @@ class geom_pointrange(geom):
             pinfopoint['facecolor'] = ''
 
         # for some reason, scatter doesn't default to the same color styles
-        # as the axes.color_cycle
+        # as the axes.prop_cycle
         if "color" not in pinfopoint and self.params['cmap'] is None:
-            pinfopoint["color"] = mpl.rcParams.get("axes.color_cycle", ["#333333"])[0]
+            pinfopoint["color"] = mpl.rcParams.get("axes.prop_cycle", ["#333333"])[0]
 
         pinfopoint['s'] = pinfopoint.pop('linewidth')**2*4
 

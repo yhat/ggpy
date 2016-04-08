@@ -132,7 +132,7 @@ def color_palette(name=None, n_colors=6, desat=None):
     )
 
     if name is None:
-        palette = mpl.rcParams["axes.color_cycle"]
+        palette = mpl.rcParams["axes.prop_cycle"]
     elif not isinstance(name, string_types):
         palette = name
     elif name == "hls":
