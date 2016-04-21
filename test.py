@@ -1,7 +1,5 @@
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
+
+
 
 # scatter plot
 mean, cov = [4, 6], [(1.5, .7), (.7, 1)]

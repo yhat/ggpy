@@ -8,6 +8,7 @@ else:
 from copy import deepcopy
 
 from patsy.eval import EvalEnvironment
+import utils
 
 class aes(UserDict):
     """
@@ -80,3 +81,11 @@ class aes(UserDict):
                 raise
 
         return result
+
+    def _get_categoricals(self, df):
+        categoricals = []
+        for aes_type, column in self.data.items():
+            if column in self.data.values():
+                if utils.is_categorical(df[column]):
+                    categoricals.append((aes_type, column))
+        return categoricals
