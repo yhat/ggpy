@@ -1,16 +1,80 @@
-from geoms import geom_line, geom_point, geom_hist, geom_density, geom_hline, geom_vline
+from geoms import geom_area, geom_line, geom_point, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline
 from geoms import stat_smooth
 from facets import facet_wrap
 from chart_components import ggtitle, xlim, ylim, xlab, ylab, labs
 from ggplot import ggplot
 from themes import theme_538, theme_gray, theme_xkcd
 from scales.scale_color_brewer import scale_color_brewer
+from scales.scale_color_manual import scale_color_manual
+from scales.scale_color_gradient import scale_color_gradient
+from scales.scale_log import scale_x_log, scale_y_log
+from scales.scale_reverse import scale_x_reverse, scale_y_reverse
+from scales.scale_x_continuous import scale_x_continuous
+from scales.scale_y_continuous import scale_y_continuous
+from scales.scale_x_continuous import scale_x_continuous as scale_x_discrete
+from scales.scale_y_continuous import scale_y_continuous as scale_y_discrete
 from aes import aes
 
 import seaborn as sns
+import pandas as pd
+import numpy as np
 tips = sns.load_dataset('tips')
 from exampledata import diamonds
 
+# # histogram
+# p = ggplot(diamonds, aes(x='carat')) + geom_histogram()
+# p.make()
+#
+# # point
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point()
+# p.make()
+#
+# # density
+# p = ggplot(diamonds, aes(x='carat')) + geom_density()
+# p.make()
+#
+# # hline
+# p = ggplot(diamonds, aes(x='price')) + geom_hline(y=10)
+# p.make()
+#
+# # vline
+# p = ggplot(diamonds, aes(x='price')) + geom_vline(x=10)
+# p.make()
+
+# # bar
+# p = ggplot(diamonds, aes(x='clarity')) + geom_bar()
+# p.make()
+
+# bar w/ weight
+# p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()
+# p.make()
+
+# # abline
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)
+# p.make()
+#
+# # abline w/ facet
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')
+# p.make()
+
+# # area
+# df = pd.DataFrame({"x": np.arange(1000)})
+# df['y_low'] = df.x * 0.9
+# df['y_high'] = df.x * 1.1
+# df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
+# # p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
+# # p.make()
+# # area w/ facet
+# p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')
+# p.make()
+
+# # facet wrap
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
+# p.make()
+
+# # facet wrap w/ 2 variables
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')
+p.make()
 
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color')
 # p.make()
@@ -18,17 +82,36 @@ from exampledata import diamonds
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(y='color')
 # p.make()
 #
-# p = ggplot(tips, aes(x='total_bill', y='tip', color='size')) + geom_point()
+# p = ggplot(tips, aes(x='total_bill', y='tip', color='sex')) + geom_point()
+# p + scale_color_brewer(type='div')
 # p.make()
 
-p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')
-p.make()
+# p = ggplot(tips, aes(x='total_bill', y='tip', color='sex')) + geom_point() + scale_color_manual(values=['pink', 'skyblue'])
+# p.make()
 
-p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')
-p.make()
+# p = ggplot(tips, aes(x='total_bill', y='tip', color='tip')) + geom_point() + scale_color_gradient(low='pink', high='royalblue')
+# p.make()
 
-p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)
-p.make()
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + geom_point() +  scale_x_log() + scale_y_log()
+# p.make()
+
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + scale_x_log() + scale_y_log() + facet_wrap(x='color')
+# p.make()
+
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + scale_x_reverse() + scale_y_reverse() + facet_wrap(x='color')
+# p.make()
+
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + scale_x_continuous(breaks=[0, 3, 6], labels=["Low", "Medium", "High"]) + scale_y_continuous(breaks=[0, 10000, 20000], labels=["Low", "Medium", "High"]) + facet_wrap(x='color')
+# p.make()
+
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')
+# p.make()
+#
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')
+# p.make()
+#
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)
+# p.make()
 
 # p = ggplot(tips, aes(x='total_bill', y='tip', color='sex')) + geom_point() + theme_gray()
 # p.make()
@@ -82,7 +165,7 @@ p.make()
 # p = ggplot(tips, aes(x='total_bill', y='tip')) + geom_line(color="blue") + geom_point() + facet_wrap(x="time", y="smoker")
 # p.make()
 #
-# p = ggplot(tips, aes(x='total_bill')) + geom_hist()
+# p = ggplot(tips, aes(x='total_bill')) + geom_histogram()
 # p.make()
 #
 # p = ggplot(tips, aes(x='total_bill')) + geom_density()
@@ -97,7 +180,7 @@ p.make()
 # variables = {'x': 'total_bill', 'y': 'tip'}
 #
 #
-# p = geom_hist()
+# p = geom_histogram()
 # print p.layers
 #
 # g = sns.FacetGrid(tips, col="time",  row="smoker")

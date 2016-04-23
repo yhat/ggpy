@@ -38,6 +38,12 @@ def is_categorical(obj):
         - strings
         - booleans
     """
+    try:
+        float(obj.iloc[0])
+        return False
+    except:
+        return True
+
     if is_sequence_of_strings(obj):
         return True
     if is_sequence_of_booleans(obj):

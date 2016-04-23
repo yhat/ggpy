@@ -1,34 +1,14 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
+import numpy as np
 from aes import aes
 import warnings
 import itertools
 from matplotlib.colors import rgb2hex
 from themes import theme_gray
+import discretemappers
 
-SHAPES = [
-    'o',#circle
-    '^',#triangle up
-    'D',#diamond
-    'v',#triangle down
-    '+',#plus
-    'x',#x
-    's',#square
-    '*',#star
-    'p',#pentagon
-    '*'#octagon
-]
-
-def shape_gen():
-    while True:
-        for shape in SHAPES:
-            yield shape
-
-def palette_gen():
-    generator = itertools.cycle(sns.color_palette())
-    while True:
-        yield rgb2hex(next(generator))
 
 class ggplot(object):
 
@@ -56,9 +36,25 @@ class ggplot(object):
         # scales
         self.scales = []
 
+        self.scale_x_log = None
+        self.scale_y_log = None
+
+        self.scale_x_reverse = None
+        self.scale_y_reverse = None
+
+        self.xbreaks = None
+        self.xtick_labels = None
+
+        self.ybreaks = None
+        self.ytick_labels = None
+
         # faceting
         self.grid = None
-        self.facets = { }
+        self.facets = {}
+
+        # colors
+        self.colormap = None
+        self.manual_color_list = []
 
     def add_labels(self):
         labels = [(plt.title, self.title), (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
@@ -95,9 +91,29 @@ class ggplot(object):
             xlab = self.xlab
         else:
             xlab = self._aes.get('x')
-        if self.facets.get("row") and self.facets.get("col"):
+
+        if self.xbreaks:
+            for ax in self._iterate_subplots():
+                ax.xaxis.set_ticks(self.xbreaks)
+        if self.xtick_labels:
+            if isinstance(self.xtick_labels, list):
+                for ax in self._iterate_subplots():
+                    ax.xaxis.set_ticklabels(self.xtick_labels)
+
+        if self.ybreaks:
+            for ax in self._iterate_subplots():
+                ax.yaxis.set_ticks(self.ybreaks)
+        if self.ytick_labels:
+            if isinstance(self.ytick_labels, list):
+                for ax in self._iterate_subplots():
+                    ax.yaxis.set_ticklabels(self.ytick_labels)
+
+        # self.fig.suptitle(xlab, x=0.5, y=0.05)
+        if self.facets.get("wrap")==True:
+            pass
+        elif self.facets.get("row") and self.facets.get("col"):
             middle_col = self.data[self.facets['col']].nunique() / 2
-            self.subplots[middle_col].set_xlabel(xlab)
+            self.subplots[0][middle_col].set_xlabel(xlab)
         elif self.facets.get("row"):
             self.subplots[-1].set_xlabel(xlab)
         elif self.facets.get("col"):
@@ -109,10 +125,14 @@ class ggplot(object):
         if self.ylab:
             ylab = self.ylab
         else:
-            ylab = self._aes.get('y')
-        if self.facets.get("row") and self.facets.get("col"):
+            ylab = self._aes.get('y', '')
+
+
+        if self.facets.get("wrap")==True:
+            pass
+        elif self.facets.get("row") and self.facets.get("col"):
             middle_col = self.data[self.facets['col']].nunique() / 2
-            self.subplots[middle_col].set_ylabel(ylab)
+            self.subplots[middle_col][0].set_ylabel(ylab)
         elif self.facets.get("row"):
             middle_col = self.data[self.facets['row']].nunique() / 2
             self.subplots[middle_col].set_ylabel(ylab)
@@ -121,6 +141,28 @@ class ggplot(object):
         else:
             self.subplots.set_ylabel(ylab)
 
+    def _iterate_subplots(self):
+        try:
+            return self.subplots.flat
+        except Exception as e:
+            return [self.subplots]
+
+    def apply_axis_scales(self):
+        if self.scale_x_log:
+            for ax in self._iterate_subplots():
+                ax.set_xscale('log', basex=self.scale_x_log)
+
+        if self.scale_y_log:
+            for ax in self._iterate_subplots():
+                ax.set_yscale('log', basey=self.scale_y_log)
+
+        if self.scale_x_reverse:
+            for ax in self._iterate_subplots():
+                ax.invert_xaxis()
+
+        if self.scale_y_reverse:
+            for ax in self._iterate_subplots():
+                ax.invert_yaxis()
 
     def _construct_plot_data(self):
         data = self.data
@@ -128,14 +170,21 @@ class ggplot(object):
         for aes_type, colname in discrete_aes:
             mapper = {}
             if aes_type=="color":
-                mapping = palette_gen()
+                mapping = discretemappers.palette_gen(self.manual_color_list)
             elif aes_type=="shape":
-                mapping = shape_gen()
+                mapping = discretemappers.shape_gen()
+            else:
+                continue
 
             for item in data[colname].unique():
                 mapper[item] = next(mapping)
 
+
             data[colname] = self.data[colname].apply(lambda x: mapper[x])
+
+        if self.colormap and "color" in self._aes.keys() and "color" not in discrete_aes:
+            self._aes.data['colormap'] = self.colormap
+
         groups = [column for _, column in discrete_aes]
         if groups:
             return data.groupby(groups)
@@ -146,33 +195,27 @@ class ggplot(object):
         facet_params = dict(sharex=True, sharey=True)
 
         facet_row = self.facets['row']
-        if facet_row:
+        if self.facets.get('n_rows'):
+            n_row = self.facets['n_rows']
+            facet_params['nrows'] = n_row
+        elif facet_row:
             n_row = self.data[facet_row].nunique()
             facet_params['nrows'] = n_row
         else:
             n_row = 1
 
         facet_col = self.facets['col']
-        if facet_col:
+
+        if self.facets.get('n_cols'):
+            n_col = self.facets['n_cols']
+            facet_params['ncols'] = n_col
+        elif facet_col:
             n_col = self.data[facet_col].nunique()
             facet_params['ncols'] = n_col
         else:
             n_col = 1
 
-        fig, subplots = plt.subplots(**facet_params)
-
-        if facet_row and facet_col:
-            for row in range(n_row):
-                for col in range(n_col):
-                    subplot = subplots[row][col]
-        elif facet_row:
-            for row in range(n_row):
-                subplot = subplots[row]
-        elif facet_col:
-            for col in range(n_col):
-                subplot = subplots[col]
-
-        return subplots
+        return plt.subplots(**facet_params)
 
     def get_facet_groups(self, group):
         col_variable = self.facets.get('col')
@@ -182,7 +225,29 @@ class ggplot(object):
         # just columns. i broke this up into 3 explicit parts b/c it can get
         # very confusing if you're trying to handle the 3 cases simultaneously. so
         # while it's possible to do it all at once, WE'RE NOT GOING TO DO THAT
-        if col_variable and row_variable:
+
+        # TODO: this breaks when controlling the number of rows/columns in a facet grid
+        if self.facets.get('wrap', False)==True:
+            groups = [col_variable, row_variable]
+            groups = [g for g in groups if g]
+            for (i, (name, subgroup)) in enumerate(group.groupby(groups)):
+                if isinstance(name, str):
+                    name = [name]
+                row = i / self.facets['n_rows']
+                col = i % self.facets['n_cols']
+                ax = self.subplots[row][col]
+                font = { 'fontsize': 10 }
+                ax.set_title(', '.join(name), fontdict=font) #, backgroundcolor='#E5E5E5')
+                yield (ax, subgroup)
+
+            # remove axes that aren't being used
+            for j in range(i + 1, self.facets['n_rows'] * self.facets['n_cols']):
+                row = j / self.facets['n_rows']
+                col = j % self.facets['n_cols']
+                ax = self.subplots[row][col]
+                self.fig.delaxes(ax)
+
+        elif col_variable and row_variable:
             for (col, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
                 for (row, (rowname, facetgroup)) in enumerate(subgroup.groupby(row_variable)):
                     ax = self.subplots[row][col]
@@ -207,10 +272,9 @@ class ggplot(object):
             self.apply_theme()
 
             if self.facets:
-                self.subplots = self.make_facets()
+                self.fig, self.subplots = self.make_facets()
             else:
-                fig, ax = plt.subplots()
-                self.subplots = ax
+                self.fig, self.subplots = plt.subplots()
 
             self.apply_scales()
 
@@ -222,4 +286,8 @@ class ggplot(object):
             self.impose_limits()
             self.add_labels()
             self.apply_axis_labels()
+            self.apply_axis_scales()
+            if self.theme:
+                for ax in self._iterate_subplots():
+                    self.theme.apply_final_touches(ax)
             plt.show()

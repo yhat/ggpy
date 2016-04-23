@@ -85,6 +85,8 @@ class aes(UserDict):
     def _get_categoricals(self, df):
         categoricals = []
         for aes_type, column in self.data.items():
+            if aes_type in ['x', 'y']:
+                continue
             if column in self.data.values():
                 if utils.is_categorical(df[column]):
                     categoricals.append((aes_type, column))
