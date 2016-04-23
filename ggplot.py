@@ -57,7 +57,7 @@ class ggplot(object):
         self.manual_color_list = []
 
     def add_labels(self):
-        labels = [(plt.title, self.title), (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
+        labels = [(self.fig.suptitle, self.title), (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
                 mpl_func(label)
@@ -108,38 +108,14 @@ class ggplot(object):
                 for ax in self._iterate_subplots():
                     ax.yaxis.set_ticklabels(self.ytick_labels)
 
-        # self.fig.suptitle(xlab, x=0.5, y=0.05)
-        if self.facets.get("wrap")==True:
-            pass
-        elif self.facets.get("row") and self.facets.get("col"):
-            middle_col = self.data[self.facets['col']].nunique() / 2
-            self.subplots[0][middle_col].set_xlabel(xlab)
-        elif self.facets.get("row"):
-            self.subplots[-1].set_xlabel(xlab)
-        elif self.facets.get("col"):
-            middle_col = self.data[self.facets['col']].nunique() / 2
-            self.subplots[middle_col].set_xlabel(xlab)
-        else:
-            self.subplots.set_xlabel(xlab)
+        self.fig.text(0.5, 0.05, xlab)
 
         if self.ylab:
             ylab = self.ylab
         else:
             ylab = self._aes.get('y', '')
 
-
-        if self.facets.get("wrap")==True:
-            pass
-        elif self.facets.get("row") and self.facets.get("col"):
-            middle_col = self.data[self.facets['col']].nunique() / 2
-            self.subplots[middle_col][0].set_ylabel(ylab)
-        elif self.facets.get("row"):
-            middle_col = self.data[self.facets['row']].nunique() / 2
-            self.subplots[middle_col].set_ylabel(ylab)
-        elif self.facets.get("col"):
-            self.subplots[0].set_ylabel(ylab)
-        else:
-            self.subplots.set_ylabel(ylab)
+        self.fig.text(0.05, 0.5, ylab, rotation='vertical')
 
     def _iterate_subplots(self):
         try:
@@ -251,17 +227,38 @@ class ggplot(object):
             for (col, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
                 for (row, (rowname, facetgroup)) in enumerate(subgroup.groupby(row_variable)):
                     ax = self.subplots[row][col]
-                    ax.set_title("%s=%s | %s=%s" % (row_variable, rowname, col_variable, colname))
+
+                    # setup labels for facet grids. this happens only for the top row
+                    #  and the right-most column
+                    if row==0:
+                        ax.set_title(colname, fontdict={'fontsize': 10})
+
+                    if col==0:
+                        self.subplots[row][-1].yaxis.set_label_position("right")
+                        self.subplots[row][-1].yaxis.labelpad = 10
+                        self.subplots[row][-1].set_ylabel(rowname, fontsize=10, rotation=-90)
+
                     yield (ax, facetgroup)
+
         elif col_variable:
             for (col, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
                 ax = self.subplots[col]
-                ax.set_title("%s=%s" % (col_variable, colname))
+                if self.facets['wrap']==True:
+                    ax.set_title("%s=%s" % (col_variable, colname))
+                else:
+                    ax.set_title(colname, fontdict={'fontsize': 10})
                 yield (ax, subgroup)
         elif row_variable:
             for (row, (rowname, subgroup)) in enumerate(group.groupby(row_variable)):
                 ax = self.subplots[row]
-                ax.set_title("%s=%s" % (row_variable, rowname))
+
+                if self.facets['wrap']==True:
+                    ax.set_title("%s=%s" % (row_variable, rowname))
+                else:
+                    ax.yaxis.set_label_position("right")
+                    ax.yaxis.labelpad = 10
+                    ax.set_ylabel(rowname, fontsize=10, rotation=-90)
+
                 yield (ax, subgroup)
         else:
             yield (self.subplots, group)

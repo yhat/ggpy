@@ -1,6 +1,6 @@
 from geoms import geom_area, geom_line, geom_point, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline
 from geoms import stat_smooth
-from facets import facet_wrap
+from facets import facet_wrap, facet_grid
 from chart_components import ggtitle, xlim, ylim, xlab, ylab, labs
 from ggplot import ggplot
 from themes import theme_538, theme_gray, theme_xkcd
@@ -71,9 +71,20 @@ from exampledata import diamonds
 # # facet wrap
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
 # p.make()
-
+#
 # # facet wrap w/ 2 variables
-p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')
+# p.make()
+
+# # facet grid w/ 1 variable
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')
+p.make()
+
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')
+p.make()
+
+# # facet grid w/ 2 variables
+p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')
 p.make()
 
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color')

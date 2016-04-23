@@ -51,9 +51,23 @@ class facet_grid(object):
         self.x_var = x
         self.y_var = y
 
-    def __radd__(self, other):
-        if other.__class__.__name__=="ggplot":
-            other.facets = { 'row': self.x_var, 'col': self.y_var, 'wrap': False}
-            return other
+    def __radd__(self, gg):
+        if gg.__class__.__name__=="ggplot":
+            x, y = None, None
+            xdim, ydim = None, None
+            ndim = None
+            if self.x_var:
+                x = gg.data[self.x_var]
+                xdim = int(x.nunique())
+            if self.y_var:
+                y = gg.data[self.y_var]
+                ydim = int(y.nunique())
 
-        return self
+            gg.facets = {
+                'row': self.x_var,
+                'col': self.y_var,
+                'n_rows': xdim,
+                'n_cols': ydim,
+                'wrap': False
+            }
+            return gg
