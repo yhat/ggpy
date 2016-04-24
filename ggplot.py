@@ -2,24 +2,47 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import seaborn as sns
 import numpy as np
+import pandas as pd
 from aes import aes
 import warnings
 import itertools
 from matplotlib.colors import rgb2hex
 from themes import theme_gray
 import discretemappers
+import pprint as pp
 
 
 class ggplot(object):
+    """
+    ggplot is the base layer or object that you use to define
+    the components of your chart (x and y axis, shapes, colors, etc.).
+    You can combine it with layers (or geoms) to make complex graphics
+    with minimal effort.
 
-    def __init__(self, obj1, obj2):
+    Parameters
+    -----------
+    aesthetics :  aes (ggplot.components.aes.aes)
+        aesthetics of your plot
+    data :  pandas DataFrame (pd.DataFrame)
+        a DataFrame with the data you want to plot
+
+    Examples
+    ----------
+    >>> p = ggplot(aes(x='x', y='y'), data=diamonds)
+    >>> print(p + geom_point())
+    """
+
+    CONTINUOUS = ['x', 'y', 'size', 'alpha']
+    DISCRETE = ['color', 'shape', 'marker', 'alpha', 'linestyle']
+
+    def __init__(self, aesthetics, data):
+        # ggplot should just 'figure out' which is which
+        if not isinstance(data, pd.DataFrame):
+            aesthetics, data = data, aesthetics
+        self._aes = aesthetics
+        self.data = data
+
         self.layers = []
-        if isinstance(obj1, aes):
-            self._aes = obj1
-            self.data = obj2
-        else:
-            self._aes = obj2
-            self.data = obj1
 
         # labels
         self.title = None
@@ -44,9 +67,11 @@ class ggplot(object):
 
         self.xbreaks = None
         self.xtick_labels = None
+        self.xtick_formatter = None
 
         self.ybreaks = None
         self.ytick_labels = None
+        self.ytick_formatter = None
 
         # faceting
         self.grid = None
@@ -56,8 +81,11 @@ class ggplot(object):
         self.colormap = None
         self.manual_color_list = []
 
+        # coordinate system
+        self.coords = None
+
     def add_labels(self):
-        labels = [(self.fig.suptitle, self.title), (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
+        labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
                 mpl_func(label)
@@ -86,6 +114,20 @@ class ggplot(object):
                     msg = """Setting "mpl.rcParams['%s']=%s" raised an Exception: %s""" % (key, str(val), str(e))
                     warnings.warn(msg, RuntimeWarning)
 
+    def apply_coords(self):
+        if self.coords=="equal":
+            for ax in self._iterate_subplots():
+                min_val = np.min([np.min(ax.get_yticks()), np.min(ax.get_xticks())])
+                max_val = np.max([np.max(ax.get_yticks()), np.max(ax.get_xticks())])
+                ax.set_xticks(np.linspace(min_val, max_val, 7))
+                ax.set_yticks(np.linspace(min_val, max_val, 7))
+        elif self.coords=="flip":
+            if 'x' in self._aes.data and 'y' in self._aes.data:
+                x = self._aes.data['x']
+                y = self._aes.data['y']
+                self._aes.data['x'] = y
+                self._aes.data['y'] = x
+
     def apply_axis_labels(self):
         if self.xlab:
             xlab = self.xlab
@@ -99,6 +141,10 @@ class ggplot(object):
             if isinstance(self.xtick_labels, list):
                 for ax in self._iterate_subplots():
                     ax.xaxis.set_ticklabels(self.xtick_labels)
+        if self.xtick_formatter:
+            for ax in self._iterate_subplots():
+                labels = [self.xtick_formatter(label) for label in ax.get_xticks()]
+                ax.xaxis.set_ticklabels(labels)
 
         if self.ybreaks:
             for ax in self._iterate_subplots():
@@ -107,6 +153,11 @@ class ggplot(object):
             if isinstance(self.ytick_labels, list):
                 for ax in self._iterate_subplots():
                     ax.yaxis.set_ticklabels(self.ytick_labels)
+
+        if self.ytick_formatter:
+            for ax in self._iterate_subplots():
+                labels = [self.ytick_formatter(label) for label in ax.get_yticks()]
+                ax.yaxis.set_ticklabels(labels)
 
         self.fig.text(0.5, 0.05, xlab)
 
@@ -143,18 +194,21 @@ class ggplot(object):
     def _construct_plot_data(self):
         data = self.data
         discrete_aes = self._aes._get_categoricals(data)
+        mappers = {}
         for aes_type, colname in discrete_aes:
             mapper = {}
             if aes_type=="color":
                 mapping = discretemappers.palette_gen(self.manual_color_list)
             elif aes_type=="shape":
                 mapping = discretemappers.shape_gen()
+            elif aes_type=="linetype":
+                mapping = discretemappers.linetype_gen()
             else:
                 continue
 
             for item in data[colname].unique():
                 mapper[item] = next(mapping)
-
+            mappers[aes_type] = mapper
 
             data[colname] = self.data[colname].apply(lambda x: mapper[x])
 
@@ -163,9 +217,9 @@ class ggplot(object):
 
         groups = [column for _, column in discrete_aes]
         if groups:
-            return data.groupby(groups)
+            return mappers, data.groupby(groups)
         else:
-            return [(0, data)]
+            return mappers, [(0, data)]
 
     def make_facets(self):
         facet_params = dict(sharex=True, sharey=True)
@@ -191,6 +245,10 @@ class ggplot(object):
         else:
             n_col = 1
 
+
+        if self.coords=="polar":
+            facet_params['subplot_kw'] = { "polar": True }
+
         return plt.subplots(**facet_params)
 
     def get_facet_groups(self, group):
@@ -211,12 +269,18 @@ class ggplot(object):
                     name = [name]
                 row = i / self.facets['n_rows']
                 col = i % self.facets['n_cols']
-                ax = self.subplots[row][col]
+
+                if len(self.subplots.shape)==1:
+                    ax = self.subplots[i]
+                else:
+                    ax = self.subplots[row][col]
+
                 font = { 'fontsize': 10 }
                 ax.set_title(', '.join(name), fontdict=font) #, backgroundcolor='#E5E5E5')
                 yield (ax, subgroup)
 
-            # remove axes that aren't being used
+            # remove axes that aren't being used. this will only happen if we have
+            # multiple fields we're wrapping ???
             for j in range(i + 1, self.facets['n_rows'] * self.facets['n_cols']):
                 row = j / self.facets['n_rows']
                 col = j % self.facets['n_cols']
@@ -271,20 +335,35 @@ class ggplot(object):
             if self.facets:
                 self.fig, self.subplots = self.make_facets()
             else:
-                self.fig, self.subplots = plt.subplots()
+                subplot_kw = {}
+                if self.coords=="polar":
+                    subplot_kw = { "polar": True }
+                self.fig, self.subplots = plt.subplots(subplot_kw=subplot_kw)
 
             self.apply_scales()
 
-            for _, group in self._construct_plot_data():
+            legend, groups = self._construct_plot_data()
+
+            # TODO: good news, we have the data in a nice format for making the legend,
+            # bad news is that i don't know how to make the legend :(
+            for aesthetic, mapping in legend.items():
+                print aesthetic, "=>",self._aes.data[aesthetic]
+                pp.pprint(mapping)
+                print "*"*80
+
+            for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
                         layer.plot(ax, facetgroup, self._aes.data)
 
             self.impose_limits()
             self.add_labels()
-            self.apply_axis_labels()
             self.apply_axis_scales()
+            self.apply_axis_labels()
+            self.apply_coords()
+
             if self.theme:
                 for ax in self._iterate_subplots():
                     self.theme.apply_final_touches(ax)
+
             plt.show()

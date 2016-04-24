@@ -11,15 +11,26 @@ from scales.scale_log import scale_x_log, scale_y_log
 from scales.scale_reverse import scale_x_reverse, scale_y_reverse
 from scales.scale_x_continuous import scale_x_continuous
 from scales.scale_y_continuous import scale_y_continuous
-from scales.scale_x_continuous import scale_x_continuous as scale_x_discrete
-from scales.scale_y_continuous import scale_y_continuous as scale_y_discrete
+from scales.scale_x_discrete import scale_x_discrete
+from scales.scale_y_discrete import scale_y_discrete
+from scales.scale_x_date import scale_x_date
+from scales.scale_y_date import scale_y_date
+from coords.coords import coord_polar, coord_equal, coord_flip
+from scales.date_utils import date_format, date_breaks
 from aes import aes
 
 import seaborn as sns
 import pandas as pd
 import numpy as np
 tips = sns.load_dataset('tips')
-from exampledata import diamonds
+from datasets import diamonds, pageviews
+
+# shape
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point()
+p.make()
+# # linetype
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', linetype='cut')) + geom_line()
+p.make()
 
 # # histogram
 # p = ggplot(diamonds, aes(x='carat')) + geom_histogram()
@@ -32,7 +43,7 @@ from exampledata import diamonds
 # # density
 # p = ggplot(diamonds, aes(x='carat')) + geom_density()
 # p.make()
-#
+
 # # hline
 # p = ggplot(diamonds, aes(x='price')) + geom_hline(y=10)
 # p.make()
@@ -40,12 +51,12 @@ from exampledata import diamonds
 # # vline
 # p = ggplot(diamonds, aes(x='price')) + geom_vline(x=10)
 # p.make()
-
+#
 # # bar
 # p = ggplot(diamonds, aes(x='clarity')) + geom_bar()
 # p.make()
-
-# bar w/ weight
+#
+# # bar w/ weight
 # p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()
 # p.make()
 
@@ -62,8 +73,8 @@ from exampledata import diamonds
 # df['y_low'] = df.x * 0.9
 # df['y_high'] = df.x * 1.1
 # df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
-# # p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
-# # p.make()
+# p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
+# p.make()
 # # area w/ facet
 # p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')
 # p.make()
@@ -71,21 +82,79 @@ from exampledata import diamonds
 # # facet wrap
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
 # p.make()
-#
+# #
 # # facet wrap w/ 2 variables
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')
 # p.make()
 
 # # facet grid w/ 1 variable
-p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')
-p.make()
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')
+# p.make()
+#
+# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')
+# p.make()
+#
+# # # facet grid w/ 2 variables
+# p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')
+# p.make()
 
-p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')
-p.make()
+df = pd.DataFrame({"x": np.arange(100)})
+df['y'] = df.x * 10
+df['z'] = ["a" if x%2==0 else "b" for x in df.x]
 
-# # facet grid w/ 2 variables
-p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')
-p.make()
+# # polar coords
+# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()
+# p.make()
+
+# # equal coords
+# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal()
+# p.make()
+
+# # equal coords faceted
+# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal() + facet_wrap(x='z')
+# p.make()
+
+# # flipped coords
+# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip()
+# p.make()
+
+# # flipped coords facted
+# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip() + facet_grid(x='z')
+# p.make()
+
+# # x dates formatting
+# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y'))
+# p.make()
+
+# # # x dates formatting faceted
+# pageviews['z'] = ["a" if i%2==0 else "b" for i in range(len(pageviews))]
+# # p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')
+# # p.make()
+#
+# # geom_line
+# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line()
+# p.make()
+#
+# # geom_line w/ facets
+# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z')
+# p.make()
+
+# # stat_smooth w/ lm
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')
+# p.make()
+#
+# # stat_smooth w/ lowess
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')
+# p.make()
+#
+# # stat_smooth w/ lowess and custom span
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)
+# p.make()
+
+
+
+
+
 
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color')
 # p.make()
@@ -113,15 +182,6 @@ p.make()
 # p.make()
 
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + scale_x_continuous(breaks=[0, 3, 6], labels=["Low", "Medium", "High"]) + scale_y_continuous(breaks=[0, 10000, 20000], labels=["Low", "Medium", "High"]) + facet_wrap(x='color')
-# p.make()
-
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')
-# p.make()
-#
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')
-# p.make()
-#
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)
 # p.make()
 
 # p = ggplot(tips, aes(x='total_bill', y='tip', color='sex')) + geom_point() + theme_gray()
@@ -164,7 +224,7 @@ p.make()
 # p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth() + labs(x="this is x", y="this is y", title="this is title")
 # p.make()
 #
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth() + geom_vline(x=30) + geom_hline(y=10) + xlab("Hello!!!!") + ylab("GOo!") + ggtitle("This is a title")
+# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth() + geom_vline(x=30) + geom_hline(y=10) + gg("Hello!!!!") + ylab("GOo!") + ggtitle("This is a title")
 # p.make()
 #
 # p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth() + facet_wrap(x="time", y="smoker")

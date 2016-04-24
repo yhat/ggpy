@@ -11,6 +11,7 @@ from utils import is_categorical
 
 class geom(object):
     _aes_renames = {}
+    DEFAULT_AES = {}
 
     def __init__(self, **kwargs):
         self.layers = [self]
@@ -24,30 +25,36 @@ class geom(object):
         self.layers.append(other)
         return self
 
-    def _get_plot_args(self, aes_map):
-        args = {}
-        for key, value in self._aes_renames.items():
-            if key in aes_map:
-                args[value] = aes_map[key]
-            if key in self.params:
-                args[value] = self.params[key]
-        return args
+    def _get_plot_args(self, data, variables):
+        params = {}
+
+        for aes_type, default_value in self.DEFAULT_AES.items():
+            if aes_type not in variables:
+                params[aes_type] = default_value
+
+        for aes_type, mpl_param in self._aes_renames.items():
+            if aes_type in variables:
+                # TODO: what if it's a continuous number but there's only 1 datapointin the segment
+                if data[variables[aes_type]].nunique()==1:
+                    params[mpl_param] = data[variables[aes_type]].iloc[0]
+                else:
+                    params[mpl_param] = data[variables[aes_type]]
+            elif aes_type in params:
+                params[mpl_param] = params[aes_type]
+                del params[aes_type]
+
+        return params
 
 class geom_point(geom):
-
+    DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20}
+    REQUIRED_AES = {'x', 'y'}
     _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}
 
     def plot(self, ax, data, variables):
         x = data[variables['x']]
         y = data[variables['y']]
 
-        params = {}
-        for aes_type, mpl_param in self._aes_renames.items():
-            if aes_type in variables:
-                if data[variables[aes_type]].nunique()==1:
-                    params[mpl_param] = data[variables[aes_type]].iloc[0]
-                else:
-                    params[mpl_param] = data[variables[aes_type]]
+        params = self._get_plot_args(data, variables)
 
         if 'colormap' in variables:
             params['cmap'] = variables['colormap']
@@ -56,21 +63,36 @@ class geom_point(geom):
 
 class geom_area(geom):
 
+    DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
+                   'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x', 'ymax', 'ymin'}
+    DEFAULT_PARAMS = {'stat': 'identity', 'position': 'stack'}
+
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
     def plot(self, ax, data, variables):
         x = data[variables['x']]
         ymin = data[variables['ymin']]
         ymax = data[variables['ymax']]
-        order = x.argsort()
-        params = {}
+
         # TODO: for some reason the reordering produces NaNs
-        ax.fill_between(x, ymin, ymax)
+        order = x.argsort()
+
+        params = self._get_plot_args(data, variables)
+        ax.fill_between(x, ymin, ymax, **params)
 
 class geom_line(geom):
+    DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x', 'y'}
+    DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
+
+    _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
     def plot(self, ax, data, variables):
         x = data[variables['x']]
         y = data[variables['y']]
-        ax.plot(x, y)
+
+        params = self._get_plot_args(data, variables)
+        ax.plot(x, y, **params)
 
 class geom_blank(geom):
 
@@ -79,19 +101,44 @@ class geom_blank(geom):
 
 class geom_histogram(geom):
 
+    DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
+                   'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x'}
+    DEFAULT_PARAMS = {'stat': 'bin', 'position': 'stack'}
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
+                    'fill': 'color', 'color': 'edgecolor'}
+
     def plot(self, ax, data, variables):
         x = data[variables['x']]
-        ax.hist(x)
+        params = self._get_plot_args(data, variables)
+        ax.hist(x, **params)
 
 class geom_density(geom):
 
+    DEFAULT_AES = {'alpha': None, 'color': 'black',
+                   'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x'}
+    DEFAULT_PARAMS = {'stat': 'density', 'position': 'identity'}
+
+    _extra_requires = {'y'}
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
+
     def plot(self, ax, data, variables):
         x = data[variables['x']]
-        sns.distplot(x, hist=False, kde=True)
+        params = self._get_plot_args(data, variables)
+        sns.distplot(x, hist=False, kde=True, kde_kws=params)
 
 class geom_abline(geom):
 
     "intercept, slope"
+
+    DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
+                   'alpha': None, 'size': 1.0, 'x': None,
+                   'y': None}
+    REQUIRED_AES = {'slope', 'intercept'}
+    DEFAULT_PARAMS = {'stat': 'abline', 'position': 'identity'}
+
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
 
     def plot(self, ax, data, variables):
 
@@ -100,21 +147,46 @@ class geom_abline(geom):
 
         x = ax.get_xticks()
         y = ax.get_xticks() * slope + intercept
-
-        ax.plot(x, y)
+        params = self._get_plot_args(data, variables)
+        ax.plot(x, y, **params)
 
 
 class geom_hline(geom):
+    DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
+                   'size': 1.0,}
+    REQUIRED_AES = {'yintercept'}
+    DEFAULT_PARAMS = {'stat': 'hline', 'position': 'identity',
+                      'show_guide': False}
+
+    _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
     def plot(self, ax, data, variables):
-        ax.axhline(self.params.get('y'))
+        y = self.params.get('y')
+        params = self._get_plot_args(data, variables)
+        ax.axhline(y, **params)
 
 class geom_vline(geom):
 
+    DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
+                   'size': 1.0}
+    REQUIRED_AES = {'xintercept'}
+    DEFAULT_PARAMS = {'stat': 'vline', 'position': 'identity',
+                      'show_guide': False}
+    _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
+
     def plot(self, ax, data, variables):
-        ax.axvline(self.params.get('x'))
+        x = self.params.get('x')
+        params = self._get_plot_args(data, variables)
+        ax.axvline(x, **params)
 
 class geom_bar(geom):
+
+    DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
+                   'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x'}
+    DEFAULT_PARAMS = {'stat': 'bin', 'position': 'stack'}
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
+                    'fill': 'color', 'color': 'edgecolor'}
 
     def plot(self, ax, data, variables):
         x = data[variables['x']]
@@ -162,13 +234,21 @@ class geom_bar(geom):
         _sep = width[0] * _spacing_factor
         left = left + _left_gap + [_sep * i for i in range(len(left))]
 
-        ax.bar(left, heights, width, **self.params)
+        params = self._get_plot_args(data, variables)
+        params.update(self.params)
+
+        ax.bar(left, heights, width, **params)
 
         if categorical:
             ax.set_xticks(left+width/2)
             ax.set_xticklabels(x)
 
 class stat_smooth(geom):
+
+    DEFAULT_PARAMS = {'geom': 'smooth', 'position': 'identity', 'method': 'auto',
+            'se': True, 'n': 80, 'fullrange': False, 'level': 0.95,
+            'span': 2/3., 'window': None}
+    _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
     def plot(self, ax, data, variables):
         x = data[variables['x']]
@@ -188,8 +268,13 @@ class stat_smooth(geom):
         else:
             x, y, y1, y2 = smoothers.lowess(x, y, span=span)
 
+        params = self._get_plot_args(data, variables)
+        if 'alpha' not in params:
+            params['alpha'] = 0.2
+
         order = np.argsort(x)
         if self.params.get('se', True)==True:
             ax.fill_between(x[order], y1[order], y2[order], **params)
         if self.params.get('fit', True)==True:
-            ax.plot(x[order], y[order])
+            del params['alpha']
+            ax.plot(x[order], y[order], **params)

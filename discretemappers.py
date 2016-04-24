@@ -27,3 +27,27 @@ def palette_gen(colors=None):
     generator = itertools.cycle(pal)
     while True:
         yield next(generator)
+
+# Matplolib is not consistent. Sometimes it does not
+# accept abbreviations
+# LINETYPES = [
+#     '-',  #solid
+#     '--', #dashed
+#     '-.', #dash-dot
+#     ':',  #dotted
+#     '.',  #point
+#     '|',  #vline
+#     '_',  #hline
+# ]
+
+LINETYPES = [
+    'solid',
+    'dashed',
+    'dashdot',
+    'dotted'
+]
+
+def linetype_gen():
+    while True:
+        for line in LINETYPES:
+            yield line

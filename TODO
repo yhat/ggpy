@@ -1,0 +1,6 @@
+TODO
+- [ ] legend
+- [x] non-core aes for geoms
+- [x] date scales
+- [x] facet_wrap bug
+- [?] figure out theme color cycles

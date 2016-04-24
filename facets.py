@@ -18,8 +18,10 @@ class facet_wrap(object):
                 ndim = x.nunique()
             if self.y_var:
                 y = gg.data[self.y_var]
-                ndim *= y.nunique()
-
+                if ndim:
+                    ndim *= y.nunique()
+                else:
+                    ndim = y.nunique()
             n_rows = self.nrow
             n_cols = self.ncol
 
@@ -71,3 +73,4 @@ class facet_grid(object):
                 'wrap': False
             }
             return gg
+        return self

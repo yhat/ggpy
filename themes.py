@@ -1,5 +1,6 @@
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from cycler import cycler
 
 class theme(object):
     def __init__(self):
@@ -31,8 +32,8 @@ class theme_538(theme):
         self._rcParams["examples.download"] = "True"
         self._rcParams["patch.linewidth"] = "0.5"
         self._rcParams["legend.fancybox"] = "True"
-        self._rcParams["axes.color_cycle"] = [ "#30a2da", "#fc4f30", "#e5ae38",
-                                               "#6d904f", "#8b8b8b"]
+        self._rcParams["axes.prop_cycle"] = cycler('color', [ "#30a2da", "#fc4f30", "#e5ae38",
+                                               "#6d904f", "#8b8b8b"])
         self._rcParams["axes.facecolor"] = "#f0f0f0"
         self._rcParams["axes.labelsize"] = "large"
         self._rcParams["axes.axisbelow"] = "True"
@@ -93,8 +94,8 @@ class theme_gray(theme):
         self._rcParams["axes.labelsize"] = "large"
         self._rcParams["axes.labelcolor"] = "black"
         self._rcParams["axes.axisbelow"] = "True"
-        self._rcParams["axes.color_cycle"] = ["#333333", "#348ABD", "#7A68A6",
-                                             "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"]
+        self._rcParams["axes.prop_cycle"] = cycler('color', ["#333333", "#348ABD", "#7A68A6",
+                                             "#A60628", "#467821", "#CF4457", "#188487", "#E24A33"])
         self._rcParams["grid.color"] = "white"
         self._rcParams["grid.linewidth"] = "1.4"
         self._rcParams["grid.linestyle"] = "solid"
