@@ -9,6 +9,7 @@ import itertools
 from matplotlib.colors import rgb2hex
 from themes import theme_gray
 import discretemappers
+from legend import make_legend
 import pprint as pp
 
 
@@ -344,12 +345,14 @@ class ggplot(object):
 
             legend, groups = self._construct_plot_data()
 
-            # TODO: good news, we have the data in a nice format for making the legend,
-            # bad news is that i don't know how to make the legend :(
+            # TODO: *LEGEND*: good news, we have the data in a nice format for
+            # making the legend, bad news is that i don't know how to make the
+            # legend :(
             for aesthetic, mapping in legend.items():
-                print aesthetic, "=>",self._aes.data[aesthetic]
-                pp.pprint(mapping)
-                print "*"*80
+                print "*" + self._aes.data[aesthetic] + "*" # bold
+                for key, value in mapping.items():
+                    print "  ", value, key # exmple value - name of variable
+                print
 
             for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
@@ -361,6 +364,8 @@ class ggplot(object):
             self.apply_axis_scales()
             self.apply_axis_labels()
             self.apply_coords()
+
+            make_legend(ax, legend)
 
             if self.theme:
                 for ax in self._iterate_subplots():
