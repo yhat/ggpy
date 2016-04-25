@@ -32,8 +32,8 @@ def make_legend(ax, legend_mapping):
         items.append(extra)
         spacer = '\n' if len(labels) > 0 else ''
         labels.append(spacer + 'shape')
+        # TODO: for some reason some of these aren't showing up in the legend???
         for key, value in legend_mapping['shape'].items():
-            # TODO: for some reason some of these aren't showing up in the legend???
             legend_item = shape_legend(value)
             items.append(legend_item)
             labels.append(key)

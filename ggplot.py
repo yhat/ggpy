@@ -253,6 +253,7 @@ class ggplot(object):
         return plt.subplots(**facet_params)
 
     def get_facet_groups(self, group):
+        # TODO: this doens't handle the case when certain subgroups don't contain points!
         col_variable = self.facets.get('col')
         row_variable = self.facets.get('row')
 
@@ -261,7 +262,6 @@ class ggplot(object):
         # very confusing if you're trying to handle the 3 cases simultaneously. so
         # while it's possible to do it all at once, WE'RE NOT GOING TO DO THAT
 
-        # TODO: this breaks when controlling the number of rows/columns in a facet grid
         if self.facets.get('wrap', False)==True:
             groups = [col_variable, row_variable]
             groups = [g for g in groups if g]
@@ -320,6 +320,8 @@ class ggplot(object):
                 if self.facets['wrap']==True:
                     ax.set_title("%s=%s" % (row_variable, rowname))
                 else:
+                    # TODO: not working every time for some reason...
+                    print rowname
                     ax.yaxis.set_label_position("right")
                     ax.yaxis.labelpad = 10
                     ax.set_ylabel(rowname, fontsize=10, rotation=-90)

@@ -26,7 +26,7 @@ tips = sns.load_dataset('tips')
 from datasets import diamonds, pageviews
 
 # shape
-p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() #+ facet_grid(x='color')
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + facet_grid(x='color')
 p.make()
 # # linetype
 p = ggplot(diamonds.sample(100), aes(x='carat', y='price', linetype='cut')) + geom_line()
