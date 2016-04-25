@@ -344,16 +344,6 @@ class ggplot(object):
             self.apply_scales()
 
             legend, groups = self._construct_plot_data()
-
-            # TODO: *LEGEND*: good news, we have the data in a nice format for
-            # making the legend, bad news is that i don't know how to make the
-            # legend :(
-            for aesthetic, mapping in legend.items():
-                print "*" + self._aes.data[aesthetic] + "*" # bold
-                for key, value in mapping.items():
-                    print "  ", value, key # exmple value - name of variable
-                print
-
             for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
