@@ -1,6 +1,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.stats import gaussian_kde
 import pandas as pd
 from ggplot import ggplot
 from aes import aes
@@ -16,6 +17,7 @@ class geom(object):
     def __init__(self, **kwargs):
         self.layers = [self]
         self.params = kwargs
+        self.VALID_AES = set(self.DEFAULT_AES.keys() + list(self.REQUIRED_AES) + self._aes_renames.values())
 
     def __radd__(self, other):
         if isinstance(other, ggplot):
@@ -25,7 +27,8 @@ class geom(object):
         self.layers.append(other)
         return self
 
-    def _get_plot_args(self, data, variables):
+    def _get_plot_args(self, data, _aes):
+        variables = _aes.data
         params = {}
 
         for aes_type, default_value in self.DEFAULT_AES.items():
@@ -43,18 +46,25 @@ class geom(object):
                 params[mpl_param] = params[aes_type]
                 del params[aes_type]
 
-        return params
+        valid_params = {}
+        for key, value in params.items():
+            if key not in self.VALID_AES:
+                continue
+            valid_params[key] = value
+
+        return valid_params
 
 class geom_point(geom):
     DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20}
     REQUIRED_AES = {'x', 'y'}
     _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
 
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
 
         if 'colormap' in variables:
             params['cmap'] = variables['colormap']
@@ -69,7 +79,8 @@ class geom_area(geom):
     DEFAULT_PARAMS = {'stat': 'identity', 'position': 'stack'}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
         ymin = data[variables['ymin']]
         ymax = data[variables['ymax']]
@@ -77,7 +88,7 @@ class geom_area(geom):
         # TODO: for some reason the reordering produces NaNs
         order = x.argsort()
 
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         ax.fill_between(x, ymin, ymax, **params)
 
 class geom_line(geom):
@@ -87,16 +98,18 @@ class geom_line(geom):
 
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
 
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         ax.plot(x, y, **params)
 
 class geom_blank(geom):
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         pass
 
 class geom_histogram(geom):
@@ -108,9 +121,10 @@ class geom_histogram(geom):
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'color', 'color': 'edgecolor'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         ax.hist(x, **params)
 
 class geom_density(geom):
@@ -123,10 +137,22 @@ class geom_density(geom):
     _extra_requires = {'y'}
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
 
-    def plot(self, ax, data, variables):
+    def _calculate_density(self, x):
+        kde = gaussian_kde(x)
+        bottom = np.min(x)
+        top = np.max(x)
+        step = (top - bottom) / 1000.0
+
+        x = np.arange(bottom, top, step)
+        y = kde.evaluate(x)
+        return x, y
+
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
-        params = self._get_plot_args(data, variables)
-        sns.distplot(x, hist=False, kde=True, kde_kws=params)
+        x, y = self._calculate_density(x)
+        params = self._get_plot_args(data, _aes)
+        ax.plot(x, y, **params)
 
 class geom_abline(geom):
 
@@ -140,14 +166,15 @@ class geom_abline(geom):
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
 
         slope = self.params.get('slope', 1)
         intercept = self.params.get('intercept', 0)
 
         x = ax.get_xticks()
         y = ax.get_xticks() * slope + intercept
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         ax.plot(x, y, **params)
 
 
@@ -160,9 +187,10 @@ class geom_hline(geom):
 
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         y = self.params.get('y')
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         ax.axhline(y, **params)
 
 class geom_vline(geom):
@@ -174,9 +202,10 @@ class geom_vline(geom):
                       'show_guide': False}
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = self.params.get('x')
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         ax.axvline(x, **params)
 
 class geom_bar(geom):
@@ -188,7 +217,8 @@ class geom_bar(geom):
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'color', 'color': 'edgecolor'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
         weight = variables.get('weight')
         if weight:
@@ -234,7 +264,7 @@ class geom_bar(geom):
         _sep = width[0] * _spacing_factor
         left = left + _left_gap + [_sep * i for i in range(len(left))]
 
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         params.update(self.params)
 
         ax.bar(left, heights, width, **params)
@@ -248,9 +278,11 @@ class stat_smooth(geom):
     DEFAULT_PARAMS = {'geom': 'smooth', 'position': 'identity', 'method': 'auto',
             'se': True, 'n': 80, 'fullrange': False, 'level': 0.95,
             'span': 2/3., 'window': None}
+    REQUIRED_AES = {'x', 'y'}
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
-    def plot(self, ax, data, variables):
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
 
@@ -268,7 +300,7 @@ class stat_smooth(geom):
         else:
             x, y, y1, y2 = smoothers.lowess(x, y, span=span)
 
-        params = self._get_plot_args(data, variables)
+        params = self._get_plot_args(data, _aes)
         if 'alpha' not in params:
             params['alpha'] = 0.2
 
@@ -278,3 +310,5 @@ class stat_smooth(geom):
         if self.params.get('fit', True)==True:
             del params['alpha']
             ax.plot(x[order], y[order], **params)
+
+stat_density = geom_density

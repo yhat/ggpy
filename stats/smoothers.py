@@ -24,8 +24,7 @@ def _plot_friendly(value):
 
 def lm(x, y, alpha=ALPHA):
     "fits an OLS from statsmodels. returns tuple."
-    x, y = map(_plot_friendly, [x,y])
-    if _isdate(x[0]):
+    if _isdate(x.iloc(0)):
         x = np.array([i.toordinal() for i in x])
     X = sm.add_constant(x)
     fit = sm.OLS(y, X).fit()

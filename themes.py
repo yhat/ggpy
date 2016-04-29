@@ -16,6 +16,9 @@ class theme(object):
     def get_rcParams(self):
         return self._rcParams
 
+    def apply_final_touches(self, ax):
+        pass
+
 
 class theme_538(theme):
     """
@@ -116,6 +119,9 @@ class theme_gray(theme):
         self._rcParams["figure.facecolor"] = "1.0"
         self._rcParams["figure.edgecolor"] = "0.50"
         self._rcParams["figure.subplot.hspace"] = "0.5"
+
+        # TODO: this slows down everything for some reason
+        # self._rcParams["text.usetex"] = "True"
 
     def apply_final_touches(self, ax):
         '''Styles x,y axes to appear like ggplot2

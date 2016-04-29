@@ -6,12 +6,15 @@ SHAPES = [
     '^',#triangle up
     'D',#diamond
     'v',#triangle down
-    '+',#plus
-    'x',#x
+    # '+',#plus # doesn't render in legend for some reason
+    # 'x',#x # also doesn't render in legend for some reason
     's',#square
     '*',#star
     'p',#pentagon
-    '*'#octagon
+    '8',#octagon
+    "_",#hline
+    "|",#vline
+    "_",#hline
 ]
 
 def shape_gen():
@@ -19,7 +22,7 @@ def shape_gen():
         for shape in SHAPES:
             yield shape
 
-def palette_gen(colors=None):
+def color_gen(colors=None):
     if colors:
         pal = colors
     else:

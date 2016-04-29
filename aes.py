@@ -64,6 +64,8 @@ class aes(UserDict):
         if 'colour' in self.data:
             self.data['color'] = self.data['colour']
             del self.data['colour']
+
+        self.legend = []
         self.__eval_env__ = EvalEnvironment.capture(1)
 
     def __deepcopy__(self, memo):

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+from matplotlib.colors import LinearSegmentedColormap
 import seaborn as sns
 import numpy as np
 import pandas as pd
@@ -41,7 +42,7 @@ class ggplot(object):
         if not isinstance(data, pd.DataFrame):
             aesthetics, data = data, aesthetics
         self._aes = aesthetics
-        self.data = data
+        self.data = data.copy()
 
         self.layers = []
 
@@ -85,11 +86,42 @@ class ggplot(object):
         # coordinate system
         self.coords = None
 
+
+    def __repr__(self):
+        self.make()
+        plt.show()
+        return "<ggplot: (%d)>" % self.__hash__()
+
     def add_labels(self):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
                 mpl_func(label)
+
+        # Assign labels to Facet Grid rows/columns. We're doing this here because we want don't want to
+        # use the subgroups. Subgroups often don't contain every categorical variable, which means
+        # that facets get mislabeled or not labeled at all.
+        if self.facets.get("row"):
+            rowname = self.facets.get("row")
+            for row, name in enumerate(self.subplot_lookup['row']):
+                if self.facets.get("wrap")==True:
+                    continue
+                elif self.facets.get("col"):
+                    ax = self.subplots[row][-1]
+                else:
+                    ax = self.subplots[row]
+
+                ax.yaxis.set_label_position("right")
+                ax.yaxis.labelpad = 10
+                ax.set_ylabel(name, fontsize=10, rotation=-90)
+        if self.facets.get("col"):
+            for col, name in enumerate(self.subplot_lookup['col']):
+                if len(self.subplots.shape) > 1:
+                    col = col % self.facets['n_cols']
+                    ax = self.subplots[0][col]
+                else:
+                    ax = self.subplots[col]
+                ax.set_title(name, fontdict={'fontsize': 10})
 
     def impose_limits(self):
         limits = [(plt.xlim, self.xlimits), (plt.ylim, self.ylimits)]
@@ -192,6 +224,26 @@ class ggplot(object):
             for ax in self._iterate_subplots():
                 ax.invert_yaxis()
 
+    def add_legend(self, legend):
+        if legend:
+            plt.subplots_adjust(right=0.825)
+        if self.facets:
+            if len(self.subplots.shape) > 1:
+                i, j = self.subplots.shape
+                i, j = (i - 1) / 2, j - 1
+                ax = self.subplots[i][j]
+                make_legend(ax, legend)
+            elif self.facets['col']:
+                ax = self.subplots[-1]
+                make_legend(ax, legend)
+            elif self.facets['row']:
+                i, = self.subplots.shape
+                i = (i - 1) / 2
+                ax = self.subplots[i]
+                make_legend(ax, legend)
+        else:
+            make_legend(self.subplots, legend)
+
     def _construct_plot_data(self):
         data = self.data
         discrete_aes = self._aes._get_categoricals(data)
@@ -199,7 +251,7 @@ class ggplot(object):
         for aes_type, colname in discrete_aes:
             mapper = {}
             if aes_type=="color":
-                mapping = discretemappers.palette_gen(self.manual_color_list)
+                mapping = discretemappers.color_gen(self.manual_color_list)
             elif aes_type=="shape":
                 mapping = discretemappers.shape_gen()
             elif aes_type=="linetype":
@@ -207,14 +259,29 @@ class ggplot(object):
             else:
                 continue
 
-            for item in data[colname].unique():
+            for item in sorted(data[colname].unique()):
                 mapper[item] = next(mapping)
-            mappers[aes_type] = mapper
 
+            mappers[aes_type] = mapper
             data[colname] = self.data[colname].apply(lambda x: mapper[x])
 
-        if self.colormap and "color" in self._aes.keys() and "color" not in discrete_aes:
-            self._aes.data['colormap'] = self.colormap
+        discrete_aes_types = [aes_type for aes_type, _ in discrete_aes]
+        # checks for continuous aesthetics that can also be discrete (color, alpha, fill, linewidth???)
+        if "color" in self._aes.data and "color" not in discrete_aes_types:
+            # This is approximate, going to roll with it
+            self._aes.data['colormap'] = cmap = LinearSegmentedColormap.from_list('gradient2n', ['#1f3347', '#469cef'])
+            colname = self._aes.data['color']
+            quantiles_actual = quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 1.0])
+            # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
+            quantiles = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
+            mappers['color'] = {}
+            colors = cmap(quantiles)
+            for i, q in enumerate(quantiles_actual):
+                mappers['color'][q] = colors[i]
+        # TODO: add in other continuous things that need to be in the legend
+        # ...
+        # ...
+        # ...
 
         groups = [column for _, column in discrete_aes]
         if groups:
@@ -222,16 +289,23 @@ class ggplot(object):
         else:
             return mappers, [(0, data)]
 
+    def _get_facet_idx(self, name, type='row'):
+        return self.subplot_lookup[type].index(name)
+
     def make_facets(self):
+        self.subplot_lookup = { 'row': None, 'col': None }
         facet_params = dict(sharex=True, sharey=True)
 
         facet_row = self.facets['row']
         if self.facets.get('n_rows'):
             n_row = self.facets['n_rows']
             facet_params['nrows'] = n_row
+            if facet_row:
+                self.subplot_lookup['row'] = sorted(self.data[facet_row].unique())
         elif facet_row:
             n_row = self.data[facet_row].nunique()
             facet_params['nrows'] = n_row
+            self.subplot_lookup['row'] = sorted(self.data[facet_row].unique())
         else:
             n_row = 1
 
@@ -240,12 +314,14 @@ class ggplot(object):
         if self.facets.get('n_cols'):
             n_col = self.facets['n_cols']
             facet_params['ncols'] = n_col
+            if facet_col:
+                self.subplot_lookup['col'] = sorted(self.data[facet_col].unique())
         elif facet_col:
             n_col = self.data[facet_col].nunique()
             facet_params['ncols'] = n_col
+            self.subplot_lookup['col'] = sorted(self.data[facet_col].unique())
         else:
             n_col = 1
-
 
         if self.coords=="polar":
             facet_params['subplot_kw'] = { "polar": True }
@@ -253,7 +329,6 @@ class ggplot(object):
         return plt.subplots(**facet_params)
 
     def get_facet_groups(self, group):
-        # TODO: this doens't handle the case when certain subgroups don't contain points!
         col_variable = self.facets.get('col')
         row_variable = self.facets.get('row')
 
@@ -268,6 +343,9 @@ class ggplot(object):
             for (i, (name, subgroup)) in enumerate(group.groupby(groups)):
                 if isinstance(name, str):
                     name = [name]
+
+                # TODO: doesn't work when these get mapped to discrete values.
+                #  this only happens when a field is being used both as a facet parameter AND as a discrete aesthetic (i.e. shape)
                 row = i / self.facets['n_rows']
                 col = i % self.facets['n_cols']
 
@@ -277,7 +355,7 @@ class ggplot(object):
                     ax = self.subplots[row][col]
 
                 font = { 'fontsize': 10 }
-                ax.set_title(', '.join(name), fontdict=font) #, backgroundcolor='#E5E5E5')
+                ax.set_title(', '.join(name), fontdict=font)
                 yield (ax, subgroup)
 
             # remove axes that aren't being used. this will only happen if we have
@@ -289,39 +367,32 @@ class ggplot(object):
                 self.fig.delaxes(ax)
 
         elif col_variable and row_variable:
-            for (col, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
-                for (row, (rowname, facetgroup)) in enumerate(subgroup.groupby(row_variable)):
+            for (_, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
+                col = self._get_facet_idx(colname, type='col')
+                for (_, (rowname, facetgroup)) in enumerate(subgroup.groupby(row_variable)):
+                    row = self._get_facet_idx(rowname, type='row')
                     ax = self.subplots[row][col]
-
-                    # setup labels for facet grids. this happens only for the top row
-                    #  and the right-most column
-                    if row==0:
-                        ax.set_title(colname, fontdict={'fontsize': 10})
-
-                    if col==0:
-                        self.subplots[row][-1].yaxis.set_label_position("right")
-                        self.subplots[row][-1].yaxis.labelpad = 10
-                        self.subplots[row][-1].set_ylabel(rowname, fontsize=10, rotation=-90)
-
                     yield (ax, facetgroup)
 
         elif col_variable:
-            for (col, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
+            for (_, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
+                col = self._get_facet_idx(colname, type='col')
                 ax = self.subplots[col]
                 if self.facets['wrap']==True:
                     ax.set_title("%s=%s" % (col_variable, colname))
                 else:
                     ax.set_title(colname, fontdict={'fontsize': 10})
                 yield (ax, subgroup)
+
         elif row_variable:
             for (row, (rowname, subgroup)) in enumerate(group.groupby(row_variable)):
-                ax = self.subplots[row]
+                row = self._get_facet_idx(rowname, type='row')
 
                 if self.facets['wrap']==True:
+                    ax = self.subplots[row]
                     ax.set_title("%s=%s" % (row_variable, rowname))
                 else:
-                    # TODO: not working every time for some reason...
-                    print rowname
+                    ax = self.subplots[row]
                     ax.yaxis.set_label_position("right")
                     ax.yaxis.labelpad = 10
                     ax.set_ylabel(rowname, fontsize=10, rotation=-90)
@@ -330,7 +401,18 @@ class ggplot(object):
         else:
             yield (self.subplots, group)
 
+    def save(self, filename, width=None, height=None):
+        self.make()
+        w, h = self.fig.get_size_inches()
+        if width:
+            w = width
+        if height:
+            h = height
+        self.fig.set_size_inches(w, h)
+        self.fig.savefig(filename)
+
     def make(self):
+        plt.close()
         # sns.set()
         with mpl.rc_context():
             self.apply_theme()
@@ -346,10 +428,11 @@ class ggplot(object):
             self.apply_scales()
 
             legend, groups = self._construct_plot_data()
+            self._aes.legend = legend
             for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
-                        layer.plot(ax, facetgroup, self._aes.data)
+                        layer.plot(ax, facetgroup, self._aes)
 
             self.impose_limits()
             self.add_labels()
@@ -357,10 +440,9 @@ class ggplot(object):
             self.apply_axis_labels()
             self.apply_coords()
 
-            make_legend(ax, legend)
+            # TODO: legend for continuous fields (i.e. color)
+            self.add_legend(legend)
 
             if self.theme:
                 for ax in self._iterate_subplots():
                     self.theme.apply_final_touches(ax)
-
-            plt.show()
