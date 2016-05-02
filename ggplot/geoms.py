@@ -169,8 +169,6 @@ class geom_density(geom):
 
 class geom_abline(geom):
 
-    "intercept, slope"
-
     DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
                    'alpha': None, 'size': 1.0, 'x': None,
                    'y': None}
@@ -191,6 +189,8 @@ class geom_abline(geom):
         # don't need the original params from the aesthetics
         del params['x']
         del params['y']
+        del params['slope']
+        del params['intercept']
         ax.plot(x, y, **params)
 
 

@@ -8,10 +8,10 @@ from datasets import mtcars, diamonds, pageviews
 import sys
 
 
-p = ggplot(mtcars, aes(x='mpg', y='cyl', color='steelblue')) + geom_point()
-print p
-p = ggplot(mtcars, aes(x='mpg', y='cyl')) + geom_point(color='green')
-print p
+# p = ggplot(mtcars, aes(x='mpg', y='cyl', color='steelblue')) + geom_point()
+# print p
+# p = ggplot(mtcars, aes(x='mpg', y='cyl')) + geom_point(color='green')
+# print p
 # p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', ncol=4)
 # print p
 # p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', nrow=5)
@@ -94,13 +94,13 @@ print p
 # p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()
 # print """p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()""",  p
 #
-# # abline
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)""",  p
-#
-# # abline w/ facet
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')""",  p
+# abline
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)""",  p
+
+# abline w/ facet
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')""",  p
 
 # # area
 # df = pd.DataFrame({"x": np.arange(1000)})

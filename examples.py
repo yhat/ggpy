@@ -93,19 +93,19 @@ p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
 # # abline
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)
-# p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
-#
-# # abline w/ facet
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')
-# p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)
+p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 
-# # area
-# df = pd.DataFrame({"x": np.arange(1000)})
-# df['y_low'] = df.x * 0.9
-# df['y_high'] = df.x * 1.1
-# df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
-# p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
+# abline w/ facet
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')
+p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
+
+# area
+df = pd.DataFrame({"x": np.arange(1000)})
+df['y_low'] = df.x * 0.9
+df['y_high'] = df.x * 1.1
+df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
+p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 # # area w/ facet
 p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')
@@ -130,9 +130,9 @@ p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
-# df = pd.DataFrame({"x": np.arange(100)})
-# df['y'] = df.x * 10
-# df['z'] = ["a" if x%2==0 else "b" for x in df.x]
+df = pd.DataFrame({"x": np.arange(100)})
+df['y'] = df.x * 10
+df['z'] = ["a" if x%2==0 else "b" for x in df.x]
 #
 # # polar coords
 p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()
@@ -159,8 +159,8 @@ p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
 # # # x dates formatting faceted
-# pageviews['z'] = ["a" if i%2==0 else "b" for i in range(len(pageviews))]
-# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')
+pageviews['z'] = ["a" if i%2==0 else "b" for i in range(len(pageviews))]
+p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
 # # geom_line
@@ -190,7 +190,7 @@ p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(y='color')
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
-# p = ggplot(tips, aes(x='total_bill', y='tip', color='sex')) + geom_point()
+p = ggplot(tips, aes(x='total_bill', y='tip', color='sex')) + geom_point()
 p + scale_color_brewer(type='div')
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #

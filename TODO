@@ -28,8 +28,8 @@ TODO
     - [x] size
     - [?] xmin, xmax
     - [x] ymin, ymax
-    - [x] slope
-    - [x] intercept
+    - [ ] slope
+    - [ ] intercept
 - [x] non-core aes for geoms
 - [x] date scales
 - [x] facet_wrap bug
