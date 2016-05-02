@@ -12,7 +12,6 @@ p = ggplot(mtcars, aes(x='mpg', y='cyl', color='steelblue')) + geom_point()
 print p
 p = ggplot(mtcars, aes(x='mpg', y='cyl')) + geom_point(color='green')
 print p
-sys.exit(0)
 # p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', ncol=4)
 # print p
 # p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', nrow=5)
