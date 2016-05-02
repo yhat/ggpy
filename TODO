@@ -1,6 +1,36 @@
 TODO
+- [ ] facets
+    - [x] facet_wrap labels busted for "non-standard" columns/rows
+    - [x] labels for facet_wrap
+    - [x] arguments shouldn't be "x" and "y"
+    - [x] add arguments for nrows/ncols
+    - [ ] add arguments for scales="free | free_y | free_x"
 - [ ] legend
+    - [x] placement on faceted plots with no true center plot
+    - [-] for size, Line2D spontaneously uses different marker??? WTF (only happens on the pop up, the saved figure has the correct values)
+    - [x] discrete values
+        - [x] size
+    - [x] continuous values
+        - [x] color
+        - [x] alpha
+        - [x] size
+- [ ] can't have same value in 2 different aesthetics (sometimes)
+- [ ] identity aes values (i.e. x='1')
+    - [-] values
+    - [-] legend
+    - [ ] scale_*_identity
+    - [x] geom override parameter support
+- [ ] make sure aes are working properly
+    - [x] x
+    - [x] y
+    - [x] shape
+    - [x] alpha
+    - [x] size
+    - [?] xmin, xmax
+    - [x] ymin, ymax
+    - [x] slope
+    - [x] intercept
 - [x] non-core aes for geoms
 - [x] date scales
 - [x] facet_wrap bug
-- [?] figure out theme color cycles
+- [x] figure out theme color cycles

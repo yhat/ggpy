@@ -1,7 +1,7 @@
 from geoms import geom_area, geom_line, geom_point, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline
 from geoms import stat_smooth, stat_density
 
-from facets import facet_wrap, facet_grid
+from facets import facet_wrap, facet_grid, Facet
 
 from chart_components import ggtitle, xlim, ylim, xlab, ylab, labs
 

@@ -28,6 +28,13 @@ def color_legend(color):
     # TODO: need outline on line
     return plt.Line2D([0],[0], color=color, linewidth=5)
 
+# TODO(bug): this *sometimes* decides to not use marker='o'
+def size_legend(size):
+    return plt.Line2D([0],[0], color='black', marker='o', linestyle='None', markersize=size**.5)
+
+def alpha_legend(alpha):
+    return plt.Line2D([0],[0], color='black', marker='o', linestyle='None', alpha=alpha)
+
 def shape_legend(shape):
     return plt.Line2D([0],[0], color='black', marker=shape, linestyle='None')
 
@@ -46,36 +53,53 @@ def make_legend(ax, legend_mapping):
 
     if 'color' in legend_mapping:
         items.append(extra)
-        spacer = '\n' if len(labels) > 0 else ''
+        spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
         labels.append(spacer + r'\textbf{color}')
-        # labels.append(spacer + 'color')
         for key in sorted(legend_mapping['color'].keys()):
             value = legend_mapping['color'][key]
             legend_item = color_legend(value)
             items.append(legend_item)
             labels.append(key)
 
-
     if 'shape' in legend_mapping:
         items.append(extra)
-        spacer = '\n' if len(labels) > 0 else ''
+        spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
         labels.append(spacer + r'\textbf{shape}')
-        # labels.append(spacer + 'shape'))
-        # TODO: for some reason some of these aren't showing up in the legend???
         for key in sorted(legend_mapping['shape'].keys()):
             value = legend_mapping['shape'][key]
             legend_item = shape_legend(value)
             items.append(legend_item)
             labels.append(key)
 
+    if 'alpha' in legend_mapping:
+        items.append(extra)
+        spacer = r'\n' if len(labels) > 0 else r''
+        # TODO: this is supposed to make the label bold
+        labels.append(spacer + r'\textbf{alpha}')
+        for key in sorted(legend_mapping['alpha'].keys()):
+            value = legend_mapping['alpha'][key]
+            legend_item = alpha_legend(value)
+            items.append(legend_item)
+            labels.append(key)
+
+    if 'size' in legend_mapping:
+        items.append(extra)
+        spacer = r'\n' if len(labels) > 0 else r''
+        # TODO: this is supposed to make the label bold
+        labels.append(spacer + r'\textbf{size}')
+        for key in sorted(legend_mapping['size'].keys()):
+            value = legend_mapping['size'][key]
+            legend_item = size_legend(value)
+            items.append(legend_item)
+            labels.append(key)
+
     if 'linetype' in legend_mapping:
         items.append(extra)
-        spacer = '\n' if len(labels) > 0 else ''
+        spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
         labels.append(spacer + r'\textbf{linetype}')
-        # labels.append(spacer + 'linetype')
         for key in sorted(legend_mapping['linetype'].keys()):
             value = legend_mapping['linetype'][key]
             legend_item = linetype_legend(value)

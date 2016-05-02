@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.image as mpimg
 from matplotlib.colors import LinearSegmentedColormap
 import seaborn as sns
 import numpy as np
@@ -12,6 +13,8 @@ from themes import theme_gray
 import discretemappers
 from legend import make_legend
 import pprint as pp
+from PIL import Image
+
 
 
 class ggplot(object):
@@ -43,6 +46,7 @@ class ggplot(object):
             aesthetics, data = data, aesthetics
         self._aes = aesthetics
         self.data = data.copy()
+        self.data = self._aes.handle_identity_values(self.data)
 
         self.layers = []
 
@@ -77,7 +81,7 @@ class ggplot(object):
 
         # faceting
         self.grid = None
-        self.facets = {}
+        self.facets = None
 
         # colors
         self.colormap = None
@@ -89,6 +93,10 @@ class ggplot(object):
 
     def __repr__(self):
         self.make()
+        # this is nice for dev but not the best for "real"
+        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        # img = Image.open('/tmp/ggplot.png')
+        # img.show()
         plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
@@ -101,23 +109,27 @@ class ggplot(object):
         # Assign labels to Facet Grid rows/columns. We're doing this here because we want don't want to
         # use the subgroups. Subgroups often don't contain every categorical variable, which means
         # that facets get mislabeled or not labeled at all.
-        if self.facets.get("row"):
-            rowname = self.facets.get("row")
-            for row, name in enumerate(self.subplot_lookup['row']):
-                if self.facets.get("wrap")==True:
+        if not self.facets:
+            return
+        if self.facets.is_wrap:
+            return
+        if self.facets.rowvar:
+
+            for row, name in enumerate(sorted(self.data[self.facets.rowvar].unique())):
+                if self.facets.is_wrap==True:
                     continue
-                elif self.facets.get("col"):
+                elif self.facets.colvar:
                     ax = self.subplots[row][-1]
                 else:
                     ax = self.subplots[row]
-
                 ax.yaxis.set_label_position("right")
                 ax.yaxis.labelpad = 10
                 ax.set_ylabel(name, fontsize=10, rotation=-90)
-        if self.facets.get("col"):
-            for col, name in enumerate(self.subplot_lookup['col']):
+
+        if self.facets.colvar:
+            for col, name in enumerate(sorted(self.data[self.facets.colvar].unique())):
                 if len(self.subplots.shape) > 1:
-                    col = col % self.facets['n_cols']
+                    col = col % self.facets.ncol
                     ax = self.subplots[0][col]
                 else:
                     ax = self.subplots[col]
@@ -233,13 +245,13 @@ class ggplot(object):
                 i, j = (i - 1) / 2, j - 1
                 ax = self.subplots[i][j]
                 make_legend(ax, legend)
-            elif self.facets['col']:
-                ax = self.subplots[-1]
-                make_legend(ax, legend)
-            elif self.facets['row']:
+            elif self.facets.rowvar:
                 i, = self.subplots.shape
                 i = (i - 1) / 2
                 ax = self.subplots[i]
+                make_legend(ax, legend)
+            elif self.facets.colvar:
+                ax = self.subplots[-1]
                 make_legend(ax, legend)
         else:
             make_legend(self.subplots, legend)
@@ -256,6 +268,8 @@ class ggplot(object):
                 mapping = discretemappers.shape_gen()
             elif aes_type=="linetype":
                 mapping = discretemappers.linetype_gen()
+            elif aes_type=="size":
+                mapping = discretemappers.size_gen(data[colname].unique())
             else:
                 continue
 
@@ -278,10 +292,24 @@ class ggplot(object):
             colors = cmap(quantiles)
             for i, q in enumerate(quantiles_actual):
                 mappers['color'][q] = colors[i]
-        # TODO: add in other continuous things that need to be in the legend
-        # ...
-        # ...
-        # ...
+
+        if "alpha" in self._aes.data and "alpha" not in discrete_aes_types:
+            colname = self._aes.data['alpha']
+            quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 0.95])
+            # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
+            quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
+            mappers['alpha'] = dict(zip(quantiles.values, quantiles_scaled.values))
+            data[colname] = (data[colname] - data[colname].min()) / data[colname].max()
+            discrete_aes.append(('alpha', colname))
+
+        if "size" in self._aes.data and "size" not in discrete_aes_types:
+            colname = self._aes.data['size']
+            quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 0.95])
+            # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
+            quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
+            mappers['size'] = dict(zip(quantiles.values, 100 * quantiles_scaled.values))
+            data[colname] = 100 * (data[colname] - data[colname].min()) / data[colname].max()
+            discrete_aes.append(('size', colname))
 
         groups = [column for _, column in discrete_aes]
         if groups:
@@ -289,96 +317,86 @@ class ggplot(object):
         else:
             return mappers, [(0, data)]
 
-    def _get_facet_idx(self, name, type='row'):
-        return self.subplot_lookup[type].index(name)
-
     def make_facets(self):
-        self.subplot_lookup = { 'row': None, 'col': None }
         facet_params = dict(sharex=True, sharey=True)
 
-        facet_row = self.facets['row']
-        if self.facets.get('n_rows'):
-            n_row = self.facets['n_rows']
-            facet_params['nrows'] = n_row
-            if facet_row:
-                self.subplot_lookup['row'] = sorted(self.data[facet_row].unique())
-        elif facet_row:
-            n_row = self.data[facet_row].nunique()
-            facet_params['nrows'] = n_row
-            self.subplot_lookup['row'] = sorted(self.data[facet_row].unique())
-        else:
-            n_row = 1
-
-        facet_col = self.facets['col']
-
-        if self.facets.get('n_cols'):
-            n_col = self.facets['n_cols']
-            facet_params['ncols'] = n_col
-            if facet_col:
-                self.subplot_lookup['col'] = sorted(self.data[facet_col].unique())
-        elif facet_col:
-            n_col = self.data[facet_col].nunique()
-            facet_params['ncols'] = n_col
-            self.subplot_lookup['col'] = sorted(self.data[facet_col].unique())
-        else:
-            n_col = 1
+        nrow, ncol = self.facets.nrow, self.facets.ncol
+        facet_params['nrows'] = nrow
+        facet_params['ncols'] = ncol
 
         if self.coords=="polar":
             facet_params['subplot_kw'] = { "polar": True }
 
-        return plt.subplots(**facet_params)
+        fig, axs = plt.subplots(**facet_params)
+        return fig, axs
+
+    def get_subplot(self, row, col):
+        if row is not None and col is not None:
+            return self.subplots[row][col]
+        elif row is not None:
+            return self.subplots[row]
+        elif col is not None:
+            return self.subplots[row]
+        else:
+            raise Exception("row and col were none!" + str(row) + ", " + str(col))
 
     def get_facet_groups(self, group):
-        col_variable = self.facets.get('col')
-        row_variable = self.facets.get('row')
 
         # there are 3 situations. faceting on rows and columns, just rows, and
         # just columns. i broke this up into 3 explicit parts b/c it can get
         # very confusing if you're trying to handle the 3 cases simultaneously. so
         # while it's possible to do it all at once, WE'RE NOT GOING TO DO THAT
+        if self.facets is None:
+            yield (self.subplots, group)
+            return
 
-        if self.facets.get('wrap', False)==True:
-            groups = [col_variable, row_variable]
+        col_variable = self.facets.colvar
+        row_variable = self.facets.rowvar
+        if self.facets.is_wrap==True:
+            groups = [row_variable, col_variable]
             groups = [g for g in groups if g]
             for (i, (name, subgroup)) in enumerate(group.groupby(groups)):
-                if isinstance(name, str):
-                    name = [name]
 
                 # TODO: doesn't work when these get mapped to discrete values.
                 #  this only happens when a field is being used both as a facet parameter AND as a discrete aesthetic (i.e. shape)
-                row = i / self.facets['n_rows']
-                col = i % self.facets['n_cols']
+                row, col = self.facets.facet_map[name]
 
                 if len(self.subplots.shape)==1:
                     ax = self.subplots[i]
                 else:
-                    ax = self.subplots[row][col]
+                    ax = self.get_subplot(row, col)
 
                 font = { 'fontsize': 10 }
-                ax.set_title(', '.join(name), fontdict=font)
                 yield (ax, subgroup)
 
-            # remove axes that aren't being used. this will only happen if we have
-            # multiple fields we're wrapping ???
-            for j in range(i + 1, self.facets['n_rows'] * self.facets['n_cols']):
-                row = j / self.facets['n_rows']
-                col = j % self.facets['n_cols']
-                ax = self.subplots[row][col]
+            for item in self.facets.generate_subplot_index(self.data, self.facets.rowvar, self.facets.colvar):
+                row, col = self.facets.facet_map[item]
+                ax = self.get_subplot(row, col)
+                if isinstance(item, tuple):
+                    title = ", ".join(item)
+                else:
+                    title = str(item)
+                ax.set_title(title, fontdict=font)
+
+            # remove axes that aren't being used
+            for i in range(self.facets.ndim, self.facets.nrow * self.facets.ncol):
+                row = i / self.facets.ncol
+                col = i % self.facets.ncol
+                ax = self.get_subplot(row, col)
                 self.fig.delaxes(ax)
 
         elif col_variable and row_variable:
             for (_, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
-                col = self._get_facet_idx(colname, type='col')
                 for (_, (rowname, facetgroup)) in enumerate(subgroup.groupby(row_variable)):
-                    row = self._get_facet_idx(rowname, type='row')
-                    ax = self.subplots[row][col]
+                    row, col = self.facets.facet_map[(rowname, colname)]
+                    ax = self.get_subplot(row, col)
                     yield (ax, facetgroup)
 
         elif col_variable:
             for (_, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
-                col = self._get_facet_idx(colname, type='col')
+                row, col = self.facets.facet_map[colname]
                 ax = self.subplots[col]
-                if self.facets['wrap']==True:
+                if self.facets.is_wrap==True:
                     ax.set_title("%s=%s" % (col_variable, colname))
                 else:
                     ax.set_title(colname, fontdict={'fontsize': 10})
@@ -386,9 +404,9 @@ class ggplot(object):
 
         elif row_variable:
             for (row, (rowname, subgroup)) in enumerate(group.groupby(row_variable)):
-                row = self._get_facet_idx(rowname, type='row')
+                row, col = self.facets.facet_map[rowname]
 
-                if self.facets['wrap']==True:
+                if self.facets.is_wrap==True:
                     ax = self.subplots[row]
                     ax.set_title("%s=%s" % (row_variable, rowname))
                 else:
@@ -413,7 +431,6 @@ class ggplot(object):
 
     def make(self):
         plt.close()
-        # sns.set()
         with mpl.rc_context():
             self.apply_theme()
 
@@ -440,7 +457,6 @@ class ggplot(object):
             self.apply_axis_labels()
             self.apply_coords()
 
-            # TODO: legend for continuous fields (i.e. color)
             self.add_legend(legend)
 
             if self.theme:

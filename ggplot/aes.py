@@ -65,6 +65,7 @@ class aes(UserDict):
             self.data['color'] = self.data['colour']
             del self.data['colour']
 
+
         self.legend = []
         self.__eval_env__ = EvalEnvironment.capture(1)
 
@@ -83,6 +84,12 @@ class aes(UserDict):
                 raise
 
         return result
+
+    def handle_identity_values(self, df):
+        for key, value in self.data.items():
+            if value not in df.columns:
+                df[value] = value
+        return df
 
     def _get_categoricals(self, df):
         categoricals = []

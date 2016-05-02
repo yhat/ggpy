@@ -27,22 +27,35 @@ class geom(object):
         self.layers.append(other)
         return self
 
+    def _rename_parameters(self, params):
+        pass
+
     def _get_plot_args(self, data, _aes):
         variables = _aes.data
         params = {}
 
         for aes_type, default_value in self.DEFAULT_AES.items():
+            # if we don't have an aesthetic for aes_type, add it to our params and set it to the default value
             if aes_type not in variables:
                 params[aes_type] = default_value
+            elif data[variables[aes_type]].nunique()==1:
+                params[aes_type] = data[variables[aes_type]].iloc[0]
+            else:
+                params[aes_type] = data[variables[aes_type]]
+            # else:
+            #     # TODO: I can't remember why this is needed, but i think it's needed for pseudo-continuous data
+            #     params[aes_type] = data[variables[aes_type]].iloc[0]
 
+        params.update(self.params)
         for aes_type, mpl_param in self._aes_renames.items():
             if aes_type in variables:
-                # TODO: what if it's a continuous number but there's only 1 datapointin the segment
+                # TODO: what if it's a continuous number but there's only 1 datapoint in the segment
                 if data[variables[aes_type]].nunique()==1:
                     params[mpl_param] = data[variables[aes_type]].iloc[0]
                 else:
                     params[mpl_param] = data[variables[aes_type]]
-            elif aes_type in params:
+            # maybe this should be an elif?
+            if aes_type in params:
                 params[mpl_param] = params[aes_type]
                 del params[aes_type]
 
@@ -55,7 +68,7 @@ class geom(object):
         return valid_params
 
 class geom_point(geom):
-    DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20}
+    DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20, 'edgecolors': None}
     REQUIRED_AES = {'x', 'y'}
     _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}
 
@@ -175,6 +188,9 @@ class geom_abline(geom):
         x = ax.get_xticks()
         y = ax.get_xticks() * slope + intercept
         params = self._get_plot_args(data, _aes)
+        # don't need the original params from the aesthetics
+        del params['x']
+        del params['y']
         ax.plot(x, y, **params)
 
 

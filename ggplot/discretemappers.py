@@ -22,6 +22,12 @@ def shape_gen():
         for shape in SHAPES:
             yield shape
 
+def size_gen(uniq_values):
+    n = len(uniq_values)
+    low = 10
+    for i in range(low, low + n*10, 10):
+        yield i
+
 def color_gen(colors=None):
     if colors:
         pal = colors
