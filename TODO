@@ -14,11 +14,11 @@ TODO
         - [x] color
         - [x] alpha
         - [x] size
-- [ ] can't have same value in 2 different aesthetics (sometimes)
-- [ ] identity aes values (i.e. x='1')
-    - [-] values
-    - [-] legend
-    - [ ] scale_*_identity
+- [x] can't have same value in 2 different aesthetics when remapped
+- [x] identity aes values (i.e. x='1')
+    - [x] values
+    - [x] legend
+    - [x] scale_*_identity
     - [x] geom override parameter support
 - [ ] make sure aes are working properly
     - [x] x
@@ -26,11 +26,13 @@ TODO
     - [x] shape
     - [x] alpha
     - [x] size
+    - [-] fill
     - [?] xmin, xmax
     - [x] ymin, ymax
-    - [ ] slope
-    - [ ] intercept
+    - [x] slope
+    - [x] intercept
 - [x] non-core aes for geoms
 - [x] date scales
 - [x] facet_wrap bug
 - [x] figure out theme color cycles
+- [ ] thing to "add code" during __radd__ so we can see the evaluated thing in its entirety

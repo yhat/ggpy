@@ -48,6 +48,8 @@ class ggplot(object):
         self.data = data.copy()
         self.data = self._aes.handle_identity_values(self.data)
 
+        # self._code = ["ggplot(%s, %s)"  % ("df", str(aesthetics))]
+
         self.layers = []
 
         # labels
@@ -64,6 +66,8 @@ class ggplot(object):
 
         # scales
         self.scales = []
+
+        self.scale_identity  = set()
 
         self.scale_x_log = None
         self.scale_y_log = None
@@ -262,22 +266,29 @@ class ggplot(object):
         mappers = {}
         for aes_type, colname in discrete_aes:
             mapper = {}
-            if aes_type=="color":
-                mapping = discretemappers.color_gen(self.manual_color_list)
-            elif aes_type=="shape":
-                mapping = discretemappers.shape_gen()
-            elif aes_type=="linetype":
-                mapping = discretemappers.linetype_gen()
-            elif aes_type=="size":
-                mapping = discretemappers.size_gen(data[colname].unique())
+            if aes_type in self.scale_identity:
+                for item in sorted(data[colname].unique()):
+                    mapper[item] = item
             else:
-                continue
+                if aes_type=="color":
+                    mapping = discretemappers.color_gen(self.manual_color_list)
+                elif aes_type=="fill":
+                    mapping = discretemappers.color_gen()
+                elif aes_type=="shape":
+                    mapping = discretemappers.shape_gen()
+                elif aes_type=="linetype":
+                    mapping = discretemappers.linetype_gen()
+                elif aes_type=="size":
+                    mapping = discretemappers.size_gen(data[colname].unique())
+                else:
+                    continue
 
-            for item in sorted(data[colname].unique()):
-                mapper[item] = next(mapping)
+                for item in sorted(data[colname].unique()):
+                    mapper[item] = next(mapping)
 
-            mappers[aes_type] = mapper
-            data[colname] = self.data[colname].apply(lambda x: mapper[x])
+            mappers[aes_type] = { "name": colname, "lookup": mapper }
+            data[colname + "_" + aes_type] = self.data[colname].apply(lambda x: mapper[x])
+            self._aes.data[aes_type] = colname + "_" + aes_type
 
         discrete_aes_types = [aes_type for aes_type, _ in discrete_aes]
         # checks for continuous aesthetics that can also be discrete (color, alpha, fill, linewidth???)
@@ -288,17 +299,20 @@ class ggplot(object):
             quantiles_actual = quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 1.0])
             # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
             quantiles = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
-            mappers['color'] = {}
+            mappers['color'] = { "name": colname, "lookup": {} }
             colors = cmap(quantiles)
             for i, q in enumerate(quantiles_actual):
-                mappers['color'][q] = colors[i]
+                mappers['color']["lookup"][q] = colors[i]
 
         if "alpha" in self._aes.data and "alpha" not in discrete_aes_types:
             colname = self._aes.data['alpha']
             quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 0.95])
             # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
             quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
-            mappers['alpha'] = dict(zip(quantiles.values, quantiles_scaled.values))
+            mappers['alpha'] = {
+                "name": colname,
+                "lookup": dict(zip(quantiles.values, quantiles_scaled.values))
+            }
             data[colname] = (data[colname] - data[colname].min()) / data[colname].max()
             discrete_aes.append(('alpha', colname))
 
@@ -308,6 +322,10 @@ class ggplot(object):
             # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
             quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
             mappers['size'] = dict(zip(quantiles.values, 100 * quantiles_scaled.values))
+            mappers['alpha'] = {
+                "name": colname,
+                "lookup":  dict(zip(quantiles.values, 100 * quantiles_scaled.values))
+            }
             data[colname] = 100 * (data[colname] - data[colname].min()) / data[colname].max()
             discrete_aes.append(('size', colname))
 

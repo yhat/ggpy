@@ -19,12 +19,14 @@ class geom(object):
         self.params = kwargs
         self.VALID_AES = set(self.DEFAULT_AES.keys() + list(self.REQUIRED_AES) + self._aes_renames.values())
 
-    def __radd__(self, other):
-        if isinstance(other, ggplot):
-            other.layers += self.layers
-            return other
+    def __radd__(self, gg):
+        if isinstance(gg, ggplot):
+            gg.layers += self.layers
+            # param_repr = ", ".join(["%s=%s" % (key, value) for key, value in self.params.items()])
+            # gg._code.append("%s(%s)" % (type(self).__name__, param_repr))
+            return gg
 
-        self.layers.append(other)
+        self.layers.append(gg)
         return self
 
     def _rename_parameters(self, params):

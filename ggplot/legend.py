@@ -53,55 +53,72 @@ def make_legend(ax, legend_mapping):
 
     if 'color' in legend_mapping:
         items.append(extra)
+        colname = legend_mapping['color']['name']
         spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
-        labels.append(spacer + r'\textbf{color}')
-        for key in sorted(legend_mapping['color'].keys()):
-            value = legend_mapping['color'][key]
+        labels.append(spacer + r'\textbf{' + colname + '}')
+        for key in sorted(legend_mapping['color']['lookup'].keys()):
+            value = legend_mapping['color']['lookup'][key]
+            legend_item = color_legend(value)
+            items.append(legend_item)
+            labels.append(key)
+
+    if 'fill' in legend_mapping:
+        items.append(extra)
+        colname = legend_mapping['fill']['name']
+        spacer = r'\n' if len(labels) > 0 else r''
+        # TODO: this is supposed to make the label bold
+        labels.append(spacer + r'\textbf{' + colname + '}')
+        for key in sorted(legend_mapping['fill']['lookup'].keys()):
+            value = legend_mapping['fill']['lookup'][key]
             legend_item = color_legend(value)
             items.append(legend_item)
             labels.append(key)
 
     if 'shape' in legend_mapping:
         items.append(extra)
+        colname = legend_mapping['shape']['name']
         spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
-        labels.append(spacer + r'\textbf{shape}')
-        for key in sorted(legend_mapping['shape'].keys()):
-            value = legend_mapping['shape'][key]
+        labels.append(spacer + r'\textbf{' + colname + '}')
+        for key in sorted(legend_mapping['shape']['lookup'].keys()):
+            value = legend_mapping['shape']['lookup'][key]
             legend_item = shape_legend(value)
             items.append(legend_item)
             labels.append(key)
 
     if 'alpha' in legend_mapping:
         items.append(extra)
+        colname = legend_mapping['alpha']['name']
         spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
-        labels.append(spacer + r'\textbf{alpha}')
-        for key in sorted(legend_mapping['alpha'].keys()):
-            value = legend_mapping['alpha'][key]
+        labels.append(spacer + r'\textbf{' + colname + '}')
+        for key in sorted(legend_mapping['alpha']['lookup'].keys()):
+            value = legend_mapping['alpha']['lookup'][key]
             legend_item = alpha_legend(value)
             items.append(legend_item)
             labels.append(key)
 
     if 'size' in legend_mapping:
         items.append(extra)
+        colname = legend_mapping['size']['name']
         spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
-        labels.append(spacer + r'\textbf{size}')
-        for key in sorted(legend_mapping['size'].keys()):
-            value = legend_mapping['size'][key]
+        labels.append(spacer + r'\textbf{' + colname + '}')
+        for key in sorted(legend_mapping['size']['lookup'].keys()):
+            value = legend_mapping['size']['lookup'][key]
             legend_item = size_legend(value)
             items.append(legend_item)
             labels.append(key)
 
     if 'linetype' in legend_mapping:
         items.append(extra)
+        colname = legend_mapping['linetype']['name']
         spacer = r'\n' if len(labels) > 0 else r''
         # TODO: this is supposed to make the label bold
-        labels.append(spacer + r'\textbf{linetype}')
-        for key in sorted(legend_mapping['linetype'].keys()):
-            value = legend_mapping['linetype'][key]
+        labels.append(spacer + r'\textbf{' + colname + '}')
+        for key in sorted(legend_mapping['linetype']['lookup'].keys()):
+            value = legend_mapping['linetype']['lookup'][key]
             legend_item = linetype_legend(value)
             items.append(legend_item)
             labels.append(key)
