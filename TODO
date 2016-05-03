@@ -35,4 +35,5 @@ TODO
 - [x] date scales
 - [x] facet_wrap bug
 - [x] figure out theme color cycles
+- [x] patsy eval / factors
 - [ ] thing to "add code" during __radd__ so we can see the evaluated thing in its entirety

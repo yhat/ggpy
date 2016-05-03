@@ -91,12 +91,14 @@ class aes(UserDict):
                 df[value] = value
         return df
 
-    def _get_categoricals(self, df):
-        categoricals = []
+    def _get_discrete_aes(self, df):
+        discrete_aes = []
+        non_numeric_columns = df.select_dtypes(exclude=['number']).columns
         for aes_type, column in self.data.items():
             if aes_type in ['x', 'y']:
                 continue
-            if column in self.data.values():
-                if utils.is_categorical(df[column]):
-                    categoricals.append((aes_type, column))
-        return categoricals
+            elif column not in non_numeric_columns:
+                continue
+            else:
+                discrete_aes.append((aes_type, column))
+        return discrete_aes

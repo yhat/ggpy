@@ -17,6 +17,7 @@ SHAPES = [
     "_",#hline
 ]
 
+
 def shape_gen():
     while True:
         for shape in SHAPES:

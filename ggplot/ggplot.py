@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.image as mpimg
 from matplotlib.colors import LinearSegmentedColormap
+from patsy.eval import EvalEnvironment
 import seaborn as sns
 import numpy as np
 import pandas as pd
@@ -46,6 +47,7 @@ class ggplot(object):
             aesthetics, data = data, aesthetics
         self._aes = aesthetics
         self.data = data.copy()
+        self._evaluate_aes_expressions()
         self.data = self._aes.handle_identity_values(self.data)
 
         # self._code = ["ggplot(%s, %s)"  % ("df", str(aesthetics))]
@@ -104,21 +106,28 @@ class ggplot(object):
         plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
+    def _evaluate_aes_expressions(self):
+        for key, item in self._aes.items():
+            if item not in self.data:
+                def factor(s, levels=None, labels=None):
+                    return s.apply(str)
+
+                env = EvalEnvironment.capture(eval_env=(self._aes.__eval_env__ or 1))
+                env.add_outer_namespace({ "factor":factor })
+                new_val = env.eval(item, inner_namespace=self.data)
+                self.data[item] = new_val
+
     def add_labels(self):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
                 mpl_func(label)
 
-        # Assign labels to Facet Grid rows/columns. We're doing this here because we want don't want to
-        # use the subgroups. Subgroups often don't contain every categorical variable, which means
-        # that facets get mislabeled or not labeled at all.
         if not self.facets:
             return
         if self.facets.is_wrap:
             return
         if self.facets.rowvar:
-
             for row, name in enumerate(sorted(self.data[self.facets.rowvar].unique())):
                 if self.facets.is_wrap==True:
                     continue
@@ -260,9 +269,23 @@ class ggplot(object):
         else:
             make_legend(self.subplots, legend)
 
+    def _get_mapping(self, aes_type):
+        mapping = None
+        if aes_type=="color":
+            mapping = discretemappers.color_gen(self.manual_color_list)
+        elif aes_type=="fill":
+            mapping = discretemappers.color_gen()
+        elif aes_type=="shape":
+            mapping = discretemappers.shape_gen()
+        elif aes_type=="linetype":
+            mapping = discretemappers.linetype_gen()
+        elif aes_type=="size":
+            mapping = discretemappers.size_gen(self.data[colname].unique())
+        return mapping
+
     def _construct_plot_data(self):
         data = self.data
-        discrete_aes = self._aes._get_categoricals(data)
+        discrete_aes = self._aes._get_discrete_aes(data)
         mappers = {}
         for aes_type, colname in discrete_aes:
             mapper = {}
@@ -270,17 +293,9 @@ class ggplot(object):
                 for item in sorted(data[colname].unique()):
                     mapper[item] = item
             else:
-                if aes_type=="color":
-                    mapping = discretemappers.color_gen(self.manual_color_list)
-                elif aes_type=="fill":
-                    mapping = discretemappers.color_gen()
-                elif aes_type=="shape":
-                    mapping = discretemappers.shape_gen()
-                elif aes_type=="linetype":
-                    mapping = discretemappers.linetype_gen()
-                elif aes_type=="size":
-                    mapping = discretemappers.size_gen(data[colname].unique())
-                else:
+                mapping = self._get_mapping(aes_type)
+                pp.pprint(mapping)
+                if mapping is None:
                     continue
 
                 for item in sorted(data[colname].unique()):
