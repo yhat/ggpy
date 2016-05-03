@@ -1,4 +1,8 @@
 TODO
+- [ ] packaging
+  - [ ] build
+  - [ ] python3
+  - [ ] circleci
 - [ ] facets
     - [x] facet_wrap labels busted for "non-standard" columns/rows
     - [x] labels for facet_wrap
@@ -31,6 +35,7 @@ TODO
     - [x] ymin, ymax
     - [x] slope
     - [x] intercept
+    - [x] group
 - [x] non-core aes for geoms
 - [x] date scales
 - [x] facet_wrap bug

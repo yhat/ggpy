@@ -294,7 +294,6 @@ class ggplot(object):
                     mapper[item] = item
             else:
                 mapping = self._get_mapping(aes_type)
-                pp.pprint(mapping)
                 if mapping is None:
                     continue
 
