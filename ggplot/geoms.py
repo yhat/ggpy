@@ -1,13 +1,13 @@
-import seaborn as sns
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.stats import gaussian_kde
 import pandas as pd
-from ggplot import ggplot
-from aes import aes
-from stats import smoothers
-import utils
-from utils import is_categorical
+from .ggplot import ggplot
+from .stats import smoothers
+from .stats import smoothers
+from .utils import is_categorical
 
 
 class geom(object):

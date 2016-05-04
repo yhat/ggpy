@@ -1,20 +1,24 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
+
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import matplotlib.image as mpimg
 from matplotlib.colors import LinearSegmentedColormap
+
 from patsy.eval import EvalEnvironment
-import seaborn as sns
+
 import numpy as np
 import pandas as pd
-from aes import aes
 import warnings
 import itertools
-from matplotlib.colors import rgb2hex
-from themes import theme_gray
-import discretemappers
-from legend import make_legend
+
+from .aes import aes
+from .legend import make_legend
+from .themes import theme_gray
+from . import discretemappers
+
 import pprint as pp
-from PIL import Image
+# from PIL import Image
 
 
 
@@ -350,6 +354,7 @@ class ggplot(object):
             return mappers, [(0, data)]
 
     def make_facets(self):
+        # TODO: scales="free | free_y | free_x"
         facet_params = dict(sharex=True, sharey=True)
 
         nrow, ncol = self.facets.nrow, self.facets.ncol

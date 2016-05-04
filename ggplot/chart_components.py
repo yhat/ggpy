@@ -1,5 +1,7 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 from copy import deepcopy
-from ggplot import ggplot
+from .ggplot import ggplot
 
 class ggtitle(object):
     def __init__(self, title):
