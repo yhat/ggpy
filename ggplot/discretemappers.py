@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-import seaborn as sns
+from .colors import palettes
 import itertools
 
 SHAPES = [
@@ -31,11 +31,13 @@ def size_gen(uniq_values):
     for i in range(low, low + n*10, 10):
         yield i
 
-def color_gen(colors=None):
+def color_gen(n_colors, colors=None):
     if colors:
         pal = colors
     else:
+        import seaborn as sns
         pal = sns.color_palette()
+        # pal = palettes.hls_palette(n_colors=n_colors)
     generator = itertools.cycle(pal)
     while True:
         yield next(generator)

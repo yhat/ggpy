@@ -4,96 +4,95 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 tips = sns.load_dataset('tips')
-from datasets import mtcars, diamonds, pageviews
 import sys
 
 
-# p = ggplot(mtcars, aes(x='mpg', y='cyl', color='steelblue')) + geom_point()
-# print p
-# p = ggplot(mtcars, aes(x='mpg', y='cyl')) + geom_point(color='green')
-# print p
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', ncol=4)
-# print p
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', nrow=5)
-# print p
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='clarity')
-# print p
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='clarity')
-# print p
-# p = ggplot(diamonds.sample(1000), aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity', y='cut')
-# print p
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
-# print p
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(y='clarity')
-# print p
+p = ggplot(mtcars, aes(x='mpg', y='cyl', color='steelblue')) + geom_point()
+print p
+p = ggplot(mtcars, aes(x='mpg', y='cyl')) + geom_point(color='green')
+print p
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', ncol=4)
+print p
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + facet_wrap('clarity', nrow=5)
+print p
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='clarity')
+print p
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='clarity')
+print p
+p = ggplot(diamonds.sample(1000), aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity', y='cut')
+print p
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
+print p
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(y='clarity')
+print p
 
-# p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', size='clarity')) + geom_point()
-# print p
-# p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', size='x')) + geom_point()
-# print p
-# p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', alpha='x')) + geom_point()
-# print p
-# p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', alpha='x')) + geom_point() + facet_grid(x='clarity')
-# print p
+p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', size='clarity')) + geom_point()
+print p
+p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', size='x')) + geom_point()
+print p
+p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', alpha='x')) + geom_point()
+print p
+p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', alpha='x')) + geom_point() + facet_grid(x='clarity')
+print p
 
-# p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', alpha='x')) + geom_point() + facet_grid(y='clarity')
-# print p
+p = ggplot(diamonds.sample(1000), aes(x='carat', y='price', alpha='x')) + geom_point() + facet_grid(y='clarity')
+print p
 
 # shape
-# p = ggplot(diamonds, aes(x='carat', y='price', shape='clarity')) + geom_point()
-# p.save("testing.png")
+p = ggplot(diamonds, aes(x='carat', y='price', shape='clarity')) + geom_point()
+p.save("testing.png")
 
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(x='color')
-# print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(x='color')""",  p
-#
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + scale_color_brewer() + facet_grid(x='color', y='clarity')
-# print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + scale_color_brewer() + facet_grid(x='color', y='clarity')""",  p
-#
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(y='color')
-# print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(y='color')""",  p
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='clarity')) + geom_point() + scale_color_brewer(type='div')
-# print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='clarity')) + geom_point() + scale_color_brewer(type='div')""",  p
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='x')) + geom_point()
-# print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='x')) + geom_point()""",  p
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(x='color')
+print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(x='color')""",  p
+
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + scale_color_brewer() + facet_grid(x='color', y='clarity')
+print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price')) + geom_point() + scale_color_brewer() + facet_grid(x='color', y='clarity')""",  p
+
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(y='color')
+print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(y='color')""",  p
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='clarity')) + geom_point() + scale_color_brewer(type='div')
+print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='clarity')) + geom_point() + scale_color_brewer(type='div')""",  p
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='x')) + geom_point()
+print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', color='x')) + geom_point()""",  p
 
 
-# # linetype
-# p = ggplot(diamonds.sample(100), aes(x='carat', y='price', linetype='cut')) + geom_line()
-# print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', linetype='cut')) + geom_line()""",  p
-#
-#
-# # histogram
-# p = ggplot(diamonds, aes(x='carat')) + geom_histogram()
-# print """p = ggplot(diamonds, aes(x='carat')) + geom_histogram()""",  p
-#
-# # point
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point()
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point()""",  p
-#
-# # titles and stuff
-# p = ggplot(diamonds, aes(x='carat', y='price', color='clarity')) + geom_point() + xlab("THIS IS AN X LABEL") + ylab("THIS IS A Y LABEL") + ggtitle("THIS IS A TITLE")
-# print """p = ggplot(diamonds, aes(x='carat', y='price', color='clarity')) + geom_point() + xlab("THIS IS AN X LABEL") + ylab("THIS IS A Y LABEL") + ggtitle("THIS IS A TITLE")""",  p
-#
-# # density
-# p = ggplot(diamonds, aes(x='carat')) + geom_density()
-# print """p = ggplot(diamonds, aes(x='carat')) + geom_density()""",  p
-#
-# # hline
-# p = ggplot(diamonds, aes(x='price')) + geom_hline(y=10)
-# print """p = ggplot(diamonds, aes(x='price')) + geom_hline(y=10)""",  p
-#
-# # vline
-# p = ggplot(diamonds, aes(x='price')) + geom_vline(x=10)
-# print """p = ggplot(diamonds, aes(x='price')) + geom_vline(x=10)""",  p
-#
-# # bar
-# p = ggplot(diamonds, aes(x='clarity')) + geom_bar()
-# print """p = ggplot(diamonds, aes(x='clarity')) + geom_bar()""",  p
-#
-# # bar w/ weight
-# p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()
-# print """p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()""",  p
-#
+# linetype
+p = ggplot(diamonds.sample(100), aes(x='carat', y='price', linetype='cut')) + geom_line()
+print """p = ggplot(diamonds.sample(100), aes(x='carat', y='price', linetype='cut')) + geom_line()""",  p
+
+
+# histogram
+p = ggplot(diamonds, aes(x='carat')) + geom_histogram()
+print """p = ggplot(diamonds, aes(x='carat')) + geom_histogram()""",  p
+
+# point
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point()
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point()""",  p
+
+# titles and stuff
+p = ggplot(diamonds, aes(x='carat', y='price', color='clarity')) + geom_point() + xlab("THIS IS AN X LABEL") + ylab("THIS IS A Y LABEL") + ggtitle("THIS IS A TITLE")
+print """p = ggplot(diamonds, aes(x='carat', y='price', color='clarity')) + geom_point() + xlab("THIS IS AN X LABEL") + ylab("THIS IS A Y LABEL") + ggtitle("THIS IS A TITLE")""",  p
+
+# density
+p = ggplot(diamonds, aes(x='carat')) + geom_density()
+print """p = ggplot(diamonds, aes(x='carat')) + geom_density()""",  p
+
+# hline
+p = ggplot(diamonds, aes(x='price')) + geom_hline(y=10)
+print """p = ggplot(diamonds, aes(x='price')) + geom_hline(y=10)""",  p
+
+# vline
+p = ggplot(diamonds, aes(x='price')) + geom_vline(x=10)
+print """p = ggplot(diamonds, aes(x='price')) + geom_vline(x=10)""",  p
+
+# bar
+p = ggplot(diamonds, aes(x='clarity')) + geom_bar()
+print """p = ggplot(diamonds, aes(x='clarity')) + geom_bar()""",  p
+
+# bar w/ weight
+p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()
+print """p = ggplot(diamonds, aes(x='clarity', weight='x')) + geom_bar()""",  p
+
 # abline
 p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)
 print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500)""",  p
@@ -102,89 +101,89 @@ print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_a
 p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')
 print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity')""",  p
 
-# # area
-# df = pd.DataFrame({"x": np.arange(1000)})
-# df['y_low'] = df.x * 0.9
-# df['y_high'] = df.x * 1.1
-# df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
-# # p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
-# # print """p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()""",  p
-# # area w/ facet
-# p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')
-# print """p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')""",  p
+# area
+df = pd.DataFrame({"x": np.arange(1000)})
+df['y_low'] = df.x * 0.9
+df['y_high'] = df.x * 1.1
+df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
+# p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
+# print """p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()""",  p
+# area w/ facet
+p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')
+print """p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area() + facet_wrap(x='thing')""",  p
+
+# facet wrap
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')""",  p
 #
-# # facet wrap
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity')""",  p
-# #
-# # facet wrap w/ 2 variables
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')""",  p
-#
-# # facet grid w/ 1 variable
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')""",  p
-#
-# p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')
-# print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')""",  p
-#
-# # # facet grid w/ 2 variables
-# p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')
-# print """p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')""",  p
-#
-# df = pd.DataFrame({"x": np.arange(100)})
-# df['y'] = df.x * 10
-# df['z'] = ["a" if x%2==0 else "b" for x in df.x]
-#
-# # polar coords
-# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()
-# print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()""",  p
-#
-# # equal coords
-# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal()
-# print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal()""",  p
-#
-# # equal coords faceted
-# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal() + facet_wrap(x='z')
-# print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal() + facet_wrap(x='z')""",  p
-#
-# # flipped coords
-# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip()
-# print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip()""",  p
-#
-# # flipped coords facted
-# p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip() + facet_grid(x='z')
-# print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip() + facet_grid(x='z')""",  p
-#
-# # x dates formatting
-# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y'))
-# print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y'))""",  p
-#
-# # # x dates formatting faceted
-# pageviews['z'] = ["a" if i%2==0 else "b" for i in range(len(pageviews))]
-# # p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')
-# # print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')""",  p
-#
-# # geom_line
-# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line()
-# print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line()""",  p
-#
-# # geom_line w/ facets
-# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z')
-# print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z')""",  p
-#
-# # stat_smooth w/ lm
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')
-# print """p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')""",  p
-#
-# # stat_smooth w/ lowess
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')
-# print """p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')""",  p
-#
-# # stat_smooth w/ lowess and custom span
-# p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)
-# print """p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)""",  p
-#
+# facet wrap w/ 2 variables
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut')""",  p
+
+# facet grid w/ 1 variable
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(x='color')""",  p
+
+p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')
+print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_grid(y='color')""",  p
+
+# # facet grid w/ 2 variables
+p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')
+print """p = ggplot(diamonds, aes(x='price')) + geom_histogram() + facet_grid(x='color', y='cut')""",  p
+
+df = pd.DataFrame({"x": np.arange(100)})
+df['y'] = df.x * 10
+df['z'] = ["a" if x%2==0 else "b" for x in df.x]
+
+# polar coords
+p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()
+print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()""",  p
+
+# equal coords
+p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal()
+print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal()""",  p
+
+# equal coords faceted
+p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal() + facet_wrap(x='z')
+print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal() + facet_wrap(x='z')""",  p
+
+# flipped coords
+p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip()
+print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip()""",  p
+
+# flipped coords facted
+p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip() + facet_grid(x='z')
+print """p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_flip() + facet_grid(x='z')""",  p
+
+# x dates formatting
+p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y'))
+print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y'))""",  p
+
+# # x dates formatting faceted
+pageviews['z'] = ["a" if i%2==0 else "b" for i in range(len(pageviews))]
+# p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')
+# print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')""",  p
+
+# geom_line
+p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line()
+print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line()""",  p
+
+# geom_line w/ facets
+p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z')
+print """p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z')""",  p
+
+# stat_smooth w/ lm
+p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')
+print """p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lm')""",  p
+
+# stat_smooth w/ lowess
+p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')
+print """p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess')""",  p
+
+# stat_smooth w/ lowess and custom span
+p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)
+print """p = ggplot(tips, aes(x='total_bill', y='tip')) + stat_smooth(method='lowess', span=0.2)""",  p
+
 #
 # p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color')
 # print """p = ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color')""",  p

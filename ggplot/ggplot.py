@@ -18,7 +18,7 @@ from .themes import theme_gray
 from . import discretemappers
 
 import pprint as pp
-# from PIL import Image
+from PIL import Image
 
 
 
@@ -104,10 +104,10 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        # img = Image.open('/tmp/ggplot.png')
-        # img.show()
-        plt.show()
+        self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        img = Image.open('/tmp/ggplot.png')
+        img.show()
+        # plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _evaluate_aes_expressions(self):
@@ -118,8 +118,11 @@ class ggplot(object):
 
                 env = EvalEnvironment.capture(eval_env=(self._aes.__eval_env__ or 1))
                 env.add_outer_namespace({ "factor":factor })
-                new_val = env.eval(item, inner_namespace=self.data)
-                self.data[item] = new_val
+                try:
+                    new_val = env.eval(item, inner_namespace=self.data)
+                    self.data[item] = new_val
+                except:
+                    pass
 
     def add_labels(self):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
@@ -259,12 +262,12 @@ class ggplot(object):
         if self.facets:
             if len(self.subplots.shape) > 1:
                 i, j = self.subplots.shape
-                i, j = (i - 1) / 2, j - 1
+                i, j = int((i - 1) / 2), int(j - 1)
                 ax = self.subplots[i][j]
                 make_legend(ax, legend)
             elif self.facets.rowvar:
                 i, = self.subplots.shape
-                i = (i - 1) / 2
+                i = int((i - 1) / 2)
                 ax = self.subplots[i]
                 make_legend(ax, legend)
             elif self.facets.colvar:
@@ -273,12 +276,12 @@ class ggplot(object):
         else:
             make_legend(self.subplots, legend)
 
-    def _get_mapping(self, aes_type):
+    def _get_mapping(self, aes_type, colname):
         mapping = None
         if aes_type=="color":
-            mapping = discretemappers.color_gen(self.manual_color_list)
+            mapping = discretemappers.color_gen(self.data[colname].nunique(), colors=self.manual_color_list)
         elif aes_type=="fill":
-            mapping = discretemappers.color_gen()
+            mapping = discretemappers.color_gen(self.data[colname].nunique())
         elif aes_type=="shape":
             mapping = discretemappers.shape_gen()
         elif aes_type=="linetype":
@@ -297,7 +300,7 @@ class ggplot(object):
                 for item in sorted(data[colname].unique()):
                     mapper[item] = item
             else:
-                mapping = self._get_mapping(aes_type)
+                mapping = self._get_mapping(aes_type, colname)
                 if mapping is None:
                     continue
 
@@ -339,8 +342,7 @@ class ggplot(object):
             quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 0.95])
             # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
             quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
-            mappers['size'] = dict(zip(quantiles.values, 100 * quantiles_scaled.values))
-            mappers['alpha'] = {
+            mappers['size'] = {
                 "name": colname,
                 "lookup":  dict(zip(quantiles.values, 100 * quantiles_scaled.values))
             }
