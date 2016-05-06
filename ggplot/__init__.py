@@ -30,10 +30,9 @@ from .ggplot import ggplot
 from .qplot import qplot
 from .aes import aes
 
-
 from .coords.coords import coord_polar, coord_equal, coord_flip
 
-from .datasets import (diamonds, mtcars, meat, pageviews, movies)
+from .datasets import diamonds, mtcars, meat, pageviews, movies
 
 from .scales.scale_color_brewer import scale_color_brewer
 from .scales.scale_color_manual import scale_color_manual
