@@ -4,7 +4,6 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 tips = sns.load_dataset('tips')
-from datasets import mtcars, diamonds, pageviews
 import sys
 
 

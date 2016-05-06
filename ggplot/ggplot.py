@@ -371,11 +371,11 @@ class ggplot(object):
 
     def get_subplot(self, row, col):
         if row is not None and col is not None:
-            return self.subplots[row][col]
+            return self.subplots[int(row)][col]
         elif row is not None:
-            return self.subplots[row]
+            return self.subplots[int(row)]
         elif col is not None:
-            return self.subplots[row]
+            return self.subplots[int(col)]
         else:
             raise Exception("row and col were none!" + str(row) + ", " + str(col))
 
