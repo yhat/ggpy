@@ -155,7 +155,7 @@ class ggplot(object):
                     ax = self.subplots[col]
                 ax.set_title(name, fontdict={'fontsize': 10})
 
-    def impose_limits(self):
+    def apply_limits(self):
         limits = [(plt.xlim, self.xlimits), (plt.ylim, self.ylimits)]
         for mpl_func, limit in limits:
             if limit:
@@ -381,10 +381,6 @@ class ggplot(object):
 
     def get_facet_groups(self, group):
 
-        # there are 3 situations. faceting on rows and columns, just rows, and
-        # just columns. i broke this up into 3 explicit parts b/c it can get
-        # very confusing if you're trying to handle the 3 cases simultaneously. so
-        # while it's possible to do it all at once, WE'RE NOT GOING TO DO THAT
         if self.facets is None:
             yield (self.subplots, group)
             return
@@ -490,12 +486,11 @@ class ggplot(object):
                     for layer in self.layers:
                         layer.plot(ax, facetgroup, self._aes)
 
-            self.impose_limits()
+            self.apply_limits()
             self.add_labels()
             self.apply_axis_scales()
             self.apply_axis_labels()
             self.apply_coords()
-
             self.add_legend(legend)
 
             if self.theme:

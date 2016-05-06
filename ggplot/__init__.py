@@ -38,6 +38,7 @@ from .datasets import (diamonds, mtcars, meat, pageviews, movies)
 from .scales.scale_color_brewer import scale_color_brewer
 from .scales.scale_color_manual import scale_color_manual
 from .scales.scale_color_gradient import scale_color_gradient
+from .scales.scale_identity import scale_alpha_identity, scale_color_identity, scale_fill_identity, scale_linetype_identity, scale_shape_identity, scale_size_identity
 from .scales.scale_log import scale_x_log, scale_y_log
 from .scales.scale_reverse import scale_x_reverse, scale_y_reverse
 from .scales.scale_x_continuous import scale_x_continuous
