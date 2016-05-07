@@ -17,7 +17,7 @@ class geom(object):
     def __init__(self, **kwargs):
         self.layers = [self]
         self.params = kwargs
-        self.VALID_AES = set(self.DEFAULT_AES.keys() + list(self.REQUIRED_AES) + self._aes_renames.values())
+        self.VALID_AES = set(list(self.DEFAULT_AES.keys()) + list(self.REQUIRED_AES) + list(self._aes_renames.values()))
 
     def __radd__(self, gg):
         if isinstance(gg, ggplot):

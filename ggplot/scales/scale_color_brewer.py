@@ -69,7 +69,7 @@ class scale_color_brewer(scale):
         try:
             color_col = gg._aes.data.get('color', gg._aes.data.get('fill'))
             n_colors = max(gg.data[color_col].nunique(), 3)
-        except Exception, e:
+        except Exception(e):
             # If we are neither using 'color' nor 'fill' then assume there is
             # only one color used
             n_colors = 3
