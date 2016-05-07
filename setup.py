@@ -40,17 +40,20 @@ setup(
         "cycler",
         "numpy"
     ],
-    classifiers=['Intended Audience :: Science/Research',
-                 'Intended Audience :: Developers',
-                 'Programming Language :: Python',
-                 'Topic :: Software Development',
-                 'Topic :: Scientific/Engineering',
-                 'Operating System :: Microsoft :: Windows',
-                 'Operating System :: POSIX',
-                 'Operating System :: Unix',
-                 'Operating System :: MacOS',
-                 'Programming Language :: Python :: 2',
-                 'Programming Language :: Python :: 2.7',
-                 'Programming Language :: Python :: 3',
-                 'Programming Language :: Python :: 3.3'],
-    zip_safe=False)
+    classifiers=[
+        'Intended Audience :: Science/Research',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python',
+        'Topic :: Software Development',
+        'Topic :: Scientific/Engineering',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
+        'Operating System :: Unix',
+        'Operating System :: MacOS',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3'
+    ],
+    zip_safe=False
+)
