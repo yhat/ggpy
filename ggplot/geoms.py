@@ -84,7 +84,16 @@ class geom_point(geom):
         if 'colormap' in variables:
             params['cmap'] = variables['colormap']
 
+        if self.params.get("jitter"):
+            x *= np.random.uniform(.9, 1.1, len(x))
+            y *= np.random.uniform(.9, 1.1, len(y))
+
         ax.scatter(x, y, **params)
+
+class geom_jitter(geom_point):
+    def __init__(self, *args, **kwargs):
+        super(geom_point, self).__init__(*args, **kwargs)
+        self.params['position'] = "jitter"
 
 class geom_area(geom):
 
