@@ -2,7 +2,7 @@ TODO
 - [ ] packaging
   - [-] build
   - [ ] python3
-  - [ ] legend titles
+  - [-] legend titles
   - [ ] circleci
 - [ ] facets
     - [x] facet_wrap labels busted for "non-standard" columns/rows
