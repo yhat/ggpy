@@ -14,6 +14,7 @@
   - [ ] colors
   - [ ] titles and labels
   - [ ] legend
+
 ## API Driven
 ### stats/geoms
 - [x] geom_point
