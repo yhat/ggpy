@@ -1,9 +1,14 @@
 TODO
 - [ ] packaging
-  - [-] build
-  - [ ] python3
-  - [-] legend titles
-  - [ ] circleci
+  - [ ] can't plot dates
+  - [x] build
+  - [ ] pypi
+  - [ ] conda
+  - [x] python3
+  - [ ] docs
+  - [x] legend titles
+  - [?] circleci
+
 - [ ] facets
     - [x] facet_wrap labels busted for "non-standard" columns/rows
     - [x] labels for facet_wrap
