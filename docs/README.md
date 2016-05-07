@@ -5,6 +5,7 @@
 - [ ] how to combine plot types into 1 plot
 - [ ] how to make a scatter plot
 - [ ] how to plot distributions
+- [ ] displaying multiple dimensions simultaneously
 - [ ] make multiple plots at the same time
 - [ ] save plots to a file
 - [ ] faceting
@@ -22,6 +23,7 @@
 - [x] geom_line
 - [x] stat_density
 - [x] geom_bar
+- [ ] geom_jitter
 - [ ] geom_area
 - [ ] geom_abline
 - [ ] geom_boxplot
