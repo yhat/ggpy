@@ -8,8 +8,17 @@ from statsmodels.nonparametric.smoothers_lowess import lowess as smlowess
 from statsmodels.sandbox.regression.predstd import wls_prediction_std
 from statsmodels.stats.outliers_influence import summary_table
 import scipy.stats as stats
+import datetime
 
-_isdate = lambda x: isinstance(x, Timestamp)
+date_types = (
+    pd.tslib.Timestamp,
+    pd.DatetimeIndex,
+    pd.Period,
+    pd.PeriodIndex,
+    datetime.datetime,
+    datetime.time
+)
+_isdate = lambda x: isinstance(x, date_types)
 SPAN = 2/3.
 ALPHA = 0.05 # significance level for confidence interval
 
@@ -24,7 +33,7 @@ def _plot_friendly(value):
 
 def lm(x, y, alpha=ALPHA):
     "fits an OLS from statsmodels. returns tuple."
-    if _isdate(x.iloc(0)):
+    if _isdate(x.iloc[0]):
         x = np.array([i.toordinal() for i in x])
     X = sm.add_constant(x)
     fit = sm.OLS(y, X).fit()

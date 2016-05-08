@@ -1,13 +1,13 @@
 # `ggplot` documentation
 ## Task Driven
 ### how to
-- [ ] intro
-- [ ] how to combine plot types into 1 plot
-- [ ] how to make a scatter plot
-- [ ] how to plot distributions
+- [x] intro
+- [x] how to combine plot types into 1 plot
+- [x] how to make a scatter plot
+- [x] how to plot distributions
 - [ ] displaying multiple dimensions simultaneously
 - [ ] make multiple plots at the same time
-- [ ] save plots to a file
+- [x] save plots to a file
 - [ ] faceting
 - [ ] adjusting plot dimensions (scales)
 - [ ] how to customize...

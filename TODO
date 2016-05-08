@@ -1,6 +1,8 @@
 TODO
 - [ ] packaging
-  - [ ] can't plot dates
+  - [-] can't plot dates
+      - [x] geom_point
+      - [x] stat_smooth
   - [x] build
   - [ ] pypi
   - [ ] conda
