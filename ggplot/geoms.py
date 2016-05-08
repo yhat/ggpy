@@ -2,8 +2,9 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.stats import gaussian_kde
 import pandas as pd
+import datetime
+from scipy.stats import gaussian_kde
 from .ggplot import ggplot
 from .stats import smoothers
 from .stats import smoothers
@@ -88,7 +89,19 @@ class geom_point(geom):
             x *= np.random.uniform(.9, 1.1, len(x))
             y *= np.random.uniform(.9, 1.1, len(y))
 
-        ax.scatter(x, y, **params)
+        date_types = (
+            pd.tslib.Timestamp,
+            pd.DatetimeIndex,
+            pd.Period,
+            pd.PeriodIndex,
+            datetime.datetime,
+            datetime.time
+        )
+        if isinstance(x.iloc[0], date_types):
+            # TODO: make this work for plot_date params
+            ax.plot_date(x, y, **{})
+        else:
+            ax.scatter(x, y, **params)
 
 class geom_jitter(geom_point):
     def __init__(self, *args, **kwargs):
@@ -350,6 +363,7 @@ class stat_smooth(geom):
 
         order = np.argsort(x)
         if self.params.get('se', True)==True:
+            # TODO: fix for dates
             ax.fill_between(x[order], y1[order], y2[order], **params)
         if self.params.get('fit', True)==True:
             del params['alpha']
