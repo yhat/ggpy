@@ -1,19 +1,19 @@
 # `ggplot` documentation
 ## Task Driven
-### how to
+### how to - http://stackoverflow.com/search?tab=votes&q=ggplot
 - [x] intro
 - [x] how to combine plot types into 1 plot
 - [x] how to make a scatter plot
 - [x] how to plot distributions
 - [ ] displaying multiple dimensions simultaneously
-- [ ] make multiple plots at the same time
+- [x] make multiple plots at the same time
 - [x] save plots to a file
-- [ ] faceting
+- [x] faceting
 - [ ] adjusting plot dimensions (scales)
 - [ ] how to customize...
   - [ ] look and feel (themes)
-  - [ ] colors
-  - [ ] titles and labels
+  - [x] colors
+  - [x] titles and labels
   - [ ] legend
 
 ## API Driven
