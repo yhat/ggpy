@@ -116,8 +116,7 @@ class ggplot(object):
                 def factor(s, levels=None, labels=None):
                     return s.apply(str)
 
-                env = EvalEnvironment.capture(eval_env=(self._aes.__eval_env__ or 1))
-                                     .with_outer_namespace({ "factor": factor, "pd": pd, "np": np })
+                env = EvalEnvironment.capture(eval_env=(self._aes.__eval_env__ or 1)).with_outer_namespace({ "factor": factor, "pd": pd, "np": np })
                 try:
                     new_val = env.eval(item, inner_namespace=self.data)
                     self.data[item] = new_val
