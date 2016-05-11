@@ -3,6 +3,11 @@ TODO
   - [-] can't plot dates
       - [x] geom_point
       - [x] stat_smooth
+  - [ ] colors
+      - [x] brewer
+      - [x] gradient
+  - [ ] legend scale is off for colors
+  - [x] factor not working
   - [x] build
   - [ ] pypi
   - [ ] conda

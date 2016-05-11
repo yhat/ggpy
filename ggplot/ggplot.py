@@ -117,7 +117,7 @@ class ggplot(object):
                     return s.apply(str)
 
                 env = EvalEnvironment.capture(eval_env=(self._aes.__eval_env__ or 1))
-                env.add_outer_namespace({"factor": factor})
+                                     .with_outer_namespace({ "factor": factor, "pd": pd, "np": np })
                 try:
                     new_val = env.eval(item, inner_namespace=self.data)
                     self.data[item] = new_val
@@ -315,7 +315,10 @@ class ggplot(object):
         # checks for continuous aesthetics that can also be discrete (color, alpha, fill, linewidth???)
         if "color" in self._aes.data and "color" not in discrete_aes_types:
             # This is approximate, going to roll with it
-            self._aes.data['colormap'] = cmap = LinearSegmentedColormap.from_list('gradient2n', ['#1f3347', '#469cef'])
+            if self.colormap:
+                self._aes.data['colormap'] = cmap = self.colormap
+            else:
+                self._aes.data['colormap'] = cmap = LinearSegmentedColormap.from_list('gradient2n', ['#1f3347', '#469cef'])
             colname = self._aes.data['color']
             quantiles_actual = quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 1.0])
             # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
@@ -323,7 +326,7 @@ class ggplot(object):
             mappers['color'] = { "name": colname, "lookup": {} }
             colors = cmap(quantiles)
             for i, q in enumerate(quantiles_actual):
-                mappers['color']["lookup"][q] = colors[i]
+                mappers['color']['lookup'][q] = colors[i]
 
         if "alpha" in self._aes.data and "alpha" not in discrete_aes_types:
             colname = self._aes.data['alpha']

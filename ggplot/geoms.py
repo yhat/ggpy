@@ -252,8 +252,7 @@ class geom_hline(geom):
 
 class geom_vline(geom):
 
-    DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
-                   'size': 1.0}
+    DEFAULT_AES = {'color': 'black', 'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'xintercept'}
     DEFAULT_PARAMS = {'stat': 'vline', 'position': 'identity',
                       'show_guide': False}
@@ -264,6 +263,7 @@ class geom_vline(geom):
         x = self.params.get('x')
         params = self._get_plot_args(data, _aes)
         ax.axvline(x, **params)
+
 
 class geom_bar(geom):
 

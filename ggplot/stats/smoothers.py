@@ -56,7 +56,7 @@ def lowess(x, y, span=SPAN):
         statsmodels.nonparametric.smoothers_lowess.lowess
     """
     x, y = map(_plot_friendly, [x,y])
-    if _isdate(x[0]):
+    if _isdate(x.iloc[0]):
         x = np.array([i.toordinal() for i in x])
     result = smlowess(np.array(y), np.array(x), frac=span)
     x = pd.Series(result[::,0])
@@ -70,7 +70,7 @@ def lowess(x, y, span=SPAN):
 def mavg(x,y, window):
     "compute moving average"
     x, y = map(_plot_friendly, [x,y])
-    if _isdate(x[0]):
+    if _isdate(x.iloc[0]):
         x = np.array([i.toordinal() for i in x])
     std_err = pd.rolling_std(y, window)
     y = pd.rolling_mean(y, window)

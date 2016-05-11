@@ -59,9 +59,6 @@ class scale_color_brewer(scale):
         else:
             palette = _number_to_palette(ctype, 1)
 
-        palette = _number_to_palette(ctype, 1)
-
-
         if isinstance(palette, int):
             palette = _number_to_palette(ctype, palette)
 
