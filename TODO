@@ -8,14 +8,16 @@ TODO
       - [x] gradient
       - [ ] default parameter values (colors) aren't working
   - [ ] geom_area x-axis for dates
+      - [x] plot
+      - [-] labels
   - [ ] coord_flip
   - [x] legend scale is off for colors
   - [x] factor not working
   - [x] build
-  - [ ] pypi
+  - [x] pypi
   - [ ] conda
   - [x] python3
-  - [ ] docs
+  - [-] docs
   - [x] legend titles
   - [?] circleci
 
