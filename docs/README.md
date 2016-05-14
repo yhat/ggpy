@@ -5,11 +5,10 @@
 - [x] how to combine plot types into 1 plot
 - [x] how to make a scatter plot
 - [x] how to plot distributions
-- [ ] displaying multiple dimensions simultaneously
 - [x] make multiple plots at the same time
 - [x] save plots to a file
 - [x] faceting
-- [ ] adjusting plot dimensions (scales)
+- [x] adjusting plot dimensions (scales)
 - [ ] how to customize...
   - [ ] look and feel (themes)
   - [x] colors
