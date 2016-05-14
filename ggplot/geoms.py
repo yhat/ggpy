@@ -141,7 +141,9 @@ class geom_area(geom):
         if _isdate(x.iloc[0]):
             x = np.array([i.toordinal() for i in x])
             ax.fill_between(x, ymin, ymax, **params)
-            ax.get_xticks()
+            new_ticks = [datetime.date.fromordinal(int(i)) for i in ax.get_xticks()]
+            # new_ticks = [d.isoformat() for d in new_ticks]
+            ax.set_xticklabels(new_ticks)
         else:
             ax.fill_between(x, ymin, ymax, **params)
 
