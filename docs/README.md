@@ -23,17 +23,17 @@
 - [x] stat_density
 - [x] geom_bar
 - [x] geom_jitter
-- [-] geom_area
+- [-] geom_area (almost done but if x is a date it breaks)
 - [x] geom_abline
-- [ ] geom_boxplot
+- [ ] geom_boxplot (doesn't really work)
 - [x] geom_blank
 - [x] geom_hline
 - [x] geom_vline
 - [x] stat_smooth
 
 ### faceting
-- [ ] facet_wrap
-- [ ] facet_grid
+- [x] facet_wrap
+- [x] facet_grid
 
 ### plotting/core
 - [ ] ggplot
@@ -41,23 +41,23 @@
 - [ ] aes
 
 ### scales
-- [ ] scale_alpha_identity
-- [ ] scale_color_brewer
-- [ ] scale_color_manual
-- [ ] scale_color_gradient
-- [ ] scale_color_identity
-- [ ] scale_fill_identity
-- [ ] scale_linetype_identity
+- [x] scale_alpha_identity
+- [x] scale_color_brewer
+- [x] scale_color_manual
+- [x] scale_color_gradient
+- [x] scale_color_identity
+- [x] scale_fill_identity
+- [x] scale_linetype_identity
 - [ ] scale_shape_identity
 - [ ] scale_size_identity
-- [ ] scale_x_log
-- [ ] scale_y_log
-- [ ] scale_x_reverse
-- [ ] scale_y_reverse
-- [ ] scale_x_continuous
-- [ ] scale_y_continuous
-- [ ] scale_x_discrete
-- [ ] scale_y_discrete
+- [x] scale_x_log
+- [x] scale_y_log
+- [x] scale_x_reverse
+- [x] scale_y_reverse
+- [x] scale_x_continuous
+- [x] scale_y_continuous
+- [x] scale_x_discrete
+- [x] scale_y_discrete
 - [ ] scale_x_date
 - [ ] scale_y_date
 - [ ] date_format, date_breaks
