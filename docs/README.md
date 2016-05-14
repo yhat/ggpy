@@ -22,14 +22,14 @@
 - [x] geom_line
 - [x] stat_density
 - [x] geom_bar
-- [ ] geom_jitter
-- [ ] geom_area
-- [ ] geom_abline
+- [x] geom_jitter
+- [-] geom_area
+- [x] geom_abline
 - [ ] geom_boxplot
-- [ ] geom_blank
-- [ ] geom_hline
-- [ ] geom_vline
-- [ ] stat_smooth
+- [x] geom_blank
+- [x] geom_hline
+- [x] geom_vline
+- [x] stat_smooth
 
 ### faceting
 - [ ] facet_wrap
