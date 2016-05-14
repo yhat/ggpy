@@ -139,10 +139,10 @@ class geom_area(geom):
         params = self._get_plot_args(data, _aes)
         # x value in fill_between can't be a date
         if _isdate(x.iloc[0]):
+            dtype = x.iloc[0].__class__
             x = np.array([i.toordinal() for i in x])
             ax.fill_between(x, ymin, ymax, **params)
-            new_ticks = [datetime.date.fromordinal(int(i)) for i in ax.get_xticks()]
-            # new_ticks = [d.isoformat() for d in new_ticks]
+            new_ticks = [dtype(i) for i in ax.get_xticks()]
             ax.set_xticklabels(new_ticks)
         else:
             ax.fill_between(x, ymin, ymax, **params)
