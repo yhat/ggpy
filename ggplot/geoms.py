@@ -310,7 +310,7 @@ class geom_bar(geom):
             cols = [variables['x'], variables['weight']]
             xdata = data[cols].groupby(variables['x']).sum().reset_index()
             x = xdata[variables['x']]
-            heights = xdata['x']
+            heights = xdata[variables['weight']]
         else:
             xdata = x.value_counts().reset_index()
             x = xdata['index']
