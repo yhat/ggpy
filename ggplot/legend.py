@@ -138,4 +138,3 @@ def make_legend(ax, legend_mapping):
             labels.append(key)
 
     legend = ax.legend(items, labels, loc='center left', bbox_to_anchor=(1.05, 0.5), fontsize='small', frameon=False)
-    legend.get_frame().set_facecolor('white')

@@ -19,7 +19,7 @@ _set_mpl_backend()
 __version__ = '0.9.0'
 
 
-from .geoms import geom_area, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline
+from .geoms import geom_area, geom_blank, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline
 from .geoms import stat_smooth, stat_density
 
 from .facets import facet_wrap, facet_grid, Facet
@@ -32,7 +32,7 @@ from .aes import aes
 
 from .coords.coords import coord_polar, coord_equal, coord_flip
 
-from .datasets import diamonds, mtcars, meat, pageviews, movies
+from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies
 
 from .scales.scale_color_brewer import scale_color_brewer
 from .scales.scale_color_manual import scale_color_manual

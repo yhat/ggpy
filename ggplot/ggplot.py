@@ -326,6 +326,7 @@ class ggplot(object):
             colors = cmap(quantiles)
             for i, q in enumerate(quantiles_actual):
                 mappers['color']['lookup'][q] = colors[i]
+            data[colname] = (data[colname] - data[colname].min()) / data[colname].max()
 
         if "alpha" in self._aes.data and "alpha" not in discrete_aes_types:
             colname = self._aes.data['alpha']

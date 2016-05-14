@@ -51,3 +51,10 @@ def is_categorical(obj):
     if is_sequence_of_booleans(obj):
         return True
     return False
+
+def is_iterable(obj):
+    try:
+        iter(obj)
+        return True
+    except:
+        return False

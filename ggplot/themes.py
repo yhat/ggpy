@@ -34,7 +34,7 @@ class theme_538(theme):
     def __init__(self):
         super(theme_538, self).__init__()
         self._rcParams["lines.linewidth"] = "2.0"
-        self._rcParams["examples.download"] = "True"
+        # self._rcParams["examples.download"] = "True"
         self._rcParams["patch.linewidth"] = "0.5"
         self._rcParams["legend.fancybox"] = "True"
         self._rcParams["axes.prop_cycle"] = cycler('color', [ "#30a2da", "#fc4f30", "#e5ae38",
@@ -45,7 +45,7 @@ class theme_538(theme):
         self._rcParams["axes.grid"] = "True"
         self._rcParams["patch.edgecolor"] = "#f0f0f0"
         self._rcParams["axes.titlesize"] = "x-large"
-        self._rcParams["svg.embed_char_paths"] = "path"
+        # self._rcParams["svg.embed_char_paths"] = "path"
         self._rcParams["examples.directory"] = ""
         self._rcParams["figure.facecolor"] = "#f0f0f0"
         self._rcParams["grid.linestyle"] = "-"

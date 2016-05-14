@@ -8,12 +8,23 @@ from scipy.stats import gaussian_kde
 from .ggplot import ggplot
 from .stats import smoothers
 from .stats import smoothers
-from .utils import is_categorical
+from .utils import is_categorical, is_iterable
+import datetime
 
+date_types = (
+    pd.tslib.Timestamp,
+    pd.DatetimeIndex,
+    pd.Period,
+    pd.PeriodIndex,
+    datetime.datetime,
+    datetime.time
+)
+_isdate = lambda x: isinstance(x, date_types)
 
 class geom(object):
     _aes_renames = {}
     DEFAULT_AES = {}
+    REQUIRED_AES = {}
 
     def __init__(self, **kwargs):
         self.layers = [self]
@@ -126,7 +137,13 @@ class geom_area(geom):
         order = x.argsort()
 
         params = self._get_plot_args(data, _aes)
-        ax.fill_between(x, ymin, ymax, **params)
+        # x value in fill_between can't be a date
+        if _isdate(x.iloc[0]):
+            x = np.array([i.toordinal() for i in x])
+            ax.fill_between(x, ymin, ymax, **params)
+            ax.get_xticks()
+        else:
+            ax.fill_between(x, ymin, ymax, **params)
 
 class geom_line(geom):
     DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
@@ -230,8 +247,10 @@ class geom_abline(geom):
         # don't need the original params from the aesthetics
         del params['x']
         del params['y']
-        del params['slope']
-        del params['intercept']
+        if 'slope' in params:
+            del params['slope']
+        if 'intercept' in params:
+            del params['intercept']
         ax.plot(x, y, **params)
 
 
@@ -248,7 +267,11 @@ class geom_hline(geom):
         variables = _aes.data
         y = self.params.get('y')
         params = self._get_plot_args(data, _aes)
-        ax.axhline(y, **params)
+        if is_iterable(y):
+            for yi in y:
+                ax.axhline(yi, **params)
+        else:
+            ax.axhline(y, **params)
 
 class geom_vline(geom):
 
@@ -262,7 +285,12 @@ class geom_vline(geom):
         variables = _aes.data
         x = self.params.get('x')
         params = self._get_plot_args(data, _aes)
-        ax.axvline(x, **params)
+
+        if is_iterable(x):
+            for xi in x:
+                ax.axvline(xi, **params)
+        else:
+            ax.axvline(x, **params)
 
 
 class geom_bar(geom):
