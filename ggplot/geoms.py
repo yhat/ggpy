@@ -29,7 +29,11 @@ class geom(object):
     def __init__(self, **kwargs):
         self.layers = [self]
         self.params = kwargs
-        self.VALID_AES = set(list(self.DEFAULT_AES.keys()) + list(self.REQUIRED_AES) + list(self._aes_renames.values()))
+
+        self.VALID_AES = set()
+        self.VALID_AES.update(self.DEFAULT_AES.keys())
+        self.VALID_AES.update(self.REQUIRED_AES)
+        self.VALID_AES.update(self._aes_renames.keys())
 
     def __radd__(self, gg):
         if isinstance(gg, ggplot):
@@ -64,6 +68,7 @@ class geom(object):
 
         for key, value in mpl_params.items():
             if key not in self.VALID_AES:
+                print("invalid AES: " + key, self.VALID_AES)
                 del mpl_params[key]
             elif key in self._aes_renames:
                 new_key = self._aes_renames[key]
@@ -76,6 +81,7 @@ class geom(object):
             else:
                 del mpl_params[req]
 
+        print(mpl_params)
         return mpl_params
 
 class geom_point(geom):
@@ -359,6 +365,7 @@ class geom_bar(geom):
 
 class stat_smooth(geom):
 
+    DEFAULT_AES = {'color': 'black'}
     DEFAULT_PARAMS = {'geom': 'smooth', 'position': 'identity', 'method': 'auto',
             'se': True, 'n': 80, 'fullrange': False, 'level': 0.95,
             'span': 2/3., 'window': None}
