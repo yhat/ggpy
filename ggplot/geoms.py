@@ -68,7 +68,6 @@ class geom(object):
 
         for key, value in mpl_params.items():
             if key not in self.VALID_AES:
-                print("invalid AES: " + key, self.VALID_AES)
                 del mpl_params[key]
             elif key in self._aes_renames:
                 new_key = self._aes_renames[key]
@@ -81,7 +80,6 @@ class geom(object):
             else:
                 del mpl_params[req]
 
-        print(mpl_params)
         return mpl_params
 
 class geom_point(geom):
@@ -262,7 +260,7 @@ class geom_abline(geom):
 class geom_hline(geom):
     DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
                    'size': 1.0,}
-    REQUIRED_AES = {'yintercept'}
+    REQUIRED_AES = {}
     DEFAULT_PARAMS = {'stat': 'hline', 'position': 'identity',
                       'show_guide': False}
 
@@ -281,7 +279,7 @@ class geom_hline(geom):
 class geom_vline(geom):
 
     DEFAULT_AES = {'color': 'black', 'linetype': 'solid', 'size': 1.0}
-    REQUIRED_AES = {'xintercept'}
+    REQUIRED_AES = {}
     DEFAULT_PARAMS = {'stat': 'vline', 'position': 'identity',
                       'show_guide': False}
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
