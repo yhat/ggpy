@@ -40,14 +40,13 @@ def lm(x, y, alpha=ALPHA):
     prstd, iv_l, iv_u = wls_prediction_std(fit)
     _, summary_values, summary_names = summary_table(fit, alpha=alpha)
     df = pd.DataFrame(summary_values, columns=map(_snakify, summary_names))
-    fittedvalues        = df['predicted_value']
-    predict_mean_se     = df['std_error_mean_predict']
-    predict_mean_ci_low = df['mean_ci_95%_low']
-    predict_mean_ci_upp = df['mean_ci_95%_upp']
-    predict_ci_low      = df['predict_ci_95%_low']
-    predict_ci_upp      = df['predict_ci_95%_upp']
-    return (x, fittedvalues, predict_mean_ci_low,
-            predict_mean_ci_upp)
+    # TODO: indexing w/ data frame is messing everything up
+    fittedvalues        = df['predicted_value'].values
+    predict_mean_ci_low = df['mean_ci_95%_low'].values
+    predict_mean_ci_upp = df['mean_ci_95%_upp'].values
+    predict_ci_low      = df['predict_ci_95%_low'].values
+    predict_ci_upp      = df['predict_ci_95%_upp'].values
+    return (x, fittedvalues, predict_mean_ci_low, predict_mean_ci_upp)
 
 def lowess(x, y, span=SPAN):
     "returns y-values estimated using the lowess function in statsmodels."

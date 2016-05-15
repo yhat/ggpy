@@ -390,6 +390,9 @@ class stat_smooth(geom):
         else:
             x, y, y1, y2 = smoothers.lowess(x, y, span=span)
 
+        smoothed_data = pd.DataFrame(dict(x=x, y=y, y1=y1, y2=y2))
+        smoothed_data = smoothed_data.sort_values('x')
+
         params = self._get_plot_args(data, _aes)
         if 'alpha' not in params:
             params['alpha'] = 0.2
@@ -397,9 +400,9 @@ class stat_smooth(geom):
         order = np.argsort(x)
         if self.params.get('se', True)==True:
             # TODO: fix for dates
-            ax.fill_between(x[order], y1[order], y2[order], **params)
+            ax.fill_between(smoothed_data.x, smoothed_data.y1, smoothed_data.y2, **params)
         if self.params.get('fit', True)==True:
             del params['alpha']
-            ax.plot(x[order], y[order], **params)
+            ax.plot(smoothed_data.x, smoothed_data.y, **params)
 
 stat_density = geom_density
