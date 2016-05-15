@@ -1,68 +1,55 @@
 # `ggplot` documentation
-## Task Driven
-### how to - http://stackoverflow.com/search?tab=votes&q=ggplot
-- [x] intro
-- [x] how to combine plot types into 1 plot
-- [x] how to make a scatter plot
-- [x] how to plot distributions
-- [x] make multiple plots at the same time
-- [x] save plots to a file
-- [x] faceting
-- [x] adjusting plot dimensions (scales)
-- [ ] how to customize...
-  - [ ] look and feel (themes)
-  - [x] colors
-  - [x] titles and labels
-  - [ ] legend
 
-## API Driven
-### stats/geoms
-- [x] geom_point
-- [x] geom_histogram
-- [x] geom_line
-- [x] stat_density
-- [x] geom_bar
-- [x] geom_jitter
-- [-] geom_area (almost done but if x is a date it breaks)
-- [x] geom_abline
-- [ ] geom_boxplot (doesn't really work)
-- [x] geom_blank
-- [x] geom_hline
-- [x] geom_vline
-- [x] stat_smooth
+### Quickstart
+- [Intro to ggplot.ipynb](./how-to/Intro to ggplot.ipynb)
 
-### faceting
-- [x] facet_wrap
-- [x] facet_grid
+### How To
+- [Annotating Plots - Titles and Labels.ipynb](./how-to/Annotating Plots - Titles and Labels.ipynb)
+- [Building Faceted (or Trellised) Plots.ipynb](./how-to/Building Faceted (or Trellised) Plots.ipynb)
+- [Color Swatches.ipynb](./how-to/Color Swatches.ipynb)
+- [Customizing Colors.ipynb](./how-to/Customizing Colors.ipynb)
+- [Customizing your x and y axis - Scaling and Coordinates.ipynb](./how-to/Customizing your x and y axis - Scaling and Coordinates.ipynb)
+- [How to Make a Histogram.ipynb](./how-to/How to Make a Histogram.ipynb)
+- [How to make xkcd style graphs.ipynb](./how-to/How to make xkcd style graphs.ipynb)
+- [Layering Plots.ipynb](./how-to/Layering Plots.ipynb)
+- [Look and Feel - Themes.ipynb](./how-to/Look and Feel - Themes.ipynb)
+- [Making Multiple Plots.ipynb](./how-to/Making Multiple Plots.ipynb)
+- [Making a Scatter Plot.ipynb](./how-to/Making a Scatter Plot.ipynb)
+- [Plotting two variables as lines on the same graph.ipynb](./how-to/Plotting two variables as lines on the same graph.ipynb)
+- [Saving Plots to a File.ipynb](./how-to/Saving Plots to a File.ipynb)
+- [Visualizing Distributions.ipynb](./how-to/Visualizing Distributions.ipynb)
 
-### plotting/core
-- [ ] ggplot
-- [ ] qplot
-- [ ] aes
+### Geoms
+- [geom_abline.ipynb](./geoms/geom_abline.ipynb)
+- [geom_area.ipynb](./geoms/geom_area.ipynb)
+- [geom_bar.ipynb](./geoms/geom_bar.ipynb)
+- [geom_blank.ipynb](./geoms/geom_blank.ipynb)
+- [geom_histogram.ipynb](./geoms/geom_histogram.ipynb)
+- [geom_hline.ipynb](./geoms/geom_hline.ipynb)
+- [geom_jitter.ipynb](./geoms/geom_jitter.ipynb)
+- [geom_line.ipynb](./geoms/geom_line.ipynb)
+- [geom_point.ipynb](./geoms/geom_point.ipynb)
+- [geom_vline.ipynb](./geoms/geom_vline.ipynb)
+- [stat_density.ipynb](./geoms/stat_density.ipynb)
+- [stat_smooth.ipynb](./geoms/stat_smooth.ipynb)
 
-### scales
-- [x] scale_alpha_identity
-- [x] scale_color_brewer
-- [x] scale_color_manual
-- [x] scale_color_gradient
-- [x] scale_color_identity
-- [x] scale_fill_identity
-- [x] scale_linetype_identity
-- [ ] scale_shape_identity
-- [ ] scale_size_identity
-- [x] scale_x_log
-- [x] scale_y_log
-- [x] scale_x_reverse
-- [x] scale_y_reverse
-- [x] scale_x_continuous
-- [x] scale_y_continuous
-- [x] scale_x_discrete
-- [x] scale_y_discrete
-- [x] scale_x_date
-- [ ] scale_y_date
-- [x] date_format, date_breaks
+### Facets
+- [facet_grid.ipynb](./facets/facet_grid.ipynb)
+- [facet_wrap.ipynb](./facets/facet_wrap.ipynb)
 
-### themes
-- [ ] theme_538
-- [ ] theme_gray
-- [ ] theme_xkcd
+### Scales
+- [scale_alpha_identity.ipynb](./scales/scale_alpha_identity.ipynb)
+- [scale_color_brewer.ipynb](./scales/scale_color_brewer.ipynb)
+- [scale_color_gradient.ipynb](./scales/scale_color_gradient.ipynb)
+- [scale_color_identity.ipynb](./scales/scale_color_identity.ipynb)
+- [scale_color_manual.ipynb](./scales/scale_color_manual.ipynb)
+- [scale_fill_identity.ipynb](./scales/scale_fill_identity.ipynb)
+- [scale_linetype_identity.ipynb](./scales/scale_linetype_identity.ipynb)
+- [scale_x_continuous.ipynb](./scales/scale_x_continuous.ipynb)
+- [scale_x_date.ipynb](./scales/scale_x_date.ipynb)
+- [scale_x_discrete.ipynb](./scales/scale_x_discrete.ipynb)
+- [scale_x_log.ipynb](./scales/scale_x_log.ipynb)
+- [scale_x_reverse.ipynb](./scales/scale_x_reverse.ipynb)
+- [scale_y_continuous.ipynb](./scales/scale_y_continuous.ipynb)
+- [scale_y_log.ipynb](./scales/scale_y_log.ipynb)
+- [scale_y_reverse.ipynb](./scales/scale_y_reverse.ipynb)
