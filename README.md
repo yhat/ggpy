@@ -1,5 +1,10 @@
 # ggplot
 
+```bash
+$ pip install https://github.com/yhat/ggplot/archive/overhaul.zip
+```
+
+
 
 
 ### Examples
