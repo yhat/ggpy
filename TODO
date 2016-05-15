@@ -3,13 +3,13 @@ TODO
   - [x] can't plot dates
       - [x] geom_point
       - [x] stat_smooth
-  - [-] colors
+  - [x] colors
       - [x] brewer
       - [x] gradient
-      - [ ] default parameter values (colors) aren't working
-  - [ ] geom_area x-axis for dates
+      - [x] default parameter values (colors) aren't working
+  - [x] geom_area x-axis for dates
       - [x] plot
-      - [-] labels
+      - [x] labels
   - [ ] coord_flip
   - [x] legend scale is off for colors
   - [x] factor not working

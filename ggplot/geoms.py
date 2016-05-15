@@ -45,41 +45,38 @@ class geom(object):
         pass
 
     def _get_plot_args(self, data, _aes):
-        variables = _aes.data
-        params = {}
+        mpl_params = {}
+        mpl_params.update(self.DEFAULT_AES)
 
-        for aes_type, default_value in self.DEFAULT_AES.items():
-            # if we don't have an aesthetic for aes_type, add it to our params and set it to the default value
-            if aes_type not in variables:
-                params[aes_type] = default_value
-            elif data[variables[aes_type]].nunique()==1:
-                params[aes_type] = data[variables[aes_type]].iloc[0]
+        # for non-continuous values (i.e. shape), need to only pass 1 value
+        # into matplotlib. for example instead if ['+', '+', '+', ..., '+'] you'd
+        # want to pass in '+'
+        for key, value in _aes.items():
+            if value not in data:
+                mpl_params[key] = value
+            elif data[value].nunique()==1:
+                mpl_params[key] = data[value].iloc[0]
             else:
-                params[aes_type] = data[variables[aes_type]]
-            # else:
-            #     # TODO: I can't remember why this is needed, but i think it's needed for pseudo-continuous data
-            #     params[aes_type] = data[variables[aes_type]].iloc[0]
+                mpl_params[key] = data[value]
 
-        params.update(self.params)
-        for aes_type, mpl_param in self._aes_renames.items():
-            if aes_type in variables:
-                # TODO: what if it's a continuous number but there's only 1 datapoint in the segment
-                if data[variables[aes_type]].nunique()==1:
-                    params[mpl_param] = data[variables[aes_type]].iloc[0]
-                else:
-                    params[mpl_param] = data[variables[aes_type]]
-            # maybe this should be an elif?
-            if aes_type in params:
-                params[mpl_param] = params[aes_type]
-                del params[aes_type]
+        # parameters passed to the geom itself override the aesthetics
+        mpl_params.update(self.params)
 
-        valid_params = {}
-        for key, value in params.items():
+        for key, value in mpl_params.items():
             if key not in self.VALID_AES:
-                continue
-            valid_params[key] = value
+                del mpl_params[key]
+            elif key in self._aes_renames:
+                new_key = self._aes_renames[key]
+                mpl_params[new_key] = value
+                del mpl_params[key]
 
-        return valid_params
+        for req in self.REQUIRED_AES:
+            if req not in mpl_params:
+                raise Exception("%s needed for %s" % (req, str(self)))
+            else:
+                del mpl_params[req]
+
+        return mpl_params
 
 class geom_point(geom):
     DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20, 'edgecolors': None}
