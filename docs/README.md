@@ -58,9 +58,9 @@
 - [x] scale_y_continuous
 - [x] scale_x_discrete
 - [x] scale_y_discrete
-- [ ] scale_x_date
+- [x] scale_x_date
 - [ ] scale_y_date
-- [ ] date_format, date_breaks
+- [x] date_format, date_breaks
 
 ### themes
 - [ ] theme_538
