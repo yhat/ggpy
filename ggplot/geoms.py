@@ -66,7 +66,7 @@ class geom(object):
         # parameters passed to the geom itself override the aesthetics
         mpl_params.update(self.params)
 
-        items = mpl_params.items()
+        items = list(mpl_params.items())
         for key, value in items:
             if key not in self.VALID_AES:
                 del mpl_params[key]
