@@ -35,6 +35,7 @@ from .coords.coords import coord_polar, coord_equal, coord_flip
 from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies
 
 from .scales.scale_color_brewer import scale_color_brewer
+from .scales.scale_color_funfetti import scale_color_funfetti
 from .scales.scale_color_manual import scale_color_manual
 from .scales.scale_color_gradient import scale_color_gradient
 from .scales.scale_identity import scale_alpha_identity, scale_color_identity, scale_fill_identity, scale_linetype_identity, scale_shape_identity, scale_size_identity
