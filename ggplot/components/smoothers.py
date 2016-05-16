@@ -25,7 +25,8 @@ def plot_friendly(value):
 def lm(x, y, alpha=ALPHA):
     "fits an OLS from statsmodels. returns tuple."
     x, y = map(plot_friendly, [x,y])
-    if _isdate(x[0]):
+    x_is_date = _isdate(x[0])
+    if x_is_date:
         x = np.array([i.toordinal() for i in x])
     X = sm.add_constant(x)
     fit = sm.OLS(y, X).fit()
@@ -38,6 +39,8 @@ def lm(x, y, alpha=ALPHA):
     predict_mean_ci_upp = df['mean_ci_95%_upp']
     predict_ci_low      = df['predict_ci_95%_low']
     predict_ci_upp      = df['predict_ci_95%_upp']
+    if x_is_date:
+        x = [Timestamp.fromordinal(int(i)) for i in x]
     return (x, fittedvalues.tolist(), predict_mean_ci_low.tolist(),
             predict_mean_ci_upp.tolist())
 
@@ -48,7 +51,8 @@ def lowess(x, y, span=SPAN):
         statsmodels.nonparametric.smoothers_lowess.lowess
     """
     x, y = map(plot_friendly, [x,y])
-    if _isdate(x[0]):
+    x_is_date = _isdate(x[0])
+    if x_is_date:
         x = np.array([i.toordinal() for i in x])
     result = smlowess(np.array(y), np.array(x), frac=span)
     x = pd.Series(result[::,0])
@@ -57,15 +61,20 @@ def lowess(x, y, span=SPAN):
     std = np.std(y)
     y1 = pd.Series(lower * std +  y).tolist()
     y2 = pd.Series(upper * std +  y).tolist()
+    if x_is_date:
+        x = [Timestamp.fromordinal(int(i)) for i in x]
     return (x, y, y1, y2)
 
 def mavg(x,y, window):
     "compute moving average"
     x, y = map(plot_friendly, [x,y])
-    if _isdate(x[0]):
+    x_is_date = _isdate(x[0])
+    if x_is_date:
         x = np.array([i.toordinal() for i in x])
     std_err = pd.rolling_std(y, window)
     y = pd.rolling_mean(y, window)
     y1 = y - std_err
     y2 = y + std_err
+    if x_is_date:
+        x = [Timestamp.fromordinal(int(i)) for i in x]
     return (x, y, y1.tolist(), y2.tolist())
