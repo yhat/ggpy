@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 import numpy as np
 import pandas as pd
 import datetime
@@ -361,6 +362,92 @@ class geom_bar(geom):
         if categorical:
             ax.set_xticks(left+width/2)
             ax.set_xticklabels(x)
+
+class geom_tile(geom):
+
+    DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
+                   'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x', 'y'}
+    DEFAULT_PARAMS = {'xbins': 20, 'ybins': 20}
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
+                    'fill': 'facecolor', 'color': 'edgecolor'}
+
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
+        x = data[variables['x']]
+        y = data[variables['y']]
+
+        weight = variables['fill']
+        if 'fill' in variables:
+            del variables['fill']
+
+        params = self._get_plot_args(data, _aes)
+
+        # TODO: this could be a param or could be calculated better somehow...
+        n_xbins = self.params.get('xbins', self.DEFAULT_PARAMS['xbins'])
+        n_ybins = self.params.get('ybins', self.DEFAULT_PARAMS['ybins'])
+        x_cut, x_bins = pd.cut(x, n_xbins, retbins=True)
+        y_cut, y_bins = pd.cut(y, n_ybins, retbins=True)
+        data[variables['x'] + "_cut"] = x_cut
+        data[variables['y'] + "_cut"] = y_cut
+        counts = data[[weight, variables['x'] + "_cut", variables['y'] + "_cut"]].groupby([variables['x'] + "_cut", variables['y'] + "_cut"]).count().fillna(0)
+        weighted = data[[weight, variables['x'] + "_cut", variables['y'] + "_cut"]].groupby([variables['x'] + "_cut", variables['y'] + "_cut"]).sum().fillna(0)
+
+        def get_xy():
+            for x in x_bins:
+                for y in y_bins:
+                    yield (x, y)
+        xy = get_xy()
+
+        xstep = x_bins[1] - x_bins[0]
+        ystep = y_bins[1] - y_bins[0]
+        maxval = counts.max().max() * weighted.max().max()
+
+        for ((idx, cnt), (_, wt)) in zip(counts.iterrows(), weighted.iterrows()):
+            xi, yi = next(xy)
+            params['alpha'] = (wt.values * cnt.values) / float(maxval)
+            ax.add_patch(
+                    patches.Rectangle(
+                        (xi, yi),       # (x,y)
+                        xstep,          # width
+                        ystep,          # height
+                        **params
+                    )
+            )
+
+        # df = pd.crosstab(x_cut, pd.cut(y, 5))
+        # maxval = df.max().max()
+        # for (xbin, (x_group, row)) in zip(x_bins, df.iterrows()):
+        #     for (ybin, (y_group, value)) in zip(y_bins, row.iteritems()):
+        #         params['alpha'] = (weight * value) / float(maxval)
+        #         ax.add_patch(
+        #                 patches.Rectangle(
+        #                     (xbin, ybin),       # (x,y)
+        #                     xstep,          # width
+        #                     ystep,          # height
+        #                     **params
+        #                 )
+        #         )
+
+        #
+        # rng = 20.
+        xmin, xmax = x.min(), x.max()
+        # xstep = (xmax - xmin) / rng
+        ymin, ymax = y.min(), y.max()
+        # ystep = (ymax - ymin) / rng
+        #
+        # for xi in np.arange(xmin, xmax, xstep):
+        #     for yi in np.arange(ymin, ymax, ystep):
+        #         ax.add_patch(
+        #                 patches.Rectangle(
+        #                     (xi, yi),       # (x,y)
+        #                     xstep,          # width
+        #                     ystep,          # height
+        #                     **params
+        #                 )
+        #         )
+        ax.set_xticks(x_bins)
+        ax.set_yticks(y_bins)
 
 class stat_smooth(geom):
 
