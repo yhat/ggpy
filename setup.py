@@ -35,7 +35,7 @@ setup(
         "brewer2mpl",
         "matplotlib",
         "scipy",
-        "patsy",
+        "patsy>=0.4",
         "pandas",
         "cycler",
         "numpy"
