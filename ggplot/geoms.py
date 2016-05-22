@@ -320,13 +320,16 @@ class geom_bar(geom):
         weight_col = _aes.get('weight')
 
         if not weight_col:
-            data.loc[:,'__weight__'] = 1.0
+            if '__weight__' not in data:
+                data.insert(0, '__weight__', 1)
+            weight_col = '__weight__'
+        else:
+            data['__weight__'] = data[weight_col]
             weight_col = '__weight__'
 
         fill_col = _aes.get('fill')
         if not fill_col:
             return
-
 
         groupers = [x_col]
         if facets:
@@ -351,7 +354,8 @@ class geom_bar(geom):
         x_levels = sorted(x_levels)
 
         if not weight_col:
-            data['__weight__'] = 1.0
+            if '__weight__' not in data:
+                data.insert(0, '__weight__', 1.0)
             weight_col = '__weight__'
 
         params = self._get_plot_args(data, _aes)
@@ -412,9 +416,11 @@ class geom_bar(geom):
                 xticks.append(i)
             else:
                 xticks.append(i + dodge)
+
+        # need this b/c we're using patches
         ax.autoscale_view()
+
         # this will happen multiple times, but it's ok b/c it'll be the same each time
-        # ax.set_xticks([i for i in range(len(x_levels))])
         ax.set_xticks(xticks)
         ax.set_xticklabels(x_levels)
 

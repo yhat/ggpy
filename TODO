@@ -21,7 +21,18 @@ TODO
   - [x] legend titles
   - [?] circleci
   - [ ] geom_bird
-  - [ ] scale_color_funfetti
+  - [x] scale_color_funfetti
+
+- [ ] Extra stuff
+    - [ ] scale percent labels
+    - [x] heatmap
+    - [x] geom_tile
+    - [?] geom_raster
+    - [x] geom_step
+    - [x] geom_bin2d
+    - [ ] bar chart doesn't really work w/ layered approach
+        - [ ] sideways bar chart
+        - [ ] bar stack
 
 - [ ] facets
     - [x] facet_wrap labels busted for "non-standard" columns/rows

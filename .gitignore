@@ -7,3 +7,5 @@ dist/
 ggplot.egg-info/
 
 .ipynb_checkpoints/
+
+.CHECKSUMS

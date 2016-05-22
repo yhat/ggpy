@@ -411,7 +411,7 @@ class ggplot(object):
                 row, col = self.facets.facet_map[item]
                 ax = self.get_subplot(row, col)
                 if isinstance(item, tuple):
-                    title = ", ".join(item)
+                    title = ", ".join([str(i) for i in item])
                 else:
                     title = str(item)
                 ax.set_title(title, fontdict=font)
@@ -492,7 +492,7 @@ class ggplot(object):
                             df = layer.setup_data(self.data, self._aes, facets=self.facets)
                             if self.facets:
                                 facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
-                                for k,v in facet_filter.items():
+                                for k, v in facet_filter.items():
                                     mask = (mask) & (df[k]==v)
                                 df = df[mask]
 
