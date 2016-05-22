@@ -18,7 +18,7 @@ from .themes import theme_gray
 from . import discretemappers
 
 import pprint as pp
-# from PIL import Image
+from PIL import Image
 
 
 
@@ -104,10 +104,10 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        # img = Image.open('/tmp/ggplot.png')
-        # img.show()
-        plt.show()
+        self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        img = Image.open('/tmp/ggplot.png')
+        img.show()
+        # plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _evaluate_aes_expressions(self):
@@ -487,7 +487,23 @@ class ggplot(object):
             for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
-                        layer.plot(ax, facetgroup, self._aes)
+                        if layer.__class__.__name__=="geom_bar":
+                            mask = True
+                            df = layer.setup_data(self.data, self._aes, facets=self.facets)
+                            if self.facets:
+                                facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
+                                for k,v in facet_filter.items():
+                                    mask = (mask) & (df[k]==v)
+                                df = df[mask]
+
+                            if 'fill' in self._aes:
+                                fill_levels = self.data[self._aes['fill']].unique()
+                            else:
+                                fill_levels = None
+                            layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique(),
+                                fill_levels=fill_levels, lookups=df)
+                        else:
+                            layer.plot(ax, facetgroup, self._aes)
 
             self.apply_limits()
             self.add_labels()

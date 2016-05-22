@@ -73,6 +73,16 @@ class Facet(object):
         else:
             raise Exception("No row or column specified to facet on!")
 
+    @property
+    def facet_cols(self):
+        cols = []
+        if self.rowvar:
+            cols.append(self.rowvar)
+
+        if self.colvar:
+            cols.append(self.colvar)
+        return cols
+
 class facet_wrap(object):
     def __init__(self, x=None, y=None, nrow=None, ncol=None, scales=None):
         self.x_var = x

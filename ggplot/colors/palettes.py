@@ -165,7 +165,7 @@ def color_palette(name=None, n_colors=6, desat=None):
     return palette
 
 
-def hls_palette(n_colors=6, h=.01, l=.6, s=.65):
+def hls_palette(n_colors=6, h=15/360., l=.65, s=.9):
     """Get a set of evenly spaced colors in HLS hue space.
 
     h, l, and s should be between 0 and 1
@@ -196,7 +196,7 @@ def hls_palette(n_colors=6, h=.01, l=.6, s=.65):
     return palette
 
 
-def husl_palette(n_colors=6, h=.01, s=.9, l=.65):
+def husl_palette(n_colors=6, h=15/360., s=.9, l=.65):
     """Get a set of evenly spaced colors in HUSL hue space.
 
     h, s, and l should be between 0 and 1

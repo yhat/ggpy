@@ -35,7 +35,7 @@ def color_gen(n_colors, colors=None):
     if colors:
         pal = colors
     else:
-        pal = palettes.hls_palette(n_colors=n_colors)
+        pal = palettes.color_palette(name="husl", n_colors=n_colors)
     generator = itertools.cycle(pal)
     while True:
         yield next(generator)

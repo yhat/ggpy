@@ -22,6 +22,15 @@ date_types = (
 )
 _isdate = lambda x: isinstance(x, date_types)
 
+def _calc_n_bins(series):
+    "https://en.wikipedia.org/wiki/Histogram#Number_of_bins_and_width"
+    q75, q25 = np.percentile(series, [75 , 25])
+    iqr = q75 - q25
+    h = (2 * iqr) / (len(series)**(1/3.))
+    k = (series.max() - series.min()) / h
+    return k
+
+
 class geom(object):
     _aes_renames = {}
     DEFAULT_AES = {}
@@ -39,8 +48,6 @@ class geom(object):
     def __radd__(self, gg):
         if isinstance(gg, ggplot):
             gg.layers += self.layers
-            # param_repr = ", ".join(["%s=%s" % (key, value) for key, value in self.params.items()])
-            # gg._code.append("%s(%s)" % (type(self).__name__, param_repr))
             return gg
 
         self.layers.append(gg)
@@ -75,6 +82,7 @@ class geom(object):
                 new_key = self._aes_renames[key]
                 mpl_params[new_key] = value
                 del mpl_params[key]
+
 
         for req in self.REQUIRED_AES:
             if req not in mpl_params:
@@ -307,61 +315,139 @@ class geom_bar(geom):
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'color', 'color': 'edgecolor'}
 
-    def plot(self, ax, data, _aes):
+    def setup_data(self, data, _aes, facets=None):
+        x_col = _aes['x']
+        weight_col = _aes.get('weight')
+
+        if not weight_col:
+            data.loc[:,'__weight__'] = 1.0
+            weight_col = '__weight__'
+
+        fill_col = _aes.get('fill')
+        if not fill_col:
+            return
+
+
+        groupers = [x_col]
+        if facets:
+            if facets.rowvar:
+                groupers.append(facets.rowvar)
+            if facets.colvar:
+                groupers.append(facets.colvar)
+        dfa = (data[groupers + [fill_col, weight_col]].groupby(groupers + [fill_col]).sum()).reset_index()
+        dfb = (data[groupers + [weight_col]].groupby(groupers).sum()).reset_index()
+        df = pd.merge(dfa, dfb, on=groupers)
+        df.rename(columns={'__weight___x': '__weight__', '__weight___y': '__total_weight__'}, inplace=True)
+        if self.params.get('position')=='fill':
+            df['__calc_weight__'] = df['__weight__'] / df['__total_weight__']
+        else:
+            df['__calc_weight__'] = df['__weight__']
+        return df
+
+
+    def plot(self, ax, data, _aes, x_levels, fill_levels, lookups):
         variables = _aes.data
-        x = data[variables['x']]
-        weight = variables.get('weight')
-        if weight:
-            cols = [variables['x'], variables['weight']]
-            xdata = data[cols].groupby(variables['x']).sum().reset_index()
-            x = xdata[variables['x']]
-            heights = xdata[variables['weight']]
-        else:
-            xdata = x.value_counts().reset_index()
-            x = xdata['index']
-            heights = xdata[variables['x']]
+        weight_col = _aes.get('weight')
+        x_levels = sorted(x_levels)
 
-        categorical = is_categorical(x)
-
-        width_elem = self.params.get('width')
-        # If width is unspecified, default is an array of 1's
-        if width_elem == None:
-            width = np.ones(len(x))
-        else :
-            width = np.array(width_elem)
-
-        # layout and spacing
-        #
-        # matplotlib needs the left of each bin and it's width
-        # if x has numeric values then:
-        #   - left = x - width/2
-        # otherwise x is categorical:
-        #   - left = cummulative width of previous bins starting
-        #            at zero for the first bin
-        #
-        # then add a uniform gap between each bin
-        #   - the gap is a fraction of the width of the first bin
-        #     and only applies when x is categorical
-        _left_gap = 0
-        _spacing_factor = 0     # of the bin width
-        if not categorical:
-            left = np.array([x[i]-width[i]/2 for i in range(len(x))])
-        else:
-            _left_gap = 0.2
-            _spacing_factor = 0.105     # of the bin width
-            _breaks = np.append([0], width)
-            left = np.cumsum(_breaks[:-1])
-        _sep = width[0] * _spacing_factor
-        left = left + _left_gap + [_sep * i for i in range(len(left))]
+        if not weight_col:
+            data['__weight__'] = 1.0
+            weight_col = '__weight__'
 
         params = self._get_plot_args(data, _aes)
-        params.update(self.params)
 
-        ax.bar(left, heights, width, **params)
+        if self.params.get('position')=='fill':
+            pass
 
-        if categorical:
-            ax.set_xticks(left+width/2)
-            ax.set_xticklabels(x)
+        if fill_levels is not None:
+            width = .8 / len(fill_levels)
+        else:
+            width = .8
+        padding = width / 2
+
+
+        xticks = []
+        for i, x_level in enumerate(x_levels):
+            mask = data[variables['x']]==x_level
+            row = data[mask]
+            if len(row)==0:
+                xticks.append(i)
+                continue
+
+            if fill_levels is not None:
+                fillval = row[variables['fill']].iloc[0]
+                fill_idx = fill_levels.tolist().index(fillval)
+                fill_x_adjustment = width * len(fill_levels)/2.
+            else:
+                fill_x_adjustment = width / 2
+
+            if self.params.get('position') in ('stack', 'fill'):
+                dodge = 0.0
+                fill_x_adjustment = width / 2
+                if fill_levels is None:
+                    height = 1.0
+                    ypos = 0
+                else:
+                    mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']]==fillval)
+                    height = lookups[mask]['__calc_weight__'].sum()
+                    mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']] < fillval)
+                    ypos = lookups[mask]['__calc_weight__'].sum()
+            else:
+                if fill_levels is not None:
+                    dodge = (width * fill_idx)
+                else:
+                    dodge = width
+                ypos = 0.0
+                height = row[weight_col].sum()
+
+            ax.add_patch(
+                patches.Rectangle(
+                    (dodge + i  - fill_x_adjustment, ypos),
+                    width,
+                    height,
+                    **params
+                )
+            )
+            if fill_levels is not None:
+                xticks.append(i)
+            else:
+                xticks.append(i + dodge)
+        ax.autoscale_view()
+        # this will happen multiple times, but it's ok b/c it'll be the same each time
+        # ax.set_xticks([i for i in range(len(x_levels))])
+        ax.set_xticks(xticks)
+        ax.set_xticklabels(x_levels)
+
+class geom_rect(geom):
+
+    DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
+                   'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'xmin', 'xmax', 'ymin', 'ymax'}
+    DEFAULT_PARAMS = {}
+    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
+                    'fill': 'facecolor', 'color': 'edgecolor'}
+
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
+        xmin = data[variables['xmin']]
+        xmax = data[variables['xmax']]
+        ymin = data[variables['ymin']]
+        ymax = data[variables['ymax']]
+
+        params = self._get_plot_args(data, _aes)
+
+        for (xmin_i, xmax_i, ymin_i, ymax_i) in zip(xmin.values, xmax.values, ymin.values, ymax.values):
+            ax.add_patch(
+                    patches.Rectangle(
+                        (xmin_i, ymin_i),       # (x,y)
+                        xmax_i - xmin_i ,          # width
+                        ymax_i - ymin_i ,          # height
+                        **params
+                    )
+            )
+        # matplotlib patches don't automatically impact the scale of the ax, so
+        # we manually autoscale the x and y axes
+        ax.autoscale_view()
 
 class geom_tile(geom):
 
@@ -383,9 +469,8 @@ class geom_tile(geom):
 
         params = self._get_plot_args(data, _aes)
 
-        # TODO: this could be a param or could be calculated better somehow...
-        n_xbins = self.params.get('xbins', self.DEFAULT_PARAMS['xbins'])
-        n_ybins = self.params.get('ybins', self.DEFAULT_PARAMS['ybins'])
+        n_xbins = self.params.get('xbins', _calc_n_bins(x))
+        n_ybins = self.params.get('ybins', _calc_n_bins(y))
         x_cut, x_bins = pd.cut(x, n_xbins, retbins=True)
         y_cut, y_bins = pd.cut(y, n_ybins, retbins=True)
         data[variables['x'] + "_cut"] = x_cut
@@ -415,39 +500,40 @@ class geom_tile(geom):
                     )
             )
 
-        # df = pd.crosstab(x_cut, pd.cut(y, 5))
-        # maxval = df.max().max()
-        # for (xbin, (x_group, row)) in zip(x_bins, df.iterrows()):
-        #     for (ybin, (y_group, value)) in zip(y_bins, row.iteritems()):
-        #         params['alpha'] = (weight * value) / float(maxval)
-        #         ax.add_patch(
-        #                 patches.Rectangle(
-        #                     (xbin, ybin),       # (x,y)
-        #                     xstep,          # width
-        #                     ystep,          # height
-        #                     **params
-        #                 )
-        #         )
+        # matplotlib patches don't automatically impact the scale of the ax, so
+        # we manually autoscale the x and y axes
+        ax.autoscale_view()
 
-        #
-        # rng = 20.
-        xmin, xmax = x.min(), x.max()
-        # xstep = (xmax - xmin) / rng
-        ymin, ymax = y.min(), y.max()
-        # ystep = (ymax - ymin) / rng
-        #
-        # for xi in np.arange(xmin, xmax, xstep):
-        #     for yi in np.arange(ymin, ymax, ystep):
-        #         ax.add_patch(
-        #                 patches.Rectangle(
-        #                     (xi, yi),       # (x,y)
-        #                     xstep,          # width
-        #                     ystep,          # height
-        #                     **params
-        #                 )
-        #         )
-        ax.set_xticks(x_bins)
-        ax.set_yticks(y_bins)
+class geom_bin2d(geom_tile):
+    pass
+
+class geom_step(geom):
+    DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
+    REQUIRED_AES = {'x', 'y'}
+    DEFAULT_PARAMS = {'direction': 'hv'}
+
+    _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
+
+    def plot(self, ax, data, _aes):
+        variables = _aes.data
+        x = data[variables['x']]
+        y = data[variables['y']]
+
+        params = self._get_plot_args(data, _aes)
+
+        xs = [None] * (2 * (len(x)-1))
+        ys = [None] * (2 * (len(x)-1))
+
+        # create stepped path -- interleave x with
+        # itself and y with itself
+        if self.params.get('direction', self.DEFAULT_PARAMS['direction']) == 'hv':
+            xs[::2], xs[1::2] = x[:-1], x[1:]
+            ys[::2], ys[1::2] = y[:-1], y[:-1]
+        elif self.params.get('direction', self.DEFAULT_PARAMS['direction']) == 'vh':
+            xs[::2], xs[1::2] = x[:-1], x[:-1]
+            ys[::2], ys[1::2] = y[:-1], y[1:]
+
+        ax.plot(xs, ys, **params)
 
 class stat_smooth(geom):
 
