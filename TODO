@@ -30,9 +30,9 @@ TODO
     - [?] geom_raster
     - [x] geom_step
     - [x] geom_bin2d
-    - [ ] bar chart doesn't really work w/ layered approach
+    - [x] bar chart doesn't really work w/ layered approach
         - [ ] sideways bar chart
-        - [ ] bar stack
+        - [x] bar stack
 
 - [ ] facets
     - [x] facet_wrap labels busted for "non-standard" columns/rows
@@ -42,7 +42,7 @@ TODO
     - [ ] add arguments for scales="free | free_y | free_x"
 - [ ] legend
     - [x] placement on faceted plots with no true center plot
-    - [-] for size, Line2D spontaneously uses different marker??? WTF (only happens on the pop up, the saved figure has the correct values)
+    - [x] for size, Line2D spontaneously uses different marker??? WTF (only happens on the pop up, the saved figure has the correct values)
     - [x] discrete values
         - [x] size
     - [x] continuous values

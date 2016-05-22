@@ -404,14 +404,9 @@ class geom_bar(geom):
                 ypos = 0.0
                 height = row[weight_col].sum()
 
-            ax.add_patch(
-                patches.Rectangle(
-                    (dodge + i  - fill_x_adjustment, ypos),
-                    width,
-                    height,
-                    **params
-                )
-            )
+            xy = (dodge + i  - fill_x_adjustment, ypos)
+
+            ax.add_patch(patches.Rectangle(xy, width, height, **params))
             if fill_levels is not None:
                 xticks.append(i)
             else:
