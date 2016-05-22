@@ -359,7 +359,6 @@ class ggplot(object):
             return mappers, [(0, data)]
 
     def make_facets(self):
-        # TODO: scales="free | free_y | free_x"
         sharex, sharey = True, True
         if self.facets:
             if self.facets.scales=="free":
