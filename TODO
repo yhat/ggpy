@@ -22,6 +22,7 @@ TODO
   - [?] circleci
   - [ ] geom_bird
   - [x] scale_color_funfetti
+  - [x] scale_color_crayon
 
 - [ ] Extra stuff
     - [ ] scale percent labels
