@@ -5,13 +5,14 @@ import pprint as pp
 from collections import OrderedDict
 
 class Facet(object):
-    def __init__(self, data, is_wrap, rowvar=None, colvar=None, nrow=None, ncol=None):
+    def __init__(self, data, is_wrap, rowvar=None, colvar=None, nrow=None, ncol=None, scales=None):
         self.rowvar = rowvar
         self.colvar = colvar
         self.is_wrap = is_wrap
         self.nrow = nrow
         self.ncol = ncol
         self.facet_map = OrderedDict()
+        self.scales = scales
 
         # if it's a facet_wrap, figure out how many rows and columns there should be
         # assign subplot indices to rowvars and columnvars
@@ -93,7 +94,7 @@ class facet_wrap(object):
 
     def __radd__(self, gg):
         if gg.__class__.__name__=="ggplot":
-            gg.facets = Facet(gg.data, True, self.x_var, self.y_var, nrow=self.nrow, ncol=self.ncol)
+            gg.facets = Facet(gg.data, True, self.x_var, self.y_var, nrow=self.nrow, ncol=self.ncol, scales=self.scales)
             return gg
 
         return self
@@ -106,6 +107,6 @@ class facet_grid(object):
 
     def __radd__(self, gg):
         if gg.__class__.__name__=="ggplot":
-            gg.facets = Facet(gg.data, False, self.x_var, self.y_var)
+            gg.facets = Facet(gg.data, False, self.x_var, self.y_var, scales=self.scales)
             return gg
         return self

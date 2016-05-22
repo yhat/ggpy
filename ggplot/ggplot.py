@@ -360,7 +360,16 @@ class ggplot(object):
 
     def make_facets(self):
         # TODO: scales="free | free_y | free_x"
-        facet_params = dict(sharex=True, sharey=True)
+        sharex, sharey = True, True
+        if self.facets:
+            if self.facets.scales=="free":
+                sharex, sharey = False, False
+            elif self.facets.scales=="free_x":
+                sharex, sharey = False, True
+            elif self.facets.scales=="free_y":
+                sharex, sharey = True, False
+
+        facet_params = dict(sharex=sharex, sharey=sharey)
 
         nrow, ncol = self.facets.nrow, self.facets.ncol
         facet_params['nrows'] = nrow
