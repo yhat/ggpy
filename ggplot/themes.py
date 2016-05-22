@@ -163,7 +163,6 @@ class theme_bw(theme_gray):
         super(theme_bw, self).__init__()
         self._rcParams['axes.facecolor'] = 'white'
 
-
 class theme_xkcd(theme):
     """
     xkcd theme

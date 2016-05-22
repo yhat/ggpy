@@ -28,7 +28,6 @@ class scale_color_manual(scale):
     """
     VALID_SCALES = ['values']
     def __radd__(self, gg):
-        # gg = deepcopy(gg)
         if not (self.values is None):
             n_colors_needed = gg.data[gg._aes.data['color']].nunique()
             n_colors_provided = len(self.values)

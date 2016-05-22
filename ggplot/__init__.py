@@ -35,6 +35,7 @@ from .coords.coords import coord_polar, coord_equal, coord_flip
 from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies
 
 from .scales.scale_color_brewer import scale_color_brewer
+from .scales.scale_color_crayon import scale_color_crayon
 from .scales.scale_color_funfetti import scale_color_funfetti
 from .scales.scale_color_manual import scale_color_manual
 from .scales.scale_color_gradient import scale_color_gradient
@@ -49,4 +50,4 @@ from .scales.scale_x_date import scale_x_date
 from .scales.scale_y_date import scale_y_date
 from .scales.date_utils import date_format, date_breaks
 
-from .themes import theme_538, theme_gray, theme_xkcd
+from .themes import theme_538, theme_gray, theme_bw, theme_xkcd
