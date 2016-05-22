@@ -46,15 +46,13 @@ class ggplot(object):
     DISCRETE = ['color', 'shape', 'marker', 'alpha', 'linestyle']
 
     def __init__(self, aesthetics, data):
-        # ggplot should just 'figure out' which is which
+        # figure out which is which between data and aesthetics
         if not isinstance(data, pd.DataFrame):
             aesthetics, data = data, aesthetics
         self._aes = aesthetics
         self.data = data.copy()
         self._evaluate_aes_expressions()
         self.data = self._aes.handle_identity_values(self.data)
-
-        # self._code = ["ggplot(%s, %s)"  % ("df", str(aesthetics))]
 
         self.layers = []
 
@@ -111,6 +109,10 @@ class ggplot(object):
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _evaluate_aes_expressions(self):
+        """
+        Evaluates patsy expressions within the aesthetics (i.e. 'x + 1'
+        or factor(x))
+        """
         for key, item in self._aes.items():
             if item not in self.data:
                 def factor(s, levels=None, labels=None):
@@ -233,6 +235,10 @@ class ggplot(object):
         self.fig.text(0.05, 0.5, ylab, rotation='vertical')
 
     def _iterate_subplots(self):
+        """
+        'Flat' iterator for subplots. Let's you do a for-loop over each subplot
+        which can be very handy.
+        """
         try:
             return self.subplots.flat
         except Exception as e:
@@ -276,6 +282,10 @@ class ggplot(object):
             make_legend(self.subplots, legend)
 
     def _get_mapping(self, aes_type, colname):
+        """
+        Converts a discrete aesthetic to a value that will be displayed. For example
+        from "a" => "#4682B4".
+        """
         mapping = None
         if aes_type=="color":
             mapping = discretemappers.color_gen(self.data[colname].nunique(), colors=self.manual_color_list)
@@ -290,6 +300,7 @@ class ggplot(object):
         return mapping
 
     def _construct_plot_data(self):
+        "Splits up the main data based on discrete aesthetics into sub-data frames"
         data = self.data
         discrete_aes = self._aes._get_discrete_aes(data)
         mappers = {}
@@ -359,6 +370,7 @@ class ggplot(object):
             return mappers, [(0, data)]
 
     def make_facets(self):
+        "Creates figure and axes for m x n facet grid/wrap"
         sharex, sharey = True, True
         if self.facets:
             if self.facets.scales=="free":
@@ -381,6 +393,7 @@ class ggplot(object):
         return fig, axs
 
     def get_subplot(self, row, col):
+        "Fetches subplot corresponding to row/column"
         if row is not None and col is not None:
             return self.subplots[int(row)][col]
         elif row is not None:
@@ -391,7 +404,7 @@ class ggplot(object):
             raise Exception("row and col were none!" + str(row) + ", " + str(col))
 
     def get_facet_groups(self, group):
-
+        "???"
         if self.facets is None:
             yield (self.subplots, group)
             return
@@ -466,6 +479,18 @@ class ggplot(object):
             yield (self.subplots, group)
 
     def save(self, filename, width=None, height=None):
+        """
+        Save ggplot to a .png file.
+
+        Parameters
+        ----------
+        filename : string
+            filepath to save to
+        width: int, float
+            width of the plot in inches
+        height: int, float
+            width of the plot in inches
+        """
         self.make()
         w, h = self.fig.get_size_inches()
         if width:
@@ -476,6 +501,7 @@ class ggplot(object):
         self.fig.savefig(filename)
 
     def make(self):
+        "Constructs the plot using the methods. This is the 'main' for ggplot"
         plt.close()
         with mpl.rc_context():
             self.apply_theme()
