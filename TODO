@@ -34,13 +34,13 @@ TODO
         - [ ] sideways bar chart
         - [x] bar stack
 
-- [ ] facets
+- [x] facets
     - [x] facet_wrap labels busted for "non-standard" columns/rows
     - [x] labels for facet_wrap
     - [x] arguments shouldn't be "x" and "y"
     - [x] add arguments for nrows/ncols
-    - [ ] add arguments for scales="free | free_y | free_x"
-- [ ] legend
+    - [x] add arguments for scales="free | free_y | free_x"
+- [x] legend
     - [x] placement on faceted plots with no true center plot
     - [x] for size, Line2D spontaneously uses different marker??? WTF (only happens on the pop up, the saved figure has the correct values)
     - [x] discrete values
