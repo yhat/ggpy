@@ -1,28 +1,31 @@
 TODO
 - [ ] packaging
-  - [x] can't plot dates
+  - [ ] conda
+  - [-] pypi
+
+- [x] can't plot dates
       - [x] geom_point
       - [x] stat_smooth
-  - [x] colors
-      - [x] brewer
-      - [x] gradient
-      - [x] default parameter values (colors) aren't working
-  - [x] geom_area x-axis for dates
-      - [x] plot
-      - [x] labels
-  - [ ] coord_flip
-  - [x] legend scale is off for colors
-  - [x] factor not working
-  - [x] build
-  - [x] pypi
-  - [ ] conda
-  - [x] python3
-  - [-] docs
-  - [x] legend titles
-  - [?] circleci
-  - [ ] geom_bird
-  - [x] scale_color_funfetti
-  - [x] scale_color_crayon
+- [x] colors
+    - [x] brewer
+    - [x] gradient
+    - [x] default parameter values (colors) aren't working
+- [x] geom_area x-axis for dates
+    - [x] plot
+    - [x] labels
+- [ ] coord_flip
+- [x] legend scale is off for colors
+- [x] factor not working
+- [x] build
+- [x] pypi
+- [ ] conda
+- [x] python3
+- [-] docs
+- [x] legend titles
+- [?] circleci
+- [ ] geom_bird
+- [x] scale_color_funfetti
+- [x] scale_color_crayon
 
 - [ ] Extra stuff
     - [ ] scale percent labels
