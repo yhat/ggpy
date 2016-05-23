@@ -442,7 +442,10 @@ class ggplot(object):
                 row = i / self.facets.ncol
                 col = i % self.facets.ncol
                 ax = self.get_subplot(row, col)
-                self.fig.delaxes(ax)
+                try:
+                    self.fig.delaxes(ax)
+                except:
+                    pass
 
         elif col_variable and row_variable:
             for (_, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
