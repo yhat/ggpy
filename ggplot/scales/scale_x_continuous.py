@@ -24,7 +24,7 @@ class scale_x_continuous(scale):
     """
     VALID_SCALES = ['name', 'limits', 'labels', 'breaks', 'trans']
     def __radd__(self, gg):
-        gg = deepcopy(gg)
+        #gg = deepcopy(gg)
         if self.name:
             gg.xlab = self.name
         if not (self.limits is None):

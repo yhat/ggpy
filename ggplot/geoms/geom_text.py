@@ -3,9 +3,9 @@ from ..utils import is_date
 
 
 class geom_text(geom):
-    DEFAULT_AES = {'alpha': 1, 'rotation': 0, 'color': 'black'}
+    DEFAULT_AES = {'alpha': 1, 'rotation': 0, 'color': 'black', 'size': 12}
     REQUIRED_AES = {'x', 'y', 'label'}
-    _aes_renames = {}
+    _aes_renames = {'size': 'fontsize'}
 
     def plot(self, ax, data, _aes):
         variables = _aes.data
@@ -27,5 +27,7 @@ class geom_text(geom):
         else:
             ax.plot(x, y)
             for (xi, yi, li) in zip(x, y, labels):
+                xi += self.params.get('hjust', 0.)
+                yi += self.params.get('vjust', 0.)
                 ax.text(xi, yi, li, **params)
             ax.autoscale_view()

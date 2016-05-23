@@ -30,12 +30,12 @@
 - [x] geom_hline
 - [x] geom_vline
 - [x] stat_smooth
-- [ ] geom_bin2d
-- [ ] geom_density
-- [ ] geom_rect
-- [ ] geom_step
-- [ ] geom_text
-- [ ] geom_tile
+- [x] geom_bin2d
+- [x] geom_density
+- [x] geom_rect
+- [x] geom_step
+- [x] geom_text
+- [x] geom_tile
 
 
 ### faceting
@@ -43,9 +43,9 @@
 - [x] facet_grid
 
 ### plotting/core
-- [ ] ggplot
-- [ ] qplot
-- [ ] aes
+- [x] ggplot
+- [x] qplot
+- [x] aes
 
 ### scales
 - [x] scale_alpha_identity

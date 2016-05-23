@@ -102,10 +102,10 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        img = Image.open('/tmp/ggplot.png')
-        img.show()
-        # plt.show()
+        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        # img = Image.open('/tmp/ggplot.png')
+        # img.show()
+        plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _evaluate_aes_expressions(self):

@@ -23,8 +23,8 @@ class geom_tile(geom):
 
         params = self._get_plot_args(data, _aes)
 
-        n_xbins = self.params.get('xbins', _calc_n_bins(x))
-        n_ybins = self.params.get('ybins', _calc_n_bins(y))
+        n_xbins = self.params.get('xbins', calc_n_bins(x))
+        n_ybins = self.params.get('ybins', calc_n_bins(y))
         x_cut, x_bins = pd.cut(x, n_xbins, retbins=True)
         y_cut, y_bins = pd.cut(y, n_ybins, retbins=True)
         data[variables['x'] + "_cut"] = x_cut

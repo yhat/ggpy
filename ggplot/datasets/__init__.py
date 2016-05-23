@@ -1,7 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import pandas as pd
-import matplotlib.image as mpimg
 import os
 
 __all__ = ["diamonds","mtcars","meat","pageviews","movies"]
