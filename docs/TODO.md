@@ -23,13 +23,20 @@
 - [x] stat_density
 - [x] geom_bar
 - [x] geom_jitter
-- [-] geom_area (almost done but if x is a date it breaks)
+- [x] geom_area (almost done but if x is a date it breaks)
 - [x] geom_abline
 - [ ] geom_boxplot (doesn't really work)
 - [x] geom_blank
 - [x] geom_hline
 - [x] geom_vline
 - [x] stat_smooth
+- [ ] geom_bin2d
+- [ ] geom_density
+- [ ] geom_rect
+- [ ] geom_step
+- [ ] geom_text
+- [ ] geom_tile
+
 
 ### faceting
 - [x] facet_wrap
