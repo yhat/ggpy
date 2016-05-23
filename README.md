@@ -19,15 +19,6 @@ ggplot(diamonds, aes(x='price', color='clarity')) + \
 ```
 ![](./docs/example.png)
 
-### What happened to the old version that didn't work?
-It's gone--the windows, the doors, [everything](https://www.youtube.com/watch?v=YuxCKv_0GZc). I deleted most of the code and
-only kept what worked. The data grouping and manipulation bits were re-written
-(so they actually worked) with things like facets in mind.
-
-### Where did `stat_identity` and `geom_raster` go?
-They're gone. They didn't even come close to working (also what does
-  `stat_identity` even do) so they're gone.
-
 ### Installation
 ```bash
 $ pip install -U ggplot
@@ -40,3 +31,13 @@ pip install pip install git+https://github.com/yhat/ggplot.git
 ### Examples
 - [gallery](./docs/Gallery.ipynb)
 - [various examples](./examples.md)
+
+
+### What happened to the old version that didn't work?
+It's gone--the windows, the doors, [everything](https://www.youtube.com/watch?v=YuxCKv_0GZc). I deleted most of the code and
+only kept what worked. The data grouping and manipulation bits were re-written
+(so they actually worked) with things like facets in mind.
+
+### Where did `stat_identity` and `geom_raster` go?
+They're gone. They didn't even come close to working (also what does
+  `stat_identity` even do) so they're gone.
