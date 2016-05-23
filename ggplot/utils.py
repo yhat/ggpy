@@ -2,6 +2,9 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import matplotlib.cbook as cbook
 import numpy as np
+import pandas as pd
+import datetime
+
 
 def is_sequence_of_strings(obj):
     """
@@ -58,3 +61,23 @@ def is_iterable(obj):
         return True
     except:
         return False
+
+date_types = (
+    pd.tslib.Timestamp,
+    pd.DatetimeIndex,
+    pd.Period,
+    pd.PeriodIndex,
+    datetime.datetime,
+    datetime.time
+)
+
+def is_date(x):
+    return isinstance(x, date_types)
+
+def calc_n_bins(series):
+    "https://en.wikipedia.org/wiki/Histogram#Number_of_bins_and_width"
+    q75, q25 = np.percentile(series, [75 , 25])
+    iqr = q75 - q25
+    h = (2 * iqr) / (len(series)**(1/3.))
+    k = (series.max() - series.min()) / h
+    return k
