@@ -19,7 +19,7 @@ _set_mpl_backend()
 __version__ = '0.9.0'
 
 
-from .geoms import geom_area, geom_blank, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline, geom_tile, geom_rect, geom_bin2d, geom_step
+from .geoms import geom_area, geom_blank, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline, geom_tile, geom_rect, geom_bin2d, geom_step, geom_text
 from .geoms import stat_smooth, stat_density
 
 from .facets import facet_wrap, facet_grid, Facet

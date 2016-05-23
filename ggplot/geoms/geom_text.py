@@ -1,16 +1,17 @@
 from .geom import geom
-import numpy as np
 from ..utils import is_date
 
-class geom_point(geom):
-    DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20, 'edgecolors': None}
-    REQUIRED_AES = {'x', 'y'}
-    _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}
+
+class geom_text(geom):
+    DEFAULT_AES = {'alpha': 1, 'rotation': 0, 'color': 'black'}
+    REQUIRED_AES = {'x', 'y', 'label'}
+    _aes_renames = {}
 
     def plot(self, ax, data, _aes):
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
+        labels = data[variables['label']]
 
         params = self._get_plot_args(data, _aes)
 
@@ -22,7 +23,9 @@ class geom_point(geom):
             y *= np.random.uniform(.9, 1.1, len(y))
 
         if is_date(x.iloc[0]):
-            # TODO: make this work for plot_date params
-            ax.plot_date(x, y, **{})
+            raise Exception("Can't do geom_text with a x-axis that is a date")
         else:
-            ax.scatter(x, y, **params)
+            ax.plot(x, y)
+            for (xi, yi, li) in zip(x, y, labels):
+                ax.text(xi, yi, li, **params)
+            ax.autoscale_view()
