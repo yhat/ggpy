@@ -1,5 +1,8 @@
 # ggplot
 
+<img src="./examples/example-34d773b9-ec68-40b1-999b-7bb07c208be9.png" width="200px" />
+<img src="./examples/example-8f4fbffe-2999-42b0-9c34-de6f0b205733.png" width="200px" />
+
 ### What is it?
 `ggplot` is the Python version of the grammar of graphics. It is not intended
 to be a feature-for-feature port of [`ggplot2 for R`](https://github.com/hadley/ggplot2).
