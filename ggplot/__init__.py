@@ -1,5 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
+__version__ = '0.9.1'
+
 # For testing purposes we might need to set mpl backend before any
 # other import of matplotlib.
 def _set_mpl_backend():
@@ -12,11 +14,6 @@ def _set_mpl_backend():
         mpl.use(env_backend)
 
 _set_mpl_backend()
-
-# This is the only place the version is specified and
-# used in both setup.py and docs/conf.py to set the
-# version of ggplot.
-__version__ = '0.9.0'
 
 
 from .geoms import geom_area, geom_blank, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline, geom_tile, geom_rect, geom_bin2d, geom_step, geom_text, geom_path, geom_ribbon #, geom_violin

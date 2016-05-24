@@ -1,22 +1,13 @@
 import os
 from setuptools import find_packages, setup
+from ggplot.__init__ import __version__
 
-def extract_version():
-    """
-    Extracts version values from the main matplotlib __init__.py and
-    returns them as a dictionary.
-    """
-    with open('ggplot/__init__.py') as fd:
-        for line in fd.readlines():
-            if (line.startswith('__version__')):
-                exec(line.strip())
-    return locals()["__version__"]
 
 
 setup(
     name="ggplot",
     # Increase the version in ggplot/__init__.py
-    version=extract_version(),
+    version=__version__,
     author="Greg Lamp",
     author_email="greg@yhathq.com",
     url="https://github.com/yhat/ggplot/",
@@ -27,8 +18,6 @@ setup(
     description="ggplot for python",
     # run pandoc --from=markdown --to=rst --output=README.rst README.md
     long_description=open("README.rst").read(),
-    # numpy is here to make installing easier... Needs to be at the last position,
-    # as that's the first installed with "python setup.py install"
     install_requires=[
         "six",
         "statsmodels",
