@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 
-from .geom import geom
-from ..stats import smoothers
+from ..geoms.geom import geom
+from . import smoothers
 from ..utils import is_date
 
 class stat_smooth(geom):
