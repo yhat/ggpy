@@ -15,6 +15,8 @@ class geom_abline(geom):
 
         slope = self.params.get('slope', 1)
         intercept = self.params.get('intercept', 0)
+        _aes['slope'] = slope
+        _aes['intercept'] = intercept
 
         x = ax.get_xticks()
         y = ax.get_xticks() * slope + intercept

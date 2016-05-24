@@ -3,6 +3,7 @@ import numpy as np
 
 from .geom import geom
 from ..stats import smoothers
+from ..utils import is_date
 
 class stat_smooth(geom):
 
@@ -41,8 +42,14 @@ class stat_smooth(geom):
 
         order = np.argsort(x)
         if self.params.get('se', True)==True:
-            # TODO: fix for dates
-            ax.fill_between(smoothed_data.x, smoothed_data.y1, smoothed_data.y2, **params)
+            if is_date(smoothed_data.x.iloc[0]):
+                dtype = smoothed_data.x.iloc[0].__class__
+                x = np.array([i.toordinal() for i in smoothed_data.x])
+                ax.fill_between(x, smoothed_data.y1, smoothed_data.y2, **params)
+                new_ticks = [dtype(i) for i in ax.get_xticks()]
+                ax.set_xticklabels(new_ticks)
+            else:
+                ax.fill_between(smoothed_data.x, smoothed_data.y1, smoothed_data.y2, **params)
         if self.params.get('fit', True)==True:
             del params['alpha']
             ax.plot(smoothed_data.x, smoothed_data.y, **params)

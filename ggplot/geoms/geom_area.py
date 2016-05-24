@@ -1,5 +1,6 @@
 from .geom import geom
 from ..utils import is_date
+import numpy as np
 
 class geom_area(geom):
 
