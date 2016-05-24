@@ -25,12 +25,10 @@ class geom_boxplot(geom):
             bounds_25_75 = yvalues.quantile([0.25, 0.75]).values
             bounds_5_95 = yvalues.quantile([0.05, 0.95]).values
 
-            # TODO: make sure user wants this
             if self.params.get('outliers', True)==True:
                 mask = ((yvalues > bounds_5_95[1]) | (yvalues < bounds_5_95[0])).values
                 ax.scatter(x=xi[mask], y=yvalues[mask], c=self.params.get('outlier_color', 'black'))
 
-            # TODO: make sure user wants this
             if self.params.get('lines', True)==True:
                 ax.vlines(x=i, ymin=bounds_25_75[1], ymax=bounds_5_95[1])
                 ax.vlines(x=i, ymin=bounds_5_95[0], ymax=bounds_25_75[0])
@@ -39,7 +37,6 @@ class geom_boxplot(geom):
                 ax.hlines(bounds_5_95[0], i - 0.25/2, i + 0.25/2, linewidth=2)
                 ax.hlines(bounds_5_95[1], i - 0.25/2, i + 0.25/2, linewidth=2)
 
-            # TODO: make sure user wants this
             if self.params.get('median', True)==True:
                 ax.hlines(yvalues.median(), i - 0.25, i + 0.25, linewidth=2)
 
