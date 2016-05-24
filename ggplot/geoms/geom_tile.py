@@ -13,6 +13,7 @@ class geom_tile(geom):
                     'fill': 'facecolor', 'color': 'edgecolor'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
@@ -20,8 +21,6 @@ class geom_tile(geom):
         weight = variables['fill']
         if 'fill' in variables:
             del variables['fill']
-
-        params = self._get_plot_args(data, _aes)
 
         n_xbins = self.params.get('xbins', calc_n_bins(x))
         n_ybins = self.params.get('ybins', calc_n_bins(y))

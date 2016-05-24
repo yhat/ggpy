@@ -8,11 +8,11 @@ class geom_point(geom):
     _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
 
-        params = self._get_plot_args(data, _aes)
 
         if 'colormap' in variables:
             params['cmap'] = variables['colormap']

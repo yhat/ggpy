@@ -24,8 +24,8 @@ class geom_density(geom):
         return x, y
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
         x, y = self._calculate_density(x)
-        params = self._get_plot_args(data, _aes)
         ax.plot(x, y, **params)

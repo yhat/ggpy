@@ -2,11 +2,11 @@ from .geom import geom
 from ..utils import is_date
 import numpy as np
 
-class geom_area(geom):
+class geom_ribbon(geom):
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}
-    REQUIRED_AES = {'x', 'y'}
+    REQUIRED_AES = {'x', 'ymax', 'ymin'}
     DEFAULT_PARAMS = {'stat': 'identity', 'position': 'stack'}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
@@ -14,9 +14,8 @@ class geom_area(geom):
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
-        ymin = 0
-        ymax = data[variables['y']]
-
+        ymin = data[variables['ymin']]
+        ymax = data[variables['ymax']]
 
         # TODO: for some reason the reordering produces NaNs
         order = x.argsort()

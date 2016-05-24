@@ -12,13 +12,12 @@ class geom_rect(geom):
                     'fill': 'facecolor', 'color': 'edgecolor'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         xmin = data[variables['xmin']]
         xmax = data[variables['xmax']]
         ymin = data[variables['ymin']]
         ymax = data[variables['ymax']]
-
-        params = self._get_plot_args(data, _aes)
 
         for (xmin_i, xmax_i, ymin_i, ymax_i) in zip(xmin.values, xmax.values, ymin.values, ymax.values):
             ax.add_patch(

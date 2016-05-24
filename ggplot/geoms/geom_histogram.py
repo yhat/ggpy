@@ -10,7 +10,7 @@ class geom_histogram(geom):
                     'fill': 'color', 'color': 'edgecolor'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
-        params = self._get_plot_args(data, _aes)
         ax.hist(x, **params)

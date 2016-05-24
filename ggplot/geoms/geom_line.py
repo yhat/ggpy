@@ -9,11 +9,10 @@ class geom_line(geom):
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
-
-        params = self._get_plot_args(data, _aes)
 
         if self.is_path:
             pass

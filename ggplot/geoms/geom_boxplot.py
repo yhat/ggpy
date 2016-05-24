@@ -9,11 +9,11 @@ class geom_boxplot(geom):
     DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
 
     def plot(self, ax, data, _aes, x_levels):
+        params = self._get_plot_args(data, _aes)
         x_levels = sorted(x_levels)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
-        params = self._get_plot_args(data, _aes)
 
         xticks = []
         for (i, xvalue) in enumerate(x_levels):

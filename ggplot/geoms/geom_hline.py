@@ -11,9 +11,9 @@ class geom_hline(geom):
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         y = self.params.get('y')
-        params = self._get_plot_args(data, _aes)
         if is_iterable(y):
             for yi in y:
                 ax.axhline(yi, **params)

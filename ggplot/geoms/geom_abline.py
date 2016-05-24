@@ -11,6 +11,7 @@ class geom_abline(geom):
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
 
         slope = self.params.get('slope', 1)
@@ -20,7 +21,6 @@ class geom_abline(geom):
 
         x = ax.get_xticks()
         y = ax.get_xticks() * slope + intercept
-        params = self._get_plot_args(data, _aes)
         # don't need the original params from the aesthetics
         del params['x']
         del params['y']

@@ -7,9 +7,9 @@ class geom_violin(geom):
     DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
 
     def plot(self, ax, data, _aes, x_levels):
+        params = self._get_plot_args(data, _aes)
         x_levels = sorted(x_levels)
         variables = _aes.data
-        params = self._get_plot_args(data, _aes)
 
         xticks = []
         for (i, xvalue) in enumerate(x_levels):

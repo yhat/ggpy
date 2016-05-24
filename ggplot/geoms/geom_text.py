@@ -8,12 +8,11 @@ class geom_text(geom):
     _aes_renames = {'size': 'fontsize'}
 
     def plot(self, ax, data, _aes):
+        params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
         labels = data[variables['label']]
-
-        params = self._get_plot_args(data, _aes)
 
         if 'colormap' in variables:
             params['cmap'] = variables['colormap']
