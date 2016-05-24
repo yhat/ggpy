@@ -32,7 +32,7 @@ from .aes import aes
 
 from .coords.coords import coord_polar, coord_equal, coord_flip
 
-from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies
+from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies, mpg
 
 from .scales.scale_color_brewer import scale_color_brewer
 from .scales.scale_color_crayon import scale_color_crayon
