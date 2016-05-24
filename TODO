@@ -23,7 +23,7 @@ TODO
 - [-] docs
 - [x] legend titles
 - [?] circleci
-- [ ] geom_bird
+- [x] geom_bird
 - [x] scale_color_funfetti
 - [x] scale_color_crayon
 
