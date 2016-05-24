@@ -57,9 +57,6 @@ class geom_bar(geom):
 
         params = self._get_plot_args(data, _aes)
 
-        if self.params.get('position')=='fill':
-            pass
-
         if fill_levels is not None:
             width = .8 / len(fill_levels)
         else:

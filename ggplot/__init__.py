@@ -39,6 +39,12 @@ from .scales.scale_color_crayon import scale_color_crayon
 from .scales.scale_color_funfetti import scale_color_funfetti
 from .scales.scale_color_manual import scale_color_manual
 from .scales.scale_color_gradient import scale_color_gradient
+
+from .scales.scale_fill_brewer import scale_fill_brewer
+from .scales.scale_fill_crayon import scale_fill_crayon
+from .scales.scale_fill_funfetti import scale_fill_funfetti
+from .scales.scale_fill_manual import scale_fill_manual
+
 from .scales.scale_identity import scale_alpha_identity, scale_color_identity, scale_fill_identity, scale_linetype_identity, scale_shape_identity, scale_size_identity
 from .scales.scale_log import scale_x_log, scale_y_log
 from .scales.scale_reverse import scale_x_reverse, scale_y_reverse

@@ -10,16 +10,13 @@ from patsy.eval import EvalEnvironment
 import numpy as np
 import pandas as pd
 import warnings
-import itertools
 
 from .aes import aes
 from .legend import make_legend
 from .themes import theme_gray
 from . import discretemappers
 
-import pprint as pp
 from PIL import Image
-
 
 
 class ggplot(object):
@@ -95,6 +92,9 @@ class ggplot(object):
         self.colormap = None
         self.manual_color_list = []
 
+        # fill (pretty much t, colors=self.manual_fill_listhe same as colors)
+        self.manual_fill_list = []
+
         # coordinate system
         self.coords = None
 
@@ -102,10 +102,10 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        # img = Image.open('/tmp/ggplot.png')
-        # img.show()
-        plt.show()
+        self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        img = Image.open('/tmp/ggplot.png')
+        img.show()
+        # plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _evaluate_aes_expressions(self):
@@ -290,7 +290,7 @@ class ggplot(object):
         if aes_type=="color":
             mapping = discretemappers.color_gen(self.data[colname].nunique(), colors=self.manual_color_list)
         elif aes_type=="fill":
-            mapping = discretemappers.color_gen(self.data[colname].nunique())
+            mapping = discretemappers.color_gen(self.data[colname].nunique(), colors=self.manual_fill_list)
         elif aes_type=="shape":
             mapping = discretemappers.shape_gen()
         elif aes_type=="linetype":

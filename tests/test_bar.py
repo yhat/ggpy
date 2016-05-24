@@ -1,7 +1,7 @@
 from ggplot import *
 import pandas as pd
 import numpy as np
-
+import sys
 
 df = pd.DataFrame({
     'x': ['a', 'b', 'c', 'b', 'b', 'b', 'a', 'c', 'b', 'c', 'a'],
@@ -9,7 +9,12 @@ df = pd.DataFrame({
     'thingy': ['hi','bye', 'hi', 'bye', 'bye', 'bye', 'bye', 'hi', 'bye', 'bye', 'bye'],
     'filler': ['limegreen', 'coral', 'coral', 'limegreen', 'limegreen', 'limegreen', 'coral', 'steelblue', 'steelblue', 'limegreen', 'steelblue']
 })
-p = ggplot(df, aes(x='x', weight='wt')) + geom_bar() + scale_fill_identity()
+
+p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='stack') + facet_wrap('vs')
+print p
+sys.exit()
+
+p = ggplot(df, aes(x='x', weight='wt')) + geom_bar(color='teal') + scale_fill_identity()
 print p
 
 p = ggplot(df, aes(x='x', weight='wt', fill='filler')) + geom_bar() + scale_fill_identity()

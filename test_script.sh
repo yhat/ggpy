@@ -8,4 +8,5 @@ if ! diff /tmp/GGPLOT-CHECKSUMS /tmp/GGPLOT-CHECKSUMS-NEW; then
   python setup.py install > /dev/null
 fi
 
+export GGPLOT_DEV="1"
 python $1
