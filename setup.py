@@ -13,8 +13,13 @@ setup(
     url="https://github.com/yhat/ggplot/",
     license="BSD",
     packages=find_packages(),
-    package_dir={"ggplot": "ggplot"},
-    package_data={"ggplot": ["datasets/*.csv"]},
+    package_dir={ "ggplot": "ggplot" },
+    package_data={
+        "ggplot": [
+            "datasets/*.csv",
+            "geoms/*.png"
+        ]
+    },
     description="ggplot for python",
     # run pandoc --from=markdown --to=rst --output=README.rst README.md
     long_description=open("README.rst").read(),
