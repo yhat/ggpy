@@ -102,16 +102,16 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        # img = Image.open('/tmp/ggplot.png')
-        # img.show()
-        plt.show()
+        self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        img = Image.open('/tmp/ggplot.png')
+        img.show()
+        # plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _evaluate_aes_expressions(self):
         """
-        Evaluates patsy expressions within the aesthetics (i.e. 'x + 1'
-        or factor(x))
+        Evaluates patsy expressions within the aesthetics. For example, 'x + 1'
+        , 'factor(x)', or 'pd.cut(price, bins=10)')
         """
         for key, item in self._aes.items():
             if item not in self.data:
@@ -539,7 +539,7 @@ class ggplot(object):
                                 fill_levels = None
                             layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique(),
                                 fill_levels=fill_levels, lookups=df)
-                        elif layer.__class__.__name__=="geom_boxplot":
+                        elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin"):
                             layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique())
                         else:
                             layer.plot(ax, facetgroup, self._aes)

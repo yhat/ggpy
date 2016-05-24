@@ -1,6 +1,7 @@
 from .geom import geom
 
 class geom_line(geom):
+    is_path = False
     DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
@@ -13,4 +14,10 @@ class geom_line(geom):
         y = data[variables['y']]
 
         params = self._get_plot_args(data, _aes)
+
+        if self.is_path:
+            pass
+        else:
+            order = x.argsort()
+            x, y = x[order], y[order]
         ax.plot(x, y, **params)
