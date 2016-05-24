@@ -37,3 +37,6 @@ pip install pip install git+https://github.com/yhat/ggplot.git
 It's gone--the windows, the doors, [everything](https://www.youtube.com/watch?v=YuxCKv_0GZc). I deleted most of the code and
 only kept what worked. The data grouping and manipulation bits were re-written
 (so they actually worked) with things like facets in mind.
+
+### Contributing
+See *[contributing.md](./contributing.md)*.

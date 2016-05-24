@@ -2,6 +2,7 @@
 
 ### Quickstart
 - [Intro to ggplot](./how-to/Intro to ggplot.ipynb)
+- [Gallery](./Gallery.ipynb)
 
 ### How To
 - [Annotating Plots - Titles and Labels](./how-to/Annotating Plots - Titles and Labels.ipynb)
@@ -19,19 +20,34 @@
 - [Saving Plots to a File](./how-to/Saving Plots to a File.ipynb)
 - [Visualizing Distributions](./how-to/Visualizing Distributions.ipynb)
 
+### Plotting
+- [aesthetics](./plotting/aesthetics.ipynb)
+- [ggplot](./plotting/ggplot.ipynb)
+- [qplot](./plotting/qplot.ipynb)
+
 ### Geoms
 - [geom_abline](./geoms/geom_abline.ipynb)
 - [geom_area](./geoms/geom_area.ipynb)
 - [geom_bar](./geoms/geom_bar.ipynb)
+- [geom_bin2d](./geoms/geom_bin2d.ipynb)
 - [geom_blank](./geoms/geom_blank.ipynb)
+- [geom_boxplot](./geoms/geom_boxplot.ipynb)
+- [geom_density](./geoms/geom_density.ipynb)
 - [geom_histogram](./geoms/geom_histogram.ipynb)
 - [geom_hline](./geoms/geom_hline.ipynb)
 - [geom_jitter](./geoms/geom_jitter.ipynb)
 - [geom_line](./geoms/geom_line.ipynb)
 - [geom_point](./geoms/geom_point.ipynb)
+- [geom_rect](./geoms/geom_rect.ipynb)
+- [geom_ribbon](./geoms/geom_ribbon.ipynb)
+- [geom_step](./geoms/geom_step.ipynb)
+- [geom_text](./geoms/geom_text.ipynb)
+- [geom_tile](./geoms/geom_tile.ipynb)
 - [geom_vline](./geoms/geom_vline.ipynb)
-- [stat_density](./geoms/stat_density.ipynb)
-- [stat_smooth](./geoms/stat_smooth.ipynb)
+
+### Stats
+- [stat_density](./stats/stat_density.ipynb)
+- [stat_smooth](./stats/stat_smooth.ipynb)
 
 ### Facets
 - [facet_grid](./facets/facet_grid.ipynb)
@@ -40,6 +56,8 @@
 ### Scales
 - [scale_alpha_identity](./scales/scale_alpha_identity.ipynb)
 - [scale_color_brewer](./scales/scale_color_brewer.ipynb)
+- [scale_color_crayon](./scales/scale_color_crayon.ipynb)
+- [scale_color_funfetti](./scales/scale_color_funfetti.ipynb)
 - [scale_color_gradient](./scales/scale_color_gradient.ipynb)
 - [scale_color_identity](./scales/scale_color_identity.ipynb)
 - [scale_color_manual](./scales/scale_color_manual.ipynb)
