@@ -21,6 +21,7 @@ class geom_violin(geom):
             # makes no sense (http://stackoverflow.com/questions/26291479/changing-the-color-of-matplotlibs-violin-plots)
             plot_parts = ax.violinplot(yi, positions=[i], showextrema=False)
             for pc in plot_parts['bodies']:
+                # TODO: make this pull from params
                 pc.set_facecolor('white')
                 pc.set_edgecolor('black')
                 pc.set_alpha(1.0)
