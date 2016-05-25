@@ -16,7 +16,7 @@ def _set_mpl_backend():
 _set_mpl_backend()
 
 
-from .geoms import geom_area, geom_blank, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline, geom_tile, geom_rect, geom_bin2d, geom_step, geom_text, geom_path, geom_ribbon, geom_now_its_art #, geom_violin
+from .geoms import geom_area, geom_blank, geom_boxplot, geom_line, geom_point, geom_jitter, geom_histogram, geom_density, geom_hline, geom_vline, geom_bar, geom_abline, geom_tile, geom_rect, geom_bin2d, geom_step, geom_text, geom_path, geom_ribbon, geom_now_its_art, geom_violin
 from .stats import stat_smooth, stat_density
 
 from .facets import facet_wrap, facet_grid, Facet
@@ -41,6 +41,7 @@ from .scales.scale_fill_brewer import scale_fill_brewer
 from .scales.scale_fill_crayon import scale_fill_crayon
 from .scales.scale_fill_funfetti import scale_fill_funfetti
 from .scales.scale_fill_manual import scale_fill_manual
+from .scales.scale_fill_yhat import scale_fill_yhat
 
 from .scales.scale_identity import scale_alpha_identity, scale_color_identity, scale_fill_identity, scale_linetype_identity, scale_shape_identity, scale_size_identity
 from .scales.scale_log import scale_x_log, scale_y_log

@@ -15,7 +15,17 @@ class geom_violin(geom):
         for (i, xvalue) in enumerate(x_levels):
             subset = data[data[variables['x']]==xvalue]
             yi = subset[variables['y']].values
-            ax.violinplot(yi, positions=[i], showextrema=False)
+
+            # so this is weird, apparently violinplot is *the only plot that
+            # you can't set the color, shape, etc. as an argument. i know, it
+            # makes no sense (http://stackoverflow.com/questions/26291479/changing-the-color-of-matplotlibs-violin-plots)
+            plot_parts = ax.violinplot(yi, positions=[i], showextrema=False)
+            for pc in plot_parts['bodies']:
+                pc.set_facecolor('white')
+                pc.set_edgecolor('black')
+                pc.set_alpha(1.0)
+                pc.set_linewidth(1.0)
+
             xticks.append(i)
 
         ax.set_xticks(xticks)

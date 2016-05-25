@@ -11,7 +11,7 @@ df = pd.DataFrame({
 })
 
 p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='stack') + facet_wrap('vs')
-print p
+print p + scale_fill_yhat()
 sys.exit()
 
 p = ggplot(df, aes(x='x', weight='wt')) + geom_bar(color='teal') + scale_fill_identity()
