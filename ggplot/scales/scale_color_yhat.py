@@ -4,7 +4,7 @@ from .scale import scale
 from copy import deepcopy
 
 
-class scale_fill_yhat(scale):
+class scale_color_yhat(scale):
     """
     Use Yhat's color scheme.
 
@@ -12,12 +12,12 @@ class scale_fill_yhat(scale):
     --------
     >>> from ggplot import *
     >>> lng = pd.melt(meat, ['date'])
-    >>> gg = ggplot(lng, aes('date', fill='variable')) + \\
-    ...     geom_bar() + scale_fill_yhat()
+    >>> gg = ggplot(lng, aes('date', y='beef', color='variable')) + \\
+    ...     geom_point() + scale_color_yhat()
     """
     VALID_SCALES = []
     def __radd__(self, gg):
-        gg.manual_fill_list = [
+        gg.manual_color_list = [
             "#428bca",
             "#5cb85c",
             "#5bc0de",
