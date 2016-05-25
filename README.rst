@@ -48,8 +48,7 @@ most of the code and only kept what worked. The data grouping and
 manipulation bits were re-written (so they actually worked) with things
 like facets in mind.
 
-Where did ``stat_identity`` and ``geom_raster`` go?
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Contributing
+~~~~~~~~~~~~
 
-They're gone. They didn't even come close to working (also what does
-``stat_identity`` even do) so they're gone.
+See *`contributing.md <./contributing.md>`__*.
