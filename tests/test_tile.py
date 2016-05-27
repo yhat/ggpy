@@ -9,17 +9,17 @@ df = pd.DataFrame(dict(
     w=np.random.uniform(-1, 1, 1000)
 ))
 print df.head()
-p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile()
+p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(interpolate=True)
 print p
 
-p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_bin2d()
-print p
-
-p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(xbins=5)
-print p
-
-p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(ybins=5)
-print p
-
-p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(xbins=8, ybins=10)
-print p
+# p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_bin2d()
+# print p
+#
+# p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(xbins=5)
+# print p
+#
+# p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(ybins=5)
+# print p
+#
+# p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(xbins=8, ybins=10)
+# print p
