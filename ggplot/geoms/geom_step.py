@@ -13,7 +13,10 @@ class geom_step(geom):
         x = data[variables['x']]
         y = data[variables['y']]
 
-
+        nulls = (x.isnull() | y.isnull())
+        x = x[nulls==False]
+        y = y[nulls==False]
+        
         xs = [None] * (2 * (len(x)-1))
         ys = [None] * (2 * (len(x)-1))
 

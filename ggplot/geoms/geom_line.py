@@ -14,6 +14,10 @@ class geom_line(geom):
         x = data[variables['x']]
         y = data[variables['y']]
 
+        nulls = (x.isnull() | y.isnull())
+        x = x[nulls==False]
+        y = y[nulls==False]
+
         if self.is_path:
             pass
         else:

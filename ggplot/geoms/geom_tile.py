@@ -8,7 +8,7 @@ class geom_tile(geom):
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {'xbins': 20, 'ybins': 20}
+    DEFAULT_PARAMS = {'xbins': 20, 'ybins': 20, 'interpolate': False}
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'facecolor', 'color': 'edgecolor'}
 
@@ -31,27 +31,35 @@ class geom_tile(geom):
         counts = data[[weight, variables['x'] + "_cut", variables['y'] + "_cut"]].groupby([variables['x'] + "_cut", variables['y'] + "_cut"]).count().fillna(0)
         weighted = data[[weight, variables['x'] + "_cut", variables['y'] + "_cut"]].groupby([variables['x'] + "_cut", variables['y'] + "_cut"]).sum().fillna(0)
 
-        def get_xy():
-            for x in x_bins:
-                for y in y_bins:
-                    yield (x, y)
-        xy = get_xy()
+        if self.params['interpolate']==False:
+            def get_xy():
+                for x in x_bins:
+                    for y in y_bins:
+                        yield (x, y)
+            xy = get_xy()
 
-        xstep = x_bins[1] - x_bins[0]
-        ystep = y_bins[1] - y_bins[0]
-        maxval = counts.max().max() * weighted.max().max()
+            xstep = x_bins[1] - x_bins[0]
+            ystep = y_bins[1] - y_bins[0]
+            maxval = counts.max().max() * weighted.max().max()
 
-        for ((idx, cnt), (_, wt)) in zip(counts.iterrows(), weighted.iterrows()):
-            xi, yi = next(xy)
-            params['alpha'] = (wt.values * cnt.values) / float(maxval)
-            ax.add_patch(
-                    patches.Rectangle(
-                        (xi, yi),       # (x,y)
-                        xstep,          # width
-                        ystep,          # height
-                        **params
-                    )
-            )
+            for ((idx, cnt), (_, wt)) in zip(counts.iterrows(), weighted.iterrows()):
+                xi, yi = next(xy)
+                params['alpha'] = (wt.values * cnt.values) / float(maxval)
+                ax.add_patch(
+                        patches.Rectangle(
+                            (xi, yi),       # (x,y)
+                            xstep,          # width
+                            ystep,          # height
+                            **params
+                        )
+                )
+        else:
+            import matplotlib.pyplot as plt
+            z = []
+            for xi in x:
+                z.append([xi * yi for yi in y])
+
+            ax.contourf(x, y, z, 10, cmap=plt.cm.Blues)
 
         # matplotlib patches don't automatically impact the scale of the ax, so
         # we manually autoscale the x and y axes
