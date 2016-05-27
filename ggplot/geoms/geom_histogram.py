@@ -13,4 +13,5 @@ class geom_histogram(geom):
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
+        x = x[x.isnull()==False]
         ax.hist(x, **params)

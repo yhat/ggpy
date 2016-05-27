@@ -14,6 +14,8 @@ class geom_density(geom):
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
 
     def _calculate_density(self, x):
+        if len(x)<=1:
+            return x, x
         kde = gaussian_kde(x)
         bottom = np.min(x)
         top = np.max(x)
@@ -27,5 +29,6 @@ class geom_density(geom):
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
+        x = x[x.isnull()==False]
         x, y = self._calculate_density(x)
         ax.plot(x, y, **params)
