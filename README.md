@@ -32,7 +32,7 @@ pip install pip install git+https://github.com/yhat/ggplot.git
 ### Examples
 Examples are the best way to learn. There is a Jupyter Notebook full of them. 
 There are also notebooks that show how to do particular things with ggplot 
-(i.e. [make a scatter plot](./docs/how-to/Making%20a%20Scatter%20Plot.ipynb) or [Make a Histogram](./docs/how-to/Making%20a%20Scatter%20Plot.ipynb)).
+(i.e. [make a scatter plot](./docs/how-to/Making%20a%20Scatter%20Plot.ipynb) or [make a histogram](./docs/how-to/Making%20a%20Scatter%20Plot.ipynb)).
 
 - [docs](./docs)
 - [gallery](./docs/Gallery.ipynb)
