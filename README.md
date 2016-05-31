@@ -29,6 +29,7 @@ pip install pip install git+https://github.com/yhat/ggplot.git
 ```
 
 ### Examples
+- [docs](./docs)
 - [gallery](./docs/Gallery.ipynb)
 - [various examples](./examples.md)
 
