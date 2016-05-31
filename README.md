@@ -35,8 +35,8 @@ pip install pip install git+https://github.com/yhat/ggplot.git
 
 
 ### What happened to the old version that didn't work?
-It's gone--the windows, the doors, [everything](https://www.youtube.com/watch?v=YuxCKv_0GZc). I deleted most of the code and
-only kept what worked. The data grouping and manipulation bits were re-written
+It's gone--the windows, the doors, [everything](https://www.youtube.com/watch?v=YuxCKv_0GZc). 
+Just kidding, [you can find it here](https://github.com/yhat/ggplot/tree/v0.6.6), though I'm not sure why you'd want to look at it. The data grouping and manipulation bits were re-written
 (so they actually worked) with things like facets in mind.
 
 ### Contributing
