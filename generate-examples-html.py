@@ -1,5 +1,6 @@
 from sh import find
 import json
+from datetime import datetime
 import os
 
 rows = []
@@ -40,4 +41,5 @@ for f in find("docs/examples"):
                     break
 
 layout = open("template.html", "rb").read()
-print layout.format(body="\n".join(rows))
+buildtime = datetime.now().strftime("%Y-%m-%d")
+print layout.format(body="\n".join(rows), buildtime=buildtime)
