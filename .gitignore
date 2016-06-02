@@ -1,0 +1,11 @@
+*.pyc
+*.swp
+*.DS_Store
+
+build/
+dist/
+ggplot.egg-info/
+
+.ipynb_checkpoints/
+
+.CHECKSUMS
