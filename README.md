@@ -24,10 +24,10 @@ ggplot(diamonds, aes(x='price', color='clarity')) + \
 ```bash
 $ pip install -U ggplot
 # or
-$ conda install ggplot
-# or
 pip install pip install git+https://github.com/yhat/ggplot.git
 ```
+
+*Note: Conda users...just use pip*  
 
 ### Examples
 Examples are the best way to learn. There is a Jupyter Notebook full of them. 
