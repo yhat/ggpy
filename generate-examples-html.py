@@ -34,7 +34,7 @@ for f in find("docs/examples"):
             for output in outputs:
                 if "image/png" in output['data']:
                     png = output['data']['image/png'].replace('\n', '')
-                    url = "https://github.com/yhat/ggplot/tree/gh-pages/docs/examples" + os.path.basename(f)
+                    url = "https://github.com/yhat/ggplot/tree/gh-pages/docs/examples/" + os.path.basename(f)
                     title = os.path.basename(f)[:-6]
                     img = "data:image/png;base64,%s" % png
                     rows.append(html.format(title=title, img=img, url=url))
