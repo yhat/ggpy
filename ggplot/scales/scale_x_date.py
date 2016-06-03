@@ -12,6 +12,8 @@ class scale_x_date(scale):
 
     Parameters
     ----------
+    labels: 'string / data_format'
+        format for your dates
     breaks : string / list of breaks
         1) a string specifying the width between breaks.
         2) the result of a valid call to `date_breaks`

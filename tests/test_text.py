@@ -1,6 +1,6 @@
 from ggplot import *
 
-p = ggplot(mtcars, aes(x='wt', y='mpg', label='name')) + geom_text()
+p = ggplot(mtcars, aes(x='wt', y='mpg', label='name', color='factor(cyl)')) + geom_text()
 
 print p
 print p + geom_point()
