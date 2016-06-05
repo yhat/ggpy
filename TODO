@@ -1,7 +1,7 @@
 TODO
 - [ ] packaging
   - [ ] conda
-  - [-] pypi
+  - [x] pypi
 
 - [x] can't plot dates
       - [x] geom_point
@@ -20,7 +20,7 @@ TODO
 - [x] pypi
 - [ ] conda
 - [x] python3
-- [-] docs
+- [x] docs
 - [x] legend titles
 - [?] circleci
 - [x] geom_bird
