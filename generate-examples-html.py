@@ -2,9 +2,10 @@ from sh import find
 import json
 from datetime import datetime
 import os
+import sys
 
 rows = []
-for f in find("docs/examples"):
+for f in find("docs/" + sys.argv[1]):
     f = f.strip()
     if f.endswith('.ipynb')==False or ".ipynb_checkpoints" in f:
         continue
@@ -29,12 +30,13 @@ for f in find("docs/examples"):
     """
 
     for cell in ipynb['cells']:
-        if cell["outputs"]:
+        if cell.get("outputs"):
             outputs = cell["outputs"]
             for output in outputs:
                 if "image/png" in output['data']:
                     png = output['data']['image/png'].replace('\n', '')
-                    url = "https://github.com/yhat/ggplot/tree/gh-pages/docs/examples/" + os.path.basename(f)
+                    url = "build/docs/" + sys.argv[1] + "/" + os.path.basename(f)
+                    url = "notebook.html?page=" + url
                     title = os.path.basename(f)[:-6]
                     img = "data:image/png;base64,%s" % png
                     rows.append(html.format(title=title, img=img, url=url))

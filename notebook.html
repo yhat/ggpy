@@ -25,14 +25,14 @@
       </div>
       <div class="navbar-collapse collapse" id="navbar-main">
         <ul class="nav navbar-nav">
-          <li class="active">
+          <li class="">
             <a href="#">Overview</a>
           </li>
-          <li>
-            <a href="./docs.html">Docs</a>
+          <li class="active">
+            <a href="https://github.com/yhat/ggplot/tree/master/docs/">Docs</a>
           </li>
           <li>
-            <a href="/examples">Examples</a>
+            <a href="https://github.com/yhat/ggplot/tree/gh-pages/docs/examples">Examples</a>
           </li>
           <li>
             <a href="https://github.com/yhat/ggplot">Source</a>
@@ -50,34 +50,26 @@
   </div>
 
 
-  <div class="container">
+  <div class="">
     <br>
     <br>
-    <br>
-    <br>
 
-    <div class="row text-center">
-      <div class="col-sm-6">
-        <p style="font-size: 72px;" class="text-warning">ggplot</p>
-        <p style="font-size: 48px;" class="text-muted">A package for plotting in Python.</p>
-      </div>
-      <div class="col-sm-6">
-        <img src="docs/example.png" width="100%"/>
-      </div>
-    </div>
-
-    <hr />
-
-    <div class="row">
-      {body}
-    </div>
-
-
-    <hr />
-    <p class="text-center text-muted">ggplot is built by the fine folks at &ycirc;hat.</p>
-    <p class="text-center text-muted">Documentation last built {buildtime}.</p>
+    <iframe id="ze-docs" src="" style="border: none; width: 100%;"></iframe>
   </div>
 
-
+  <script type="text/javascript">
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    var page = getParameterByName("page");
+    var d = document.getElementById("ze-docs");
+    d.setAttribute("height", window.screen.height);
+    d.setAttribute("src", page);
+  </script>
+  
   </body>
 </html>
+
