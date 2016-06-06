@@ -35,7 +35,7 @@ for f in find("docs/" + sys.argv[1]):
             for output in outputs:
                 if "image/png" in output['data']:
                     png = output['data']['image/png'].replace('\n', '')
-                    url = "build/docs/" + sys.argv[1] + "/" + os.path.basename(f)
+                    url = "build/docs/" + sys.argv[1] + "/" + os.path.basename(f).replace(".ipynb", ".html")
                     url = "notebook.html?page=" + url
                     title = os.path.basename(f)[:-6]
                     img = "data:image/png;base64,%s" % png
