@@ -26,6 +26,4 @@ class geom_point(geom):
             # TODO: make this work for plot_date params
             ax.plot_date(x, y, **{})
         else:
-            print(x, y)
-            print(variables)
             ax.scatter(x, y, **params)
