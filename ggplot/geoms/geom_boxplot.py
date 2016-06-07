@@ -6,7 +6,7 @@ import numpy as np
 class geom_boxplot(geom):
     DEFAULT_AES = {'y': None, 'color': 'black', 'flier_marker': '+'}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
+    DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes, x_levels):
         params = self._get_plot_args(data, _aes)
@@ -40,19 +40,22 @@ class geom_boxplot(geom):
             if self.params.get('median', True)==True:
                 ax.hlines(yvalues.median(), i - 0.25, i + 0.25, linewidth=2)
 
-            params = {
-                'facecolor': 'white',
-                'edgecolor': 'black',
-                'linewidth': 1
-            }
-            ax.add_patch(
-                patches.Rectangle(
-                    (i - 0.25, bounds_25_75[0]),
-                    0.5,
-                    bounds_25_75[1] - bounds_25_75[0],
-                    **params
+            if self.params.get('box', True)==True:
+                params = {
+                    'facecolor': 'white',
+                    'edgecolor': 'black',
+                    'linewidth': 1
+                }
+                ax.add_patch(
+                    patches.Rectangle(
+                        (i - 0.25, bounds_25_75[0]),
+                        0.5,
+                        bounds_25_75[1] - bounds_25_75[0],
+                        **params
+                    )
                 )
-            )
+            else:
+                ax.vlines(x=i, ymin=bounds_25_75[0], ymax=bounds_25_75[1])
         # q = ax.boxplot(x, vert=True)
         # plt.setp(q['boxes'], color=params['color'])
         # plt.setp(q['whiskers'], color=params['color'])

@@ -7,7 +7,7 @@ class geom_area(geom):
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {'stat': 'identity', 'position': 'stack'}
+    DEFAULT_PARAMS = {}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
     def plot(self, ax, data, _aes):

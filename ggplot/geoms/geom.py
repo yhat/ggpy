@@ -59,4 +59,6 @@ class geom(object):
             else:
                 del mpl_params[req]
 
+        self.params.update(self.DEFAULT_PARAMS)
+
         return mpl_params

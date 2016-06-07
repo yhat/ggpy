@@ -8,7 +8,7 @@ class geom_density(geom):
     DEFAULT_AES = {'alpha': None, 'color': 'black',
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x'}
-    DEFAULT_PARAMS = {'stat': 'density', 'position': 'identity'}
+    DEFAULT_PARAMS = {}
 
     _extra_requires = {'y'}
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}

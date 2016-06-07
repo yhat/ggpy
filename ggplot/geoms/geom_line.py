@@ -4,7 +4,7 @@ class geom_line(geom):
     is_path = False
     DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
+    DEFAULT_PARAMS = {}
 
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 

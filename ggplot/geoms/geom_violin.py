@@ -4,7 +4,7 @@ from .geom import geom
 class geom_violin(geom):
     DEFAULT_AES = {'y': None, 'color': 'black'}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {'stat': 'identity', 'position': 'identity'}
+    DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes, x_levels):
         params = self._get_plot_args(data, _aes)

@@ -5,7 +5,7 @@ class geom_histogram(geom):
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x'}
-    DEFAULT_PARAMS = {'stat': 'bin', 'position': 'stack'}
+    DEFAULT_PARAMS = {}
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'color', 'color': 'edgecolor'}
 

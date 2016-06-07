@@ -5,8 +5,7 @@ class geom_hline(geom):
     DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
                    'size': 1.0,}
     REQUIRED_AES = {}
-    DEFAULT_PARAMS = {'stat': 'hline', 'position': 'identity',
-                      'show_guide': False}
+    DEFAULT_PARAMS = {}
 
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 

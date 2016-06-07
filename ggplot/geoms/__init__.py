@@ -5,6 +5,7 @@ from .geom_bin2d import geom_bin2d
 from .geom_blank import geom_blank
 from .geom_boxplot import geom_boxplot
 from .geom_density import geom_density
+from .geom_errorbar import geom_errorbar
 from .geom_histogram import geom_histogram
 from .geom_hline import geom_hline
 from .geom_jitter import geom_jitter

@@ -6,6 +6,7 @@ class geom_point(geom):
     DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20, 'edgecolors': None}
     REQUIRED_AES = {'x', 'y'}
     _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}
+    DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes):
         params = self._get_plot_args(data, _aes)

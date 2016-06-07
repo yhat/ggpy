@@ -6,7 +6,7 @@ class geom_abline(geom):
                    'alpha': None, 'size': 1.0, 'x': None,
                    'y': None}
     REQUIRED_AES = {'slope', 'intercept'}
-    DEFAULT_PARAMS = {'stat': 'abline', 'position': 'identity'}
+    DEFAULT_PARAMS = {}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
 

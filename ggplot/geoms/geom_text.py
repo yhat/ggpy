@@ -5,6 +5,7 @@ from ..utils import is_date
 class geom_text(geom):
     DEFAULT_AES = {'alpha': 1, 'rotation': 0, 'color': 'black', 'size': 12}
     REQUIRED_AES = {'x', 'y', 'label'}
+    DEFAULT_PARAMS = {}
     _aes_renames = {'size': 'fontsize'}
 
     def plot(self, ax, data, _aes):
