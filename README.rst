@@ -30,9 +30,9 @@ Installation
 
     $ pip install -U ggplot
     # or
-    $ conda install ggplot
-    # or
     pip install pip install git+https://github.com/yhat/ggplot.git
+
+*Note: Conda users...just use pip*
 
 Examples
 ~~~~~~~~
@@ -40,8 +40,8 @@ Examples
 Examples are the best way to learn. There is a Jupyter Notebook full of
 them. There are also notebooks that show how to do particular things
 with ggplot (i.e. `make a scatter
-plot <./docs/how-to/Making%20a%20Scatter%20Plot.ipynb>`__ or `Make a
-Histogram <./docs/how-to/Making%20a%20Scatter%20Plot.ipynb>`__).
+plot <./docs/how-to/Making%20a%20Scatter%20Plot.ipynb>`__ or `make a
+histogram <./docs/how-to/Making%20a%20Scatter%20Plot.ipynb>`__).
 
 -  `docs <./docs>`__
 -  `gallery <./docs/Gallery.ipynb>`__
