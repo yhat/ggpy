@@ -67,7 +67,6 @@ class aes(UserDict):
             self.data['color'] = self.data['colour']
             del self.data['colour']
 
-
         self.legend = []
         self.__eval_env__ = EvalEnvironment.capture(1)
 
