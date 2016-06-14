@@ -24,7 +24,7 @@ ggplot(diamonds, aes(x='price', color='clarity')) + \
 ```bash
 $ pip install -U ggplot
 # or
-pip install pip install git+https://github.com/yhat/ggplot.git
+pip install git+https://github.com/yhat/ggplot.git
 ```
 
 *Note: Conda users...just use pip*  
