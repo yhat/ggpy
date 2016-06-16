@@ -55,4 +55,5 @@ from .scales.scale_x_date import scale_x_date
 from .scales.scale_y_date import scale_y_date
 from .scales.date_utils import date_format, date_breaks
 
-from .themes import theme_538, theme_gray, theme_bw, theme_xkcd
+from .themes import theme, theme_538, theme_gray, theme_bw, theme_xkcd
+from .themes import element_text

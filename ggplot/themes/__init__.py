@@ -1,3 +1,5 @@
+from .element_text import element_text
+
 from .theme import theme
 from .theme_538 import theme_538
 from .theme_bw import theme_bw

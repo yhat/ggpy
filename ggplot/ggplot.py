@@ -14,9 +14,10 @@ import warnings
 from .aes import aes
 from .legend import make_legend
 from .themes import theme_gray
+from .themes import element_text
 from . import discretemappers
 
-# from PIL import Image
+from PIL import Image
 
 
 class ggplot(object):
@@ -104,10 +105,10 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        # img = Image.open('/tmp/ggplot.png')
-        # img.show()
-        plt.show()
+        self.fig.savefig('/tmp/ggplot.png', dpi=160)
+        img = Image.open('/tmp/ggplot.png')
+        img.show()
+        # plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
     def _handle_index(self):
@@ -135,7 +136,11 @@ class ggplot(object):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
-                mpl_func(label)
+                if isinstance(label, (str, unicode)):
+                    label = element_text(label)
+                label.args[0] = label.args[0] + 0.5
+                label.args[1] = label.args[1] + 0.95
+                self.fig.text(*label.args, **label.kwargs)
 
         if not self.facets:
             return
@@ -231,14 +236,25 @@ class ggplot(object):
                 labels = [self.ytick_formatter(label) for label in ax.get_yticks()]
                 ax.yaxis.set_ticklabels(labels)
 
-        self.fig.text(0.5, 0.05, xlab)
+        if isinstance(xlab, (str, unicode)):
+            xlab = element_text(xlab)
+
+        xlab.args[0] = xlab.args[0] + 0.5
+        xlab.args[1] = xlab.args[1] + 0.05
+        self.fig.text(*xlab.args, **xlab.kwargs)
 
         if self.ylab:
             ylab = self.ylab
         else:
             ylab = self._aes.get('y', '')
 
-        self.fig.text(0.05, 0.5, ylab, rotation='vertical')
+        if isinstance(ylab, (str, unicode)):
+            ylab = element_text(ylab)
+
+        ylab.args[0] = ylab.args[0] + 0.05
+        ylab.args[1] = ylab.args[1] + 0.5
+        ylab.kwargs['rotation'] = 'vertical'
+        self.fig.text(*ylab.args, **ylab.kwargs)
 
     def _iterate_subplots(self):
         """

@@ -42,8 +42,10 @@ THEME_PARAMETERS = {
 }
 
 class theme_base(object):
+    _rcParams = {}
+
     def __init__(self):
-        self._rcParams = {}
+        pass
 
     def __radd__(self, other):
         if other.__class__.__name__=="ggplot":
@@ -60,11 +62,13 @@ class theme_base(object):
 
 class theme(theme_base):
     def __init__(self, *args, **kwargs):
-        pass
+        self.things = kwargs
 
     def __radd__(self, other):
         if other.__class__.__name__=="ggplot":
             other.theme = self
+            for key, value in self.things.items():
+                setattr(other, key, value)
             return other
 
         return self
