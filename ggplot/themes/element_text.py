@@ -28,6 +28,9 @@ class element_text(object):
         font = {k: v for k,v in font.items() if v}
         self.kwargs = dict(horizontalalignment='center', fontdict=font)
 
-    def override(self, *args, **kwargs):
-        for key, value in kwargs.items():
+    def override(self, x, y, overrides={}):
+        self.args[0] += x
+        self.args[1] += y
+        for key, value in overrides.items():
             self.kwargs[key] = value
+        return self

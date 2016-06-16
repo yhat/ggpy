@@ -138,8 +138,7 @@ class ggplot(object):
             if label:
                 if isinstance(label, (str, unicode)):
                     label = element_text(label)
-                label.args[0] = label.args[0] + 0.5
-                label.args[1] = label.args[1] + 0.95
+                label = label.override(0.5, 0.95)
                 self.fig.text(*label.args, **label.kwargs)
 
         if not self.facets:
@@ -239,8 +238,7 @@ class ggplot(object):
         if isinstance(xlab, (str, unicode)):
             xlab = element_text(xlab)
 
-        xlab.args[0] = xlab.args[0] + 0.5
-        xlab.args[1] = xlab.args[1] + 0.05
+        xlab = xlab.override(0.5, 0.05)
         self.fig.text(*xlab.args, **xlab.kwargs)
 
         if self.ylab:
@@ -251,9 +249,7 @@ class ggplot(object):
         if isinstance(ylab, (str, unicode)):
             ylab = element_text(ylab)
 
-        ylab.args[0] = ylab.args[0] + 0.05
-        ylab.args[1] = ylab.args[1] + 0.5
-        ylab.kwargs['rotation'] = 'vertical'
+        ylab = ylab.override(0.05, 0.5, dict(rotation='vertical'))
         self.fig.text(*ylab.args, **ylab.kwargs)
 
     def _iterate_subplots(self):
