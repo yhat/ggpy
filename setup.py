@@ -1,13 +1,25 @@
 import os
 from setuptools import find_packages, setup
-from ggplot.__init__ import __version__
 
+
+def extract_version():
+    """Return ggplot.__version__ without importing ggplot.
+    
+    Extracts version from ggplot/__init__.py
+    without importing ggplot, which requires dependencies to be installed.
+    """
+    with open('ggplot/__init__.py') as fd:
+        ns = {}
+        for line in fd:
+            if line.startswith('__version__'):
+                exec(line.strip(), ns)
+                return ns['__version__']
 
 
 setup(
     name="ggplot",
     # Increase the version in ggplot/__init__.py
-    version="0.9.4",
+    version=extract_version(),
     author="Greg Lamp",
     author_email="greg@yhathq.com",
     url="https://github.com/yhat/ggplot/",
