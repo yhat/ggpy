@@ -61,6 +61,17 @@ class theme_base(object):
         pass
 
 class theme(theme_base):
+    # this maps theme element names to attributes of a ggplot object
+    ATTRIBUTE_MAPPING = dict(
+        title="title",
+        plot_title="title",
+        axis_title="title",
+        axis_title_x="xlab",
+        axis_title_y="ylab",
+        axis_text="axis_text",
+        axis_text_x="x_axis_text",
+        axis_text_y="y_axis_text",
+    )
     def __init__(self, *args, **kwargs):
         self.things = kwargs
 
@@ -68,6 +79,7 @@ class theme(theme_base):
         if other.__class__.__name__=="ggplot":
             other.theme = self
             for key, value in self.things.items():
+                key = self.ATTRIBUTE_MAPPING.get(key, key)
                 setattr(other, key, value)
             return other
 

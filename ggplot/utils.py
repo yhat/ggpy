@@ -6,6 +6,21 @@ import pandas as pd
 import datetime
 
 
+def format_ticks(ticks):
+    are_ints = True
+    for t in ticks:
+        try:
+            if int(t)!=t:
+                are_ints = False
+        except:
+            return ticks
+
+    if are_ints==True:
+        return [int(t) for t in ticks]
+
+    return ticks
+
+
 def is_sequence_of_strings(obj):
     """
     Returns true if *obj* is iterable and contains strings

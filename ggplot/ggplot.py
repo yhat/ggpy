@@ -16,6 +16,7 @@ from .legend import make_legend
 from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
+from .utils import format_ticks
 
 from PIL import Image
 
@@ -79,13 +80,18 @@ class ggplot(object):
         self.scale_x_reverse = None
         self.scale_y_reverse = None
 
+        # generic axis text
+        self.axis_text = None
+
         self.xbreaks = None
         self.xtick_labels = None
         self.xtick_formatter = None
+        self.x_axis_text = None
 
         self.ybreaks = None
         self.ytick_labels = None
         self.ytick_formatter = None
+        self.y_axis_text = None
 
         # faceting
         self.grid = None
@@ -138,8 +144,8 @@ class ggplot(object):
             if label:
                 if isinstance(label, (str, unicode)):
                     label = element_text(label)
-                label = label.override(0.5, 0.95)
-                self.fig.text(*label.args, **label.kwargs)
+                label.override(0.5, 0.95)
+                label.apply_to_fig(self.fig)
 
         if not self.facets:
             return
@@ -219,9 +225,10 @@ class ggplot(object):
                     ax.xaxis.set_ticklabels(self.xtick_labels)
         if self.xtick_formatter:
             for ax in self._iterate_subplots():
-                labels = [self.xtick_formatter(label) for label in ax.get_xticks()]
+                labels = []
+                for label_text in ax.get_xticks():
+                    labels.append(self.xtick_formatter(label_text))
                 ax.xaxis.set_ticklabels(labels)
-
         if self.ybreaks:
             for ax in self._iterate_subplots():
                 ax.yaxis.set_ticks(self.ybreaks)
@@ -229,17 +236,34 @@ class ggplot(object):
             if isinstance(self.ytick_labels, list):
                 for ax in self._iterate_subplots():
                     ax.yaxis.set_ticklabels(self.ytick_labels)
-
         if self.ytick_formatter:
             for ax in self._iterate_subplots():
                 labels = [self.ytick_formatter(label) for label in ax.get_yticks()]
                 ax.yaxis.set_ticklabels(labels)
 
+        if self.axis_text:
+            for ax in self._iterate_subplots():
+                xticks = format_ticks(ax.get_xticks())
+                ax.set_xticklabels(xticks, **self.axis_text.kwargs)
+
+                yticks = format_ticks(ax.get_yticks())
+                ax.set_yticklabels(yticks, **self.axis_text.kwargs)
+
+        if self.x_axis_text:
+            for ax in self._iterate_subplots():
+                xticks = format_ticks(ax.get_xticks())
+                ax.set_xticklabels(xticks, **self.x_axis_text.kwargs)
+        if self.y_axis_text:
+            for ax in self._iterate_subplots():
+                yticks = format_ticks(ax.get_yticks())
+                ax.set_yticklabels(yticks, **self.y_axis_text.kwargs)
+
         if isinstance(xlab, (str, unicode)):
             xlab = element_text(xlab)
 
-        xlab = xlab.override(0.5, 0.05)
-        self.fig.text(*xlab.args, **xlab.kwargs)
+        # encofrce it to be an x-label
+        xlab.override(0.5, 0.05)
+        xlab.apply_to_fig(self.fig)
 
         if self.ylab:
             ylab = self.ylab
@@ -249,8 +273,9 @@ class ggplot(object):
         if isinstance(ylab, (str, unicode)):
             ylab = element_text(ylab)
 
-        ylab = ylab.override(0.05, 0.5, dict(rotation='vertical'))
-        self.fig.text(*ylab.args, **ylab.kwargs)
+        # encofrce it to be a y-label
+        ylab.override(0.05, 0.5, dict(rotation='vertical'))
+        ylab.apply_to_fig(self.fig)
 
     def _iterate_subplots(self):
         """

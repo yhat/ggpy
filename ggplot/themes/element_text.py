@@ -6,7 +6,7 @@ from matplotlib.text import Text
 FACES = ["plain", "italic", "bold", "bold.italic"]
 
 class element_text(object):
-    def __init__(self, text, family=None, face=None, color=None, size=None,
+    def __init__(self, text=None, family=None, face=None, color=None, size=None,
             hjust=0, vjust=0, angle=None, lineheight=None, margin=None,
             debug=None):
 
@@ -33,4 +33,6 @@ class element_text(object):
         self.args[1] += y
         for key, value in overrides.items():
             self.kwargs[key] = value
-        return self
+
+    def apply_to_fig(self, fig):
+        fig.text(*self.args, **self.kwargs)

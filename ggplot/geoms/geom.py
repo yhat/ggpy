@@ -1,13 +1,21 @@
+from __future__ import (absolute_import, division, print_function,
+                        unicode_literals)
 from ..ggplot import ggplot
+from ..aes import aes
 
 class geom(object):
     _aes_renames = {}
     DEFAULT_AES = {}
     REQUIRED_AES = {}
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.layers = [self]
         self.params = kwargs
+        self.geom_aes = None
+
+        if len(args) > 0:
+            if isinstance(args[0], aes):
+                self.geom_aes = args[0]
 
         self.VALID_AES = set()
         self.VALID_AES.update(self.DEFAULT_AES.keys())
@@ -28,6 +36,10 @@ class geom(object):
     def _get_plot_args(self, data, _aes):
         mpl_params = {}
         mpl_params.update(self.DEFAULT_AES)
+
+        # handle the case that the geom has overriding aes passed as an argument
+        if self.geom_aes:
+            _aes.update(self.geom_aes)
 
         # for non-continuous values (i.e. shape), need to only pass 1 value
         # into matplotlib. for example instead if ['+', '+', '+', ..., '+'] you'd
@@ -51,7 +63,6 @@ class geom(object):
                 new_key = self._aes_renames[key]
                 mpl_params[new_key] = value
                 del mpl_params[key]
-
 
         for req in self.REQUIRED_AES:
             if req not in mpl_params:
