@@ -17,9 +17,10 @@ from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
 from .utils import format_ticks
+import os
 
-# from PIL import Image
-
+if os.environ.get("GGPLOT_DEV"):
+    from PIL import Image
 
 class ggplot(object):
     """
@@ -71,8 +72,10 @@ class ggplot(object):
 
         # scales
         self.scales = []
-
         self.scale_identity  = set()
+
+        # margins
+        self.margins = None
 
         self.scale_x_log = None
         self.scale_y_log = None
@@ -111,9 +114,11 @@ class ggplot(object):
     def __repr__(self):
         self.make()
         # this is nice for dev but not the best for "real"
-        # self.fig.savefig('/tmp/ggplot.png', dpi=160)
-        # img = Image.open('/tmp/ggplot.png')
-        # img.show()
+        if os.environ.get("GGPLOT_DEV"):
+            self.fig.savefig('/tmp/ggplot.png', dpi=160)
+            img = Image.open('/tmp/ggplot.png')
+            img.show()
+            return "<ggplot: (%d)>" % self.__hash__()
         plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
@@ -209,6 +214,9 @@ class ggplot(object):
                 y = self._aes.data['y']
                 self._aes.data['x'] = y
                 self._aes.data['y'] = x
+
+        if self.margins:
+            plt.subplots_adjust(**self.margins)
 
     def apply_axis_labels(self):
         if self.xlab:

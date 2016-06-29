@@ -22,5 +22,8 @@ class geom_line(geom):
             pass
         else:
             order = x.argsort()
-            x, y = x[order], y[order]
+            x, y = x.iloc[order], y.iloc[order]
+
+        print("2=>")
+        print(zip(x.tolist(), y.tolist()))
         ax.plot(x, y, **params)
