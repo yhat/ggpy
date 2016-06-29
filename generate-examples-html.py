@@ -14,7 +14,7 @@ for f in find("docs/" + sys.argv[1]):
 
     html = """
 <div class="col-sm-3">
-    <div class="panel panel-default">
+    <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title text-center">
           <a href="{url}">{title}</a>
