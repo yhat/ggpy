@@ -1,5 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
+from copy import deepcopy
 
 THEME_PARAMETERS = {
     "axis_line": "?",
@@ -65,6 +66,7 @@ class theme(theme_base):
     ATTRIBUTE_MAPPING = dict(
         title="title",
         plot_title="title",
+        plot_margin="margins",
         axis_title="title",
         axis_title_x="xlab",
         axis_title_y="ylab",
@@ -73,7 +75,7 @@ class theme(theme_base):
         axis_text_y="y_axis_text",
     )
     def __init__(self, *args, **kwargs):
-        self.things = kwargs
+        self.things = deepcopy(kwargs)
 
     def __radd__(self, other):
         if other.__class__.__name__=="ggplot":
