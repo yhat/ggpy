@@ -24,6 +24,4 @@ class geom_line(geom):
             order = x.argsort()
             x, y = x.iloc[order], y.iloc[order]
 
-        print("2=>")
-        print(zip(x.tolist(), y.tolist()))
         ax.plot(x, y, **params)

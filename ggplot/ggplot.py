@@ -266,12 +266,14 @@ class ggplot(object):
                 yticks = format_ticks(ax.get_yticks())
                 ax.set_yticklabels(yticks, **self.y_axis_text.kwargs)
 
-        if isinstance(xlab, (str, unicode)):
-            xlab = element_text(xlab)
 
-        # encofrce it to be an x-label
-        xlab.override(0.5, 0.05)
-        xlab.apply_to_fig(self.fig)
+        if xlab:
+            if isinstance(xlab, (str, unicode)):
+                xlab = element_text(xlab)
+
+            # encofrce it to be an x-label
+            xlab.override(0.5, 0.05)
+            xlab.apply_to_fig(self.fig)
 
         if self.ylab:
             ylab = self.ylab
@@ -281,9 +283,10 @@ class ggplot(object):
         if isinstance(ylab, (str, unicode)):
             ylab = element_text(ylab)
 
-        # encofrce it to be a y-label
-        ylab.override(0.05, 0.5, dict(rotation='vertical'))
-        ylab.apply_to_fig(self.fig)
+        if ylab:
+            # encofrce it to be a y-label
+            ylab.override(0.05, 0.5, dict(rotation='vertical'))
+            ylab.apply_to_fig(self.fig)
 
     def _iterate_subplots(self):
         """
@@ -532,7 +535,7 @@ class ggplot(object):
         else:
             yield (self.subplots, group)
 
-    def save(self, filename, width=None, height=None):
+    def save(self, filename, width=None, height=None, dpi=180):
         """
         Save ggplot to a .png file.
 

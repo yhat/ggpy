@@ -29,10 +29,10 @@ Installation
 .. code:: bash
 
     $ pip install -U ggplot
+    # or 
+    $ conda install -c conda-forge ggplot
     # or
-    pip install pip install git+https://github.com/yhat/ggplot.git
-
-*Note: Conda users...just use pip*
+    pip install git+https://github.com/yhat/ggplot.git
 
 Examples
 ~~~~~~~~
