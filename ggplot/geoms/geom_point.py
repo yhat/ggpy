@@ -23,7 +23,10 @@ class geom_point(geom):
             y *= np.random.uniform(.9, 1.1, len(y))
 
         if is_date(x.iloc[0]):
-            # TODO: make this work for plot_date params
-            ax.plot_date(x, y, **{})
+            dtype = x.iloc[0].__class__
+            x = np.array([i.toordinal() for i in x])
+            ax.scatter(x, y, **params)
+            new_ticks = [dtype(i) for i in ax.get_xticks()]
+            ax.set_xticklabels(new_ticks)
         else:
             ax.scatter(x, y, **params)
