@@ -33,9 +33,7 @@ class stat_smooth(geom):
         else:
             x, y, y1, y2 = smoothers.lowess(x, y, span=span)
 
-        # TODO: bug here!!!
-        # 'DataFrame' object has no attribute 'sort_values'
-        smoothed_data = pd.DataFrame(dict(x=x, y=y, y1=y1, y2=y2))s
+        smoothed_data = pd.DataFrame(dict(x=x, y=y, y1=y1, y2=y2))
         smoothed_data = smoothed_data.sort('x')
 
         params = self._get_plot_args(data, _aes)
