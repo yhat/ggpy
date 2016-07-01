@@ -36,7 +36,8 @@ class stat_smooth(geom):
         # TODO: bug here!!!
         # 'DataFrame' object has no attribute 'sort_values'
         smoothed_data = pd.DataFrame(dict(x=x, y=y, y1=y1, y2=y2))
-        smoothed_data = smoothed_data.sort_values('x')
+        smoothed_data.to_csv("/tmp/test.csv")
+        smoothed_data = smoothed_data.sort('x')
 
         params = self._get_plot_args(data, _aes)
         if 'alpha' not in params:
