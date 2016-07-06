@@ -1,0 +1,1 @@
+from .scale_y_continuous import scale_y_continuous as scale_y_discrete
