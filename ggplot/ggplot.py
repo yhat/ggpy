@@ -7,6 +7,7 @@ from matplotlib.colors import LinearSegmentedColormap
 
 from patsy.eval import EvalEnvironment
 
+import six
 import numpy as np
 import pandas as pd
 import warnings
@@ -147,7 +148,7 @@ class ggplot(object):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
-                if isinstance(label, (str, unicode)):
+                if isinstance(label, six.text_types):
                     label = element_text(label)
                 label.override(0.5, 0.95)
                 label.apply_to_fig(self.fig)
@@ -268,7 +269,7 @@ class ggplot(object):
 
 
         if xlab:
-            if isinstance(xlab, (str, unicode)):
+            if isinstance(xlab, six.text_types):
                 xlab = element_text(xlab)
 
             # encofrce it to be an x-label
@@ -280,7 +281,7 @@ class ggplot(object):
         else:
             ylab = self._aes.get('y', '')
 
-        if isinstance(ylab, (str, unicode)):
+        if isinstance(ylab, six.text_types):
             ylab = element_text(ylab)
 
         if ylab:

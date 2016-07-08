@@ -3,6 +3,7 @@ from __future__ import (absolute_import, division, print_function,
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import re
+import six
 
 def tex_escape(text):
     """
@@ -23,7 +24,7 @@ def tex_escape(text):
         '<': r'\textless',
         '>': r'\textgreater',
     }
-    regex = re.compile('|'.join(re.escape(unicode(key)) for key in sorted(conv.keys(), key = lambda item: - len(item))))
+    regex = re.compile('|'.join(re.escape(six.text_type(key)) for key in sorted(conv.keys(), key = lambda item: - len(item))))
     return regex.sub(lambda match: conv[match.group()], text)
 
 def color_legend(color):
@@ -61,7 +62,7 @@ def make_aesthetic_legend(aesthetic, value):
 def make_legend(ax, legend_mapping):
     # TODO: for some reason this reaks havoc! but this is also how you would do a bold legend :(
     # plt.rc('text', usetex=True)
-    
+
     extra = Rectangle((0, 0), 0, 0, facecolor="w", fill=False, edgecolor='none', linewidth=0)
 
     items = []
