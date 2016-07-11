@@ -16,6 +16,7 @@ rejected if your code is difficult to read--even if it works.
 - arnfred
 - astanin
 - bwillers
+- croach
 - dan-blanchard
 - darthmall
 - ericchiang
@@ -26,9 +27,12 @@ rejected if your code is difficult to read--even if it works.
 - hernamesbarbara
 - janschulz
 - jfrazelle
+- jkahn
 - kalaidin
 - matthias-k
 - minrk
+- nicktimko
+- sebastian-nagel
 - smutch
 - stonebig
 - yarikoptic
