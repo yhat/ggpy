@@ -11,3 +11,25 @@ rejected if your code is difficult to read--even if it works.
 - Do less. Try to keep any incoming pull requests small.
 - Any new functionality should have an accompanying IPython Notebook in the
 [`docs/`](./docs) folder.
+
+### Contributors
+- arnfred
+- astanin
+- bwillers
+- dan-blanchard
+- darthmall
+- ericchiang
+- funnell
+- gdowding
+- glamp
+- has2k1
+- hernamesbarbara
+- janschulz
+- jfrazelle
+- kalaidin
+- matthias-k
+- minrk
+- smutch
+- stonebig
+- yarikoptic
+- zachcp
