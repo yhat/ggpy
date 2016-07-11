@@ -26,6 +26,7 @@ rejected if your code is difficult to read--even if it works.
 - has2k1
 - hernamesbarbara
 - janschulz
+- jaycode
 - jfrazelle
 - jkahn
 - kalaidin
