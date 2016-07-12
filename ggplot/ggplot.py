@@ -148,7 +148,7 @@ class ggplot(object):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
-                if isinstance(label, six.text_type):
+                if isinstance(label, (str, six.text_type)):
                     label = element_text(label)
                 label.override(0.5, 0.95)
                 label.apply_to_fig(self.fig)
@@ -267,12 +267,11 @@ class ggplot(object):
                 yticks = format_ticks(ax.get_yticks())
                 ax.set_yticklabels(yticks, **self.y_axis_text.kwargs)
 
-
         if xlab:
-            if isinstance(xlab, six.text_type):
+            if isinstance(xlab, (str, six.text_type)):
                 xlab = element_text(xlab)
 
-            # encofrce it to be an x-label
+            # enforce it to be an x-label
             xlab.override(0.5, 0.05)
             xlab.apply_to_fig(self.fig)
 
@@ -281,11 +280,11 @@ class ggplot(object):
         else:
             ylab = self._aes.get('y', '')
 
-        if isinstance(ylab, six.text_type):
+        if isinstance(ylab, (str, six.text_type)):
             ylab = element_text(ylab)
 
         if ylab:
-            # encofrce it to be a y-label
+            # enforce it to be a y-label
             ylab.override(0.05, 0.5, dict(rotation='vertical'))
             ylab.apply_to_fig(self.fig)
 
