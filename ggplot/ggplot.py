@@ -148,7 +148,7 @@ class ggplot(object):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
         for mpl_func, label in labels:
             if label:
-                if isinstance(label, six.text_types):
+                if isinstance(label, six.text_type):
                     label = element_text(label)
                 label.override(0.5, 0.95)
                 label.apply_to_fig(self.fig)
@@ -269,7 +269,7 @@ class ggplot(object):
 
 
         if xlab:
-            if isinstance(xlab, six.text_types):
+            if isinstance(xlab, six.text_type):
                 xlab = element_text(xlab)
 
             # encofrce it to be an x-label
@@ -281,7 +281,7 @@ class ggplot(object):
         else:
             ylab = self._aes.get('y', '')
 
-        if isinstance(ylab, six.text_types):
+        if isinstance(ylab, six.text_type):
             ylab = element_text(ylab)
 
         if ylab:
