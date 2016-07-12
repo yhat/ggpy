@@ -61,4 +61,6 @@ in mind.
 Contributing
 ~~~~~~~~~~~~
 
-See *`contributing.md <./contributing.md>`__*.
+Thanks to all of the ggplot
+`contributors <./contributors.md#contributors>`__! See
+*`contributing.md <./contributing.md>`__*.
