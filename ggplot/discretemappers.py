@@ -40,6 +40,10 @@ def color_gen(n_colors, colors=None):
     while True:
         yield next(generator)
 
+def identity_gen(uniq_values):
+    for value in uniq_values:
+        yield value
+
 # Matplolib is not consistent. Sometimes it does not
 # accept abbreviations
 # LINETYPES = [

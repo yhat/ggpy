@@ -21,6 +21,7 @@ class stat_smooth(geom):
 
         params = {'alpha': 0.2}
 
+        se = self.params.get('se', True)
         method = self.params.get('method', 'lm')
         level = self.params.get('level', 0.95)
         window = self.params.get('window', None)

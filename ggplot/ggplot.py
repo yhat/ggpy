@@ -351,6 +351,8 @@ class ggplot(object):
             mapping = discretemappers.linetype_gen()
         elif aes_type=="size":
             mapping = discretemappers.size_gen(self.data[colname].unique())
+        elif aes_type=="group":
+            mapping = discretemappers.identity_gen(self.data[colname].unique())
         return mapping
 
     def _construct_plot_data(self):
