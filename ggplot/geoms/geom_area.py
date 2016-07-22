@@ -1,25 +1,30 @@
 from .geom import geom
 from ..utils import is_date
 import numpy as np
+import pandas as pd
 
 class geom_area(geom):
+    last_y = None
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
-                   'linetype': 'solid', 'size': 1.0}
+                   'linetype': 'solid', 'size': 0}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {}
+    DEFAULT_PARAMS = {'position': 'stack'}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
     def plot(self, ax, data, _aes):
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
-        ymin = 0
-        ymax = data[variables['y']]
+        if self.last_y is None:
+            self.last_y = pd.Series(np.repeat(0, len(data)))
+        ymin = self.last_y
+        ymax = self.last_y.reset_index(drop=True) + data[variables['y']].reset_index(drop=True)
 
 
         # TODO: for some reason the reordering produces NaNs
         order = x.argsort()
+
 
         # x value in fill_between can't be a date
         if is_date(x.iloc[0]):
@@ -30,3 +35,5 @@ class geom_area(geom):
             ax.set_xticklabels(new_ticks)
         else:
             ax.fill_between(x, ymin, ymax, **params)
+
+        self.last_y = data[variables['y']]

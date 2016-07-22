@@ -1,5 +1,7 @@
 from ggplot import *
+import pandas as pd
 
 
-print ggplot(meat, aes(x='date', y='beef')) + geom_area() + scale_x_date(labels='%Y')
-print ggplot(meat, aes(x='date', ymin='beef', ymax='pork')) + geom_ribbon()
+df = pd.melt(meat[['date', 'beef', 'veal', 'pork']], id_vars=['date']).dropna()
+df = pd.melt(meat[['date', 'beef', 'veal', 'pork']], id_vars=['date']).dropna()
+print ggplot(df, aes(x='date', y='value', fill='variable')) + geom_area()

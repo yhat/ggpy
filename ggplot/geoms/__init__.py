@@ -13,6 +13,7 @@ from .geom_line import geom_line
 from .geom_now_its_art import geom_now_its_art
 from .geom_path import geom_path
 from .geom_point import geom_point
+from .geom_polygon import geom_polygon
 from .geom_rect import geom_rect
 from .geom_ribbon import geom_ribbon
 from .geom_step import geom_step
