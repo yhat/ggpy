@@ -19,12 +19,13 @@ class geom_area(geom):
         if self.last_y is None:
             self.last_y = pd.Series(np.repeat(0, len(data)))
         ymin = self.last_y
-        ymax = self.last_y.reset_index(drop=True) + data[variables['y']].reset_index(drop=True)
-
+        if self.DEFAULT_PARAMS['position']=="stack":
+            ymax = self.last_y.reset_index(drop=True) + data[variables['y']].reset_index(drop=True)
+        else:
+            ymax = data[variables['y']]
 
         # TODO: for some reason the reordering produces NaNs
         order = x.argsort()
-
 
         # x value in fill_between can't be a date
         if is_date(x.iloc[0]):
