@@ -548,7 +548,7 @@ class ggplot(object):
         width: int, float
             width of the plot in inches
         height: int, float
-            width of the plot in inches
+            height of the plot in inches
         """
         self.make()
         w, h = self.fig.get_size_inches()
