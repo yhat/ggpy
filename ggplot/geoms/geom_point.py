@@ -1,6 +1,9 @@
 from .geom import geom
 import numpy as np
 from ..utils import is_date
+            
+def _date_to_number(i):
+    return i.toordinal() + i.time().hour/24 + i.time().minute/1440 + i.time().second/86400
 
 class geom_point(geom):
     DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20, 'edgecolors': 'none'}
@@ -24,7 +27,8 @@ class geom_point(geom):
 
         if is_date(x.iloc[0]):
             dtype = x.iloc[0].__class__
-            x = np.array([i.toordinal() for i in x])
+
+            x = np.array([_date_to_number(i) for i in x])
             ax.scatter(x, y, **params)
             new_ticks = [dtype(i) for i in ax.get_xticks()]
             ax.set_xticklabels(new_ticks)
