@@ -11,6 +11,7 @@ class geom_ribbon(geom):
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
     def plot(self, ax, data, _aes):
+        (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
