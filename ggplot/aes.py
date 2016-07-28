@@ -8,6 +8,9 @@ from copy import deepcopy
 from patsy.eval import EvalEnvironment
 from . import utils
 
+import numpy as np
+import pandas as pd
+
 class aes(UserDict):
     """
     Creates a dictionary that is used to evaluate
@@ -81,6 +84,24 @@ class aes(UserDict):
                 raise
 
         return result
+
+    def _evaluate_expressions(self, data):
+        """
+        Evaluates patsy expressions within the aesthetics. For example, 'x + 1'
+        , 'factor(x)', or 'pd.cut(price, bins=10)')
+        """
+        for key, item in self.data.items():
+            if item not in data:
+                def factor(s, levels=None, labels=None):
+                    return s.apply(str)
+
+                env = EvalEnvironment.capture(eval_env=(self.__eval_env__ or 1)).with_outer_namespace({ "factor": factor, "pd": pd, "np": np })
+                try:
+                    new_val = env.eval(item, inner_namespace=data)
+                    data[item] = new_val
+                except:
+                    pass
+        return data
 
     def handle_identity_values(self, df):
         for key, value in self.data.items():
