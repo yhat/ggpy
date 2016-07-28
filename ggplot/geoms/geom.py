@@ -36,8 +36,13 @@ class geom(object):
     def _update_data(self, data, _aes):
         if 'mapping' in self.params:
             _aes = self.params['mapping']
+            if not 'data' in self.params:
+                data = _aes._evaluate_expressions(data)
+                data = _aes.handle_identity_values(data)
         if 'data' in self.params:
-            data = self.params['data']
+            data = _aes._evaluate_expressions(self.params['data'])
+            data = _aes.handle_identity_values(data)
+        
         return (data, _aes)
 
     def _get_plot_args(self, data, _aes):
