@@ -4,6 +4,27 @@ from .geom import geom
 from ..utils import calc_n_bins
 
 class geom_tile(geom):
+    """
+    Frequency table / heatmap
+
+    y:
+        ...description...
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+    linetype:
+        ...description...
+    fill:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}

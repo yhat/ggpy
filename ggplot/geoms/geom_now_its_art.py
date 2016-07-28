@@ -11,6 +11,15 @@ _ROOT = os.path.abspath(os.path.dirname(__file__))
 
 
 class geom_now_its_art(geom):
+    """
+    Put a bird on it!
+
+    alpha:
+        ...description...
+
+    Examples
+    --------
+    """
     DEFAULT_AES = {'alpha': 0.5}
 
     def plot(self, ax, data, _aes):

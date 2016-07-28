@@ -4,6 +4,23 @@ import numpy as np
 from .geom import geom
 
 class geom_density(geom):
+    """
+    Gaussian kernel density estimation for distribution of x parameter
+
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    linetype:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'alpha': None, 'color': 'black',
                    'linetype': 'solid', 'size': 1.0}

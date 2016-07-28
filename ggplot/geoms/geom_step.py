@@ -1,6 +1,26 @@
 from .geom import geom
 
 class geom_step(geom):
+    """
+    Same as geom_path but with step-wise interpolation between points
+
+    y:
+        ...description...
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    linetype:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
+
     DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {'direction': 'hv'}
@@ -16,7 +36,7 @@ class geom_step(geom):
         nulls = (x.isnull() | y.isnull())
         x = x[nulls==False]
         y = y[nulls==False]
-        
+
         xs = [None] * (2 * (len(x)-1))
         ys = [None] * (2 * (len(x)-1))
 

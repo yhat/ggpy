@@ -1,6 +1,25 @@
 from .geom import geom
 
 class geom_histogram(geom):
+    """
+    Histogram of x data
+
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+    linetype:
+        ...description...
+    fill:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}

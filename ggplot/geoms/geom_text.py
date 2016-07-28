@@ -3,6 +3,27 @@ from ..utils import is_date
 
 
 class geom_text(geom):
+    """
+    Same as geom_point but text instead of points
+
+    y:
+        ...description...
+    x:
+        ...description...
+    label:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    rotation:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
     DEFAULT_AES = {'alpha': 1, 'rotation': 0, 'color': 'black', 'size': 12}
     REQUIRED_AES = {'x', 'y', 'label'}
     DEFAULT_PARAMS = {}

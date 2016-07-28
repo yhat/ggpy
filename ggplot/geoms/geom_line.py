@@ -1,6 +1,25 @@
 from .geom import geom
 
 class geom_line(geom):
+    """
+    Line chart
+
+    y:
+        ...description...
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    linetype:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
     is_path = False
     DEFAULT_AES = {'color': 'black', 'alpha': 1.0, 'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x', 'y'}

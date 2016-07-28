@@ -2,6 +2,21 @@ from .geom import geom
 
 
 class geom_violin(geom):
+    """
+    Violin plots
+
+    y:
+        ...description...
+    x:
+        ...description...
+    y:
+        ...description...
+    color:
+        ...description...
+
+    Examples
+    --------
+    """
     DEFAULT_AES = {'y': None, 'color': 'black'}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}

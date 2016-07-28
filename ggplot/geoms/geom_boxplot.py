@@ -4,6 +4,23 @@ import matplotlib.patches as patches
 import numpy as np
 
 class geom_boxplot(geom):
+    """
+    Box and whiskers chart
+
+    y:
+        ...description...
+    x:
+        ...description...
+    y:
+        ...description...
+    color:
+        ...description...
+    flier_marker:
+        ...description...
+
+    Examples
+    --------
+    """
     DEFAULT_AES = {'y': None, 'color': 'black', 'flier_marker': '+'}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}

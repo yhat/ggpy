@@ -3,6 +3,27 @@ import matplotlib.patches as patches
 
 
 class geom_polygon(geom):
+    """
+    Polygon specified by (x, y) coordinates
+
+    y:
+        ...description...
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+    linetype:
+        ...description...
+    fill:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}

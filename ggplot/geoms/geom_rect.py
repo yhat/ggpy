@@ -3,6 +3,31 @@ import matplotlib.patches as patches
 
 
 class geom_rect(geom):
+    """
+    2-dimensional rectangle
+
+    xmin:
+        ...description...
+    ymin:
+        ...description...
+    ymax:
+        ...description...
+    xmax:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+    linetype:
+        ...description...
+    fill:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}

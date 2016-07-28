@@ -4,6 +4,27 @@ import numpy as np
 import pandas as pd
 
 class geom_area(geom):
+    """
+    Special case of geom_ribbon where ymin = 0
+
+    y:
+        ...description...
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+    linetype:
+        ...description...
+    fill:
+        ...description...
+
+    Examples
+    --------
+    """
     last_y = None
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',

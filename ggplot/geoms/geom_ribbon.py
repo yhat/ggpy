@@ -3,6 +3,29 @@ from ..utils import is_date
 import numpy as np
 
 class geom_ribbon(geom):
+    """
+    Ribbons and/or area plots
+
+    x:
+        ...description...
+    ymin:
+        ...description...
+    ymax:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+    linetype:
+        ...description...
+    fill:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}

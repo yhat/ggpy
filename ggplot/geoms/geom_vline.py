@@ -2,6 +2,19 @@ from .geom import geom
 from ..utils import is_iterable
 
 class geom_vline(geom):
+    """
+    Vertical line(s)
+
+    color:
+        ...description...
+    linetype:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'color': 'black', 'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {}

@@ -1,11 +1,32 @@
 from .geom import geom
 import numpy as np
 from ..utils import is_date
-            
+
 def _date_to_number(i):
     return i.toordinal() + i.time().hour/24 + i.time().minute/1440 + i.time().second/86400
 
 class geom_point(geom):
+    """
+    Scatterplot of (x, y) coordinates
+
+    y:
+        ...description...
+    x:
+        ...description...
+    color:
+        ...description...
+    alpha:
+        ...description...
+    shape:
+        ...description...
+    edgecolors:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
     DEFAULT_AES = {'alpha': 1, 'color': 'black', 'shape': 'o', 'size': 20, 'edgecolors': 'none'}
     REQUIRED_AES = {'x', 'y'}
     _aes_renames = {'size': 's', 'shape': 'marker', 'color': 'c'}

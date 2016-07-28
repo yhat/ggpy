@@ -1,6 +1,29 @@
 from .geom import geom
 
 class geom_abline(geom):
+    """
+    Line specified by slope and intercept
+
+    slope:
+        ...description...
+    intercept:
+        ...description...
+    color:
+        ...description...
+    linetype:
+        ...description...
+    x:
+        ...description...
+    y:
+        ...description...
+    alpha:
+        ...description...
+    size:
+        ...description...
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
                    'alpha': None, 'size': 1.0, 'x': None,
