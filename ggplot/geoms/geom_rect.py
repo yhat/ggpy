@@ -7,23 +7,23 @@ class geom_rect(geom):
     2-dimensional rectangle
 
     xmin:
-        ...description...
-    ymin:
-        ...description...
-    ymax:
-        ...description...
+        min value for x
     xmax:
-        ...description...
+        max value for x
+    ymin:
+        min value for y
+    ymax:
+        max value for y
     color:
-        ...description...
+        color of outer line
     alpha:
-        ...description...
+        transparency of fill
     size:
-        ...description...
+        size of outer line
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     fill:
-        ...description...
+        color of the interior shape
 
     Examples
     --------

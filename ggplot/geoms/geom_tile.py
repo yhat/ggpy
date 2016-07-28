@@ -7,20 +7,20 @@ class geom_tile(geom):
     """
     Frequency table / heatmap
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for bins/categories
+    y:
+        y values for bins/categories
     color:
-        ...description...
+        color of the outer line
     alpha:
-        ...description...
+        transparency of fill
     size:
-        ...description...
+        thickness of outer line
     linetype:
-        ...description...
+        type of the outer line ('solid', 'dashed', 'dashdot', 'dotted')
     fill:
-        ...description...
+        color the interior of the bar will be
 
     Examples
     --------

@@ -18,6 +18,9 @@ from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
 from .utils import format_ticks
+import StringIO
+import urllib
+import base64
 import os
 
 if os.environ.get("GGPLOT_DEV"):
@@ -558,6 +561,30 @@ class ggplot(object):
             h = height
         self.fig.set_size_inches(w, h)
         self.fig.savefig(filename)
+
+    def save_as_base64(self, as_tag=False, width=None, height=None, dpi=180):
+        """
+        Save ggplot to a base64 encoded string.
+
+        Parameters
+        ----------
+        filename : string
+            filepath to save to
+        as_tag: bool
+            if true, returns an <img /> tag with the image uri as the src attribute
+        width: int, float
+            width of the plot in inches
+        height: int, float
+            height of the plot in inches
+        """
+        imgdata = StringIO.StringIO()
+        self.save(imgdata, width=width, height=height, dpi=dpi)
+        imgdata.seek(0)  # rewind the data
+        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.buf))
+        if as_tag==True:
+            return '<img src = "%s"/>' % uri
+        else:
+            return uri
 
     def make(self):
         "Constructs the plot using the methods. This is the 'main' for ggplot"

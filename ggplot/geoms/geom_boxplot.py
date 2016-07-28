@@ -7,16 +7,14 @@ class geom_boxplot(geom):
     """
     Box and whiskers chart
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for bins/categories
     y:
-        ...description...
+        values that will be used for box/whisker calculations
     color:
-        ...description...
+        color of line
     flier_marker:
-        ...description...
+        type of marker used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
 
     Examples
     --------

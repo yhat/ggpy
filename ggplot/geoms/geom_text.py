@@ -6,20 +6,22 @@ class geom_text(geom):
     """
     Same as geom_point but text instead of points
 
-    y:
-        ...description...
     x:
-        ...description...
-    label:
-        ...description...
+        x values for (x, y) coordinates
+    y:
+        y values for (x, y) coordinates
     color:
-        ...description...
+        color of points
     alpha:
-        ...description...
+        transparency of color
     rotation:
-        ...description...
+        angle to rotate the text
+    shape:
+        type of point used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
+    edgecolors:
+        color of the outer line of the point
     size:
-        ...description...
+        size of the point
 
     Examples
     --------

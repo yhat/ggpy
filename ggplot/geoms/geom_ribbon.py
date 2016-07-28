@@ -7,21 +7,21 @@ class geom_ribbon(geom):
     Ribbons and/or area plots
 
     x:
-        ...description...
+        x values for (x, y) coordinates
     ymin:
-        ...description...
+        y values for bottom of ribbon
     ymax:
-        ...description...
+        y values for top of ribbon
     color:
-        ...description...
+        color of the outer line
     alpha:
-        ...description...
+        transparency of color
     size:
-        ...description...
+        thickness of line
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     fill:
-        ...description...
+        color of the inside of the shape
 
     Examples
     --------

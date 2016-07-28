@@ -5,21 +5,17 @@ class geom_abline(geom):
     Line specified by slope and intercept
 
     slope:
-        ...description...
+        slope parameter for the line (think y = mx + b; remember, slope is m)
     intercept:
-        ...description...
+        intercept parameter for the line (think y = mx + b; remember, intercept is b)
     color:
-        ...description...
+        color of the line
     linetype:
-        ...description...
-    x:
-        ...description...
-    y:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     alpha:
-        ...description...
+        transparency of color
     size:
-        ...description...
+        thickness of line
 
     Examples
     --------

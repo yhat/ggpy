@@ -9,20 +9,20 @@ class geom_point(geom):
     """
     Scatterplot of (x, y) coordinates
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for (x, y) coordinates
+    y:
+        y values for (x, y) coordinates
     color:
-        ...description...
+        color of points
     alpha:
-        ...description...
+        transparency of color
     shape:
-        ...description...
+        type of point used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
     edgecolors:
-        ...description...
+        color of the outer line of the point
     size:
-        ...description...
+        size of the point
 
     Examples
     --------

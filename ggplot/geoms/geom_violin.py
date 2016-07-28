@@ -5,14 +5,12 @@ class geom_violin(geom):
     """
     Violin plots
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for (x, y) coordinates
     y:
-        ...description...
+        y values to be violin'd
     color:
-        ...description...
+        color of line
 
     Examples
     --------

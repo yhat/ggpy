@@ -7,16 +7,14 @@ class geom_errorbar(geom_boxplot):
     """
     Error bar plot
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for (x, y) coordinates
     y:
-        ...description...
+        value to calculate error ranges for
     color:
-        ...description...
+        color of line
     flier_marker:
-        ...description...
+        type of marker used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
 
     Examples
     --------

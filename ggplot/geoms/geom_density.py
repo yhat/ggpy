@@ -8,15 +8,15 @@ class geom_density(geom):
     Gaussian kernel density estimation for distribution of x parameter
 
     x:
-        ...description...
+        value to be smoothed
     color:
-        ...description...
+        color of line
     alpha:
-        ...description...
+        transparency of fill
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     size:
-        ...description...
+        thickness of line
 
     Examples
     --------

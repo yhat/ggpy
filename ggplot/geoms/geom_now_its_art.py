@@ -15,7 +15,7 @@ class geom_now_its_art(geom):
     Put a bird on it!
 
     alpha:
-        ...description...
+        transparency of bird
 
     Examples
     --------

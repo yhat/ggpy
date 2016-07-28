@@ -6,11 +6,11 @@ class geom_vline(geom):
     Vertical line(s)
 
     color:
-        ...description...
+        color of the line
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     size:
-        ...description...
+        thickness of the line
 
     Examples
     --------

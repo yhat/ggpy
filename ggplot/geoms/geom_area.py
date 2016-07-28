@@ -7,20 +7,20 @@ class geom_area(geom):
     """
     Special case of geom_ribbon where ymin = 0
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for (x, y) coordinates
+    y:
+        y values for (x, y) coordinates
     color:
-        ...description...
+        color of the outer line
     alpha:
-        ...description...
+        transparency of color
     size:
-        ...description...
+        thickness of line
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     fill:
-        ...description...
+        color of the inside of the shape
 
     Examples
     --------

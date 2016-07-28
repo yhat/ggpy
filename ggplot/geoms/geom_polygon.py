@@ -6,20 +6,18 @@ class geom_polygon(geom):
     """
     Polygon specified by (x, y) coordinates
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for (x, y) coordinates
+    y:
+        y values for (x, y) coordinates
     color:
-        ...description...
+        color of outer line
     alpha:
-        ...description...
-    size:
-        ...description...
+        transparency of fill
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     fill:
-        ...description...
+        color of the inside of the shape
 
     Examples
     --------

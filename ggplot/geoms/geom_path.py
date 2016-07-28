@@ -5,18 +5,18 @@ class geom_path(geom_line):
     """
     Sequence of connected (x, y) coordinates
 
-    y:
-        ...description...
     x:
-        ...description...
+        x values for (x, y) coordinates
+    y:
+        y values for (x, y) coordinates
     color:
-        ...description...
+        color of line
     alpha:
-        ...description...
+        transparency of color
     linetype:
-        ...description...
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
     size:
-        ...description...
+        thickness of line
 
     Examples
     --------
