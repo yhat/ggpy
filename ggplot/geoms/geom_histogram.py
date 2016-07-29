@@ -4,6 +4,8 @@ class geom_histogram(geom):
     """
     Histogram of x data
 
+    Parameters
+    ----------
     x:
         values to be binned and counted
     color:

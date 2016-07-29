@@ -7,6 +7,8 @@ class geom_boxplot(geom):
     """
     Box and whiskers chart
 
+    Parameters
+    ----------
     x:
         x values for bins/categories
     y:

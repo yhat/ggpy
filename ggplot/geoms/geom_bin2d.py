@@ -4,6 +4,8 @@ class geom_bin2d(geom_tile):
     """
     2-dimensional heatmap of frequency table
 
+    Parameters
+    ----------
     x:
         x values for bins/categories
     y:

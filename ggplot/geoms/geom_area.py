@@ -7,6 +7,8 @@ class geom_area(geom):
     """
     Special case of geom_ribbon where ymin = 0
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

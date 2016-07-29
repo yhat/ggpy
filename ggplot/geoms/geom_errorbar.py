@@ -7,6 +7,8 @@ class geom_errorbar(geom_boxplot):
     """
     Error bar plot
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

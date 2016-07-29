@@ -6,6 +6,44 @@ from . import smoothers
 from ..utils import is_date
 
 class stat_smooth(geom):
+    """
+    Smoothed line charts for inspecting trends in your data. There are 3 types of
+    smoothing algorithms you can use:
+
+        LOESS ('loess', 'lowess'): Non-parmetric, local regression technique for
+            calculating a smoothed curve.
+
+        linear model ('lm'): Fits a linear model to your (x, y) coordinates
+
+        moving average ('ma'): Calculates average of last N points in (x, y) coordinates
+
+    In addition to plotting the smoothed line, stat_smooth will also display the
+    standard error bands of the smoothed data (controlled by se=True/False).
+
+    Parameters
+    ----------
+    x:
+        x values for (x, y) coordinates
+    y:
+        y values for (x, y) coordinates. these will ultimately be smoothed
+    color:
+        color of the outer line
+    alpha:
+        transparency of color
+    size:
+        thickness of line
+    linetype:
+        type of the line ('solid', 'dashed', 'dashdot', 'dotted')
+    se:
+        boolean value for whether or not to display standard error bands; defaults to True
+    method:
+        type of smoothing to ues ('loess', 'ma', 'lm')
+    window:
+        number of periods to include in moving average calculation
+
+    Examples
+    --------
+    """
 
     DEFAULT_AES = {'color': 'black'}
     DEFAULT_PARAMS = {'geom': 'smooth', 'position': 'identity', 'method': 'auto',

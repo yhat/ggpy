@@ -7,6 +7,8 @@ class geom_bar(geom):
     """
     Bar chart
 
+    Parameters
+    ----------
     x:
         x values for bins/categories
     color:
