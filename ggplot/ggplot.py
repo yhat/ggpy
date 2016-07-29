@@ -119,8 +119,10 @@ class ggplot(object):
         self.make()
         # this is nice for dev but not the best for "real"
         if os.environ.get("GGPLOT_DEV"):
-            self.fig.savefig('/tmp/ggplot.png', dpi=160)
-            img = Image.open('/tmp/ggplot.png')
+            import time
+            t = time.time()
+            self.fig.savefig('/tmp/ggplot-%s.png' % str(t), dpi=160)
+            img = Image.open('/tmp/ggplot-%s.png' % str(t))
             img.show()
             return "<ggplot: (%d)>" % self.__hash__()
         plt.show()
