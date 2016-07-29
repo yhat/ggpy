@@ -54,7 +54,8 @@ def load_world():
         world = pd.read_csv(f)
     else:
         sys.stderr.write("downloading world data set...")
-        world = pd.read_csv("http://cluster-datasets.s3.amazonaws.com/world.csv")
+        url = "https://raw.githubusercontent.com/yhat/ggplot/master/data/world.csv"
+        world = pd.read_csv(url)
         world.to_csv(f, index=False)
         sys.stderr.write("done!")
     return world
