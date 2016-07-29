@@ -2,6 +2,7 @@ from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import pandas as pd
 import os
+import sys
 
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 
@@ -44,10 +45,16 @@ def load_world():
     548654  285.698982
     548655  285.708239
     """
-    f = os.path.join(_ROOT, "world.csv")
+    _DATA_DIR = os.path.join(os.path.expanduser("~"), ".ggplot")
+    if not os.path.exists(_DATA_DIR):
+        os.mkdir(_DATA_DIR)
+
+    f = os.path.join(_DATA_DIR, "world.csv")
     if os.path.exists(f):
         world = pd.read_csv(f)
     else:
+        sys.stderr.write("downloading world data set...")
         world = pd.read_csv("http://cluster-datasets.s3.amazonaws.com/world.csv")
         world.to_csv(f, index=False)
+        sys.stderr.write("done!")
     return world

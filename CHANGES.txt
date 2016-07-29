@@ -1,5 +1,5 @@
 =====
-1.0.0
+0.10.0
 =====
 - got rid of things that don't work
 - eliminated really stupid code that was trying to mimic R
