@@ -42,7 +42,7 @@ class ggplot(object):
 
     Examples
     ----------
-    >>> p = ggplot(aes(x='x', y='y'), data=diamonds)
+    >>> p = ggplot(aes(x='carat', y='price'), data=diamonds)
     >>> print(p + geom_point())
     """
 

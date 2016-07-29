@@ -4,6 +4,18 @@ from copy import deepcopy
 from .ggplot import ggplot
 
 class ggtitle(object):
+    """
+    Add a title to your plot
+
+    Parameters
+    ----------
+    title:
+        Your plot title
+
+    Examples
+    --------
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ggtitle("MPG Plot")
+    """
     def __init__(self, title):
         if title is None:
             raise Exception("No title specified!")
@@ -19,6 +31,20 @@ class ggtitle(object):
 
 
 class xlim(object):
+    """
+    Set upper and lower limits for your x axis
+
+    Parameters
+    ----------
+    lower_limit:
+        lower limit for axis
+    upper_limit:
+        upper limit for axis
+
+    Examples
+    --------
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + xlim(0, 20)
+    """
     def __init__(self, low = None, high = None):
         if low != None :
             try:
@@ -42,6 +68,20 @@ class xlim(object):
 
 
 class ylim(object):
+    """
+    Set upper and lower limits for your y axis
+
+    Parameters
+    ----------
+    lower_limit:
+        lower limit for axis
+    upper_limit:
+        upper limit for axis
+
+    Examples
+    --------
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylim(0, 5)
+    """
     def __init__(self, low = None, high = None):
         if low != None :
             try:
@@ -65,6 +105,18 @@ class ylim(object):
 
 
 class xlab(object):
+    """
+    Set label for x axis
+
+    Parameters
+    ----------
+    label:
+        label for your axis
+
+    Examples
+    --------
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + xlab("Miles / gallon")
+    """
     def __init__(self, xlab):
         if xlab is None:
             raise Exception("Arguments to", self.__class__.__name__,
@@ -78,6 +130,18 @@ class xlab(object):
 
 
 class ylab(object):
+    """
+    Set label for y axis
+
+    Parameters
+    ----------
+    label:
+        label for your axis
+
+    Examples
+    --------
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylab("Count\n(# of cars)")
+    """
     def __init__(self, ylab):
         if ylab is None:
             raise Exception("Arguments to", self.__class__.__name__,
@@ -91,6 +155,22 @@ class ylab(object):
 
 
 class labs(object):
+    """
+    Set labels plot
+
+    Parameters
+    ----------
+    x:
+        label for your x axis
+    y:
+        label for your y axis
+    title:
+        title for your plot
+
+    Examples
+    --------
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + labs("Miles / gallon", "Count\n(# of cars)", "MPG Plot")
+    """
     def __init__(self, x=None, y=None, title=None):
         self.x = x
         self.y = y

@@ -62,6 +62,38 @@ class theme_base(object):
         pass
 
 class theme(theme_base):
+    """
+    Custom theme for your plot.
+
+    Parameters
+    ----------
+    title:
+        title of your plot
+    plot_title:
+        title of your plot (same as title)
+    plot_margin:
+        size of plot margins
+    axis_title:
+        title of your plot (same as title)
+    axis_title_x:
+        x axis title
+    axis_title_y:
+        y axis title
+    axis_text:
+        theme for text
+    axis_text_x:
+        theme for x axis text
+    axis_text_y:
+        theme for y axis text
+
+    Examples
+    --------
+    >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme()
+    >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme(plot_margin=dict(bottom=0.2, left=0.2))
+    >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme(axis_text=element_text(size=20))
+    >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme(x_axis_text=element_text(color="orange"), y_axis_text=element_text(color="blue"))
+    >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme(axis_text=element_text(size=20), x_axis_text=element_text(color="orange"), y_axis_text=element_text(color="blue"))
+    """
     # this maps theme element names to attributes of a ggplot object
     ATTRIBUTE_MAPPING = dict(
         title="title",
