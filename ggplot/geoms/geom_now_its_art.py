@@ -21,6 +21,7 @@ class geom_now_its_art(geom):
     --------
     """
     DEFAULT_AES = {'alpha': 0.5}
+    DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes):
         (data, _aes) = self._update_data(data, _aes)
