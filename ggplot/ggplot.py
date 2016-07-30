@@ -18,7 +18,6 @@ from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
 from .utils import format_ticks
-import StringIO
 import urllib
 import base64
 import os
@@ -577,7 +576,7 @@ class ggplot(object):
         height: int, float
             height of the plot in inches
         """
-        imgdata = StringIO.StringIO()
+        imgdata = six.StringIO()
         self.save(imgdata, width=width, height=height, dpi=dpi)
         imgdata.seek(0)  # rewind the data
         uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.buf))
