@@ -23,6 +23,7 @@ class geom_now_its_art(geom):
     --------
     """
     DEFAULT_AES = {'alpha': 0.5}
+    DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes):
         params = self._get_plot_args(data, _aes)
