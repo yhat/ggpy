@@ -34,6 +34,7 @@ class geom_bar(geom):
                     'fill': 'color', 'color': 'edgecolor'}
 
     def setup_data(self, data, _aes, facets=None):
+        (data, _aes) = self._update_data(data, _aes)
         x_col = _aes['x']
         weight_col = _aes.get('weight')
 
@@ -67,6 +68,7 @@ class geom_bar(geom):
 
 
     def plot(self, ax, data, _aes, x_levels, fill_levels, lookups):
+        (data, _aes) = self._update_data(data, _aes)
         variables = _aes.data
         weight_col = _aes.get('weight')
         x_levels = sorted(x_levels)

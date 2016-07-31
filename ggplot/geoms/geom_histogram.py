@@ -34,6 +34,7 @@ class geom_histogram(geom):
                     'fill': 'color', 'color': 'edgecolor'}
 
     def plot(self, ax, data, _aes):
+        (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
 
         params['bins'] = self.params['bins']

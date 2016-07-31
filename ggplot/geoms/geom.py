@@ -12,7 +12,7 @@ class geom(object):
         self.layers = [self]
         self.params = kwargs
         self.geom_aes = None
-
+        
         if len(args) > 0:
             if isinstance(args[0], aes):
                 self.geom_aes = args[0]
@@ -32,6 +32,18 @@ class geom(object):
 
     def _rename_parameters(self, params):
         pass
+
+    def _update_data(self, data, _aes):
+        if 'mapping' in self.params:
+            _aes = self.params['mapping']
+            if not 'data' in self.params:
+                data = _aes._evaluate_expressions(data)
+                data = _aes.handle_identity_values(data)
+        if 'data' in self.params:
+            data = _aes._evaluate_expressions(self.params['data'])
+            data = _aes.handle_identity_values(data)
+        
+        return (data, _aes)
 
     def _get_plot_args(self, data, _aes):
         mpl_params = {}
@@ -57,6 +69,7 @@ class geom(object):
 
         items = list(mpl_params.items())
         for key, value in items:
+            
             if key not in self.VALID_AES:
                 del mpl_params[key]
             elif key in self._aes_renames:

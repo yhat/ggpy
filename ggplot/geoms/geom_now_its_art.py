@@ -26,6 +26,7 @@ class geom_now_its_art(geom):
     DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes):
+        (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
         img = mpimg.imread(os.path.join(_ROOT, 'bird.png'))
         ax.imshow(img, **params)

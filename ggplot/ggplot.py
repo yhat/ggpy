@@ -55,7 +55,7 @@ class ggplot(object):
         self._aes = aesthetics
         self.data = data.copy()
         self._handle_index()
-        self._evaluate_aes_expressions()
+        self.data = self._aes._evaluate_expressions(self.data)
         self.data = self._aes.handle_identity_values(self.data)
 
 
@@ -118,10 +118,8 @@ class ggplot(object):
         self.make()
         # this is nice for dev but not the best for "real"
         if os.environ.get("GGPLOT_DEV"):
-            import time
-            t = time.time()
-            self.fig.savefig('/tmp/ggplot-%s.png' % str(t), dpi=160)
-            img = Image.open('/tmp/ggplot-%s.png' % str(t))
+            self.fig.savefig('/tmp/ggplot-%d.png' % self.__hash__(), dpi=160)
+            img = Image.open('/tmp/ggplot-%d.png' % self.__hash__())
             img.show()
             return "<ggplot: (%d)>" % self.__hash__()
         plt.show()
@@ -130,23 +128,6 @@ class ggplot(object):
     def _handle_index(self):
         if '__index__' in self._aes.values():
             self.data['__index__'] = self.data.index
-
-    def _evaluate_aes_expressions(self):
-        """
-        Evaluates patsy expressions within the aesthetics. For example, 'x + 1'
-        , 'factor(x)', or 'pd.cut(price, bins=10)')
-        """
-        for key, item in self._aes.items():
-            if item not in self.data:
-                def factor(s, levels=None, labels=None):
-                    return s.apply(str)
-
-                env = EvalEnvironment.capture(eval_env=(self._aes.__eval_env__ or 1)).with_outer_namespace({ "factor": factor, "pd": pd, "np": np })
-                try:
-                    new_val = env.eval(item, inner_namespace=self.data)
-                    self.data[item] = new_val
-                except:
-                    pass
 
     def add_labels(self):
         labels = [(self.fig.suptitle, self.title)] #, (plt.xlabel, self.xlab), (plt.ylabel, self.ylab)]
