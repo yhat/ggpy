@@ -1,10 +1,12 @@
 from ggplot import *
 import os
+import sys
 import string
 import datetime
 import pandas as pd
 import numpy as np
 import random
+import re
 
 np.random.seed(10)
 random.seed(10)
@@ -141,12 +143,13 @@ test("geom_now_its_art", ggplot(diamonds, aes('price')) + geom_now_its_art())
 # facet_wrap
 test("facet_wrap basic", ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='clarity'))
 test("facet_wrap 2 variables",  ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + facet_wrap(x='color', y='cut'))
-test("facet_wrap with equal coords", ggplot(df, aes(x='x', y='y')) + geom_point() + coord_equal() + facet_wrap(x='z'))
-test("facet_wrap with abline", ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity'))
+test("facet_wrap with equal coords", ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + coord_equal() + facet_wrap(x='color', y='cut'))
+# test("facet_wrap with abline", ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + geom_abline(slope=5000, intercept=-500) + facet_wrap(y='clarity'))
 test("facet_wrap with continuous x and y scales", ggplot(diamonds, aes(x='carat', y='price')) + geom_point() + scale_x_continuous(breaks=[0, 3, 6], labels=["Low", "Medium", "High"]) + scale_y_continuous(breaks=[0, 10000, 20000], labels=["Low", "Medium", "High"]) + facet_wrap(x='color'))
+
 # facet_grid
-test("facet_grid with 1 variable", ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z'))
-test("facet_grid with x date formatting", ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z'))
+# test("facet_grid with 1 variable", ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + facet_grid(y='z'))
+# test("facet_grid with x date formatting", ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z'))
 test("facet_grid with color brewer", ggplot(diamonds, aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(x='color'))
 
 html += "\n\t</body>\n</html>"
