@@ -5,6 +5,8 @@ class geom_jitter(geom_point):
     """
     Same as geom_point but with randomness added so you can see the points better
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

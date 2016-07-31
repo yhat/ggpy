@@ -5,6 +5,8 @@ class geom_hline(geom):
     """
     Horizontal line(s)
 
+    Parameters
+    ----------
     color:
         color of the line
     linetype:

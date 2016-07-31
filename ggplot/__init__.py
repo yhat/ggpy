@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-__version__ = '0.10.7'
+__version__ = '0.10.9'
 
 # For testing purposes we might need to set mpl backend before any
 # other import of matplotlib.
@@ -29,7 +29,7 @@ from .aes import aes
 
 from .coords.coords import coord_polar, coord_equal, coord_flip
 
-from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies, mpg, salmon
+from .datasets import chopsticks, diamonds, mtcars, meat, pageviews, pigeons, movies, mpg, salmon, load_world
 
 from .scales.scale_color_brewer import scale_color_brewer
 from .scales.scale_color_crayon import scale_color_crayon
@@ -44,7 +44,7 @@ from .scales.scale_fill_funfetti import scale_fill_funfetti
 from .scales.scale_fill_manual import scale_fill_manual
 from .scales.scale_fill_yhat import scale_fill_yhat
 
-from .scales.scale_identity import scale_alpha_identity, scale_color_identity, scale_fill_identity, scale_linetype_identity, scale_shape_identity, scale_size_identity
+from .scales.scale_identity import scale_identity, scale_alpha_identity, scale_color_identity, scale_fill_identity, scale_linetype_identity, scale_shape_identity, scale_size_identity
 from .scales.scale_log import scale_x_log, scale_y_log
 from .scales.scale_reverse import scale_x_reverse, scale_y_reverse
 from .scales.scale_x_continuous import scale_x_continuous

@@ -4,6 +4,8 @@ class geom_step(geom):
     """
     Same as geom_path but with step-wise interpolation between points
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

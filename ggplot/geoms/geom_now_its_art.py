@@ -14,6 +14,8 @@ class geom_now_its_art(geom):
     """
     Put a bird on it!
 
+    Parameters
+    ----------
     alpha:
         transparency of bird
 

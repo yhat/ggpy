@@ -83,6 +83,8 @@ class geom(object):
             else:
                 del mpl_params[req]
 
-        self.params.update(self.DEFAULT_PARAMS)
+        for key, value in self.DEFAULT_PARAMS.items():
+            if key not in self.params:
+                self.params[key] = value
 
         return mpl_params

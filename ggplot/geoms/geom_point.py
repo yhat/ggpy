@@ -9,6 +9,8 @@ class geom_point(geom):
     """
     Scatterplot of (x, y) coordinates
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

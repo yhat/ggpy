@@ -326,6 +326,8 @@ CRAYON_COLORS = {
 
 class scale_color_crayon(scale):
     """
+    Use crayon colors in your plots
+
     Examples
     --------
     >>> from ggplot import *

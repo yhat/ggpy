@@ -7,6 +7,8 @@ class geom_density(geom):
     """
     Gaussian kernel density estimation for distribution of x parameter
 
+    Parameters
+    ----------
     x:
         value to be smoothed
     color:

@@ -6,6 +6,8 @@ class geom_text(geom):
     """
     Same as geom_point but text instead of points
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

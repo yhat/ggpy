@@ -6,13 +6,19 @@ from matplotlib.dates import WeekdayLocator, MonthLocator, YearLocator
 
 def date_format(format='%Y-%m-%d', tz=None):
     """
-    "Formatted dates."
-    Arguments:
-        format => Date format using standard strftime format.
-        tz => Instance of datetime.tzinfo
-    Example:
-        date_format('%b-%y')
-        date_format('%B %d, %Y')
+    Format dates
+
+    Parameters
+    ----------
+    format:
+        Date format using standard strftime format.
+    tz:
+        Instance of datetime.tzinfo
+
+    Examples
+    --------
+    >>> date_format('%b-%y')
+    >>> date_format('%B %d, %Y')
     """
     return DateFormatter(format, tz)
 
@@ -40,14 +46,18 @@ LOCATORS = {
 
 def date_breaks(width):
     """
-    "Regularly spaced dates."
+    Regularly spaced dates
 
+    Parameters
+    ----------
     width:
         an interval specification. must be one of [minute, hour, day, week, month, year]
-    usage:
-        date_breaks(width = '1 year')
-        date_breaks(width = '6 weeks')
-        date_breaks('months')
+
+    Examples
+    --------
+    >>> date_breaks(width = '1 year')
+    >>> date_breaks(width = '6 weeks')
+    >>> date_breaks('months')
     """
     period, units = parse_break_str(width)
     Locator = LOCATORS.get(units)

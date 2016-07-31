@@ -27,19 +27,37 @@ class scale_identity(object):
         return gg
 
 class scale_alpha_identity(scale_identity):
+    """
+    See scale_identity
+    """
     identity_type = "alpha"
 
 class scale_color_identity(scale_identity):
+    """
+    See scale_identity
+    """
     identity_type = "color"
 
 class scale_fill_identity(scale_identity):
+    """
+    See scale_identity
+    """
     identity_type = "fill"
 
 class scale_linetype_identity(scale_identity):
+    """
+    See scale_identity
+    """
     identity_type = "linetype"
 
 class scale_shape_identity(scale_identity):
+    """
+    See scale_identity
+    """
     identity_type = "shape"
 
 class scale_size_identity(scale_identity):
+    """
+    See scale_identity
+    """
     identity_type = "size"

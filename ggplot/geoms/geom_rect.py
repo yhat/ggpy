@@ -6,6 +6,8 @@ class geom_rect(geom):
     """
     2-dimensional rectangle
 
+    Parameters
+    ----------
     xmin:
         min value for x
     xmax:

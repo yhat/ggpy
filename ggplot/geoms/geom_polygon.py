@@ -6,6 +6,8 @@ class geom_polygon(geom):
     """
     Polygon specified by (x, y) coordinates
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

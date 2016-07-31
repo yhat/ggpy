@@ -4,6 +4,8 @@ class geom_line(geom):
     """
     Line chart
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

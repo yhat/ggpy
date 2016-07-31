@@ -5,6 +5,8 @@ class geom_violin(geom):
     """
     Violin plots
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

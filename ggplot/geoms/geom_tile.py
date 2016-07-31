@@ -7,6 +7,8 @@ class geom_tile(geom):
     """
     Frequency table / heatmap
 
+    Parameters
+    ----------
     x:
         x values for bins/categories
     y:

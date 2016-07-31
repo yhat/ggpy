@@ -4,6 +4,8 @@ class geom_abline(geom):
     """
     Line specified by slope and intercept
 
+    Parameters
+    ----------
     slope:
         slope parameter for the line (think y = mx + b; remember, slope is m)
     intercept:

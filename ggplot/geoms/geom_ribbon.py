@@ -6,6 +6,8 @@ class geom_ribbon(geom):
     """
     Ribbons and/or area plots
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     ymin:

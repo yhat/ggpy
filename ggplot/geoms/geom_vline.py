@@ -5,6 +5,8 @@ class geom_vline(geom):
     """
     Vertical line(s)
 
+    Parameters
+    ----------
     color:
         color of the line
     linetype:

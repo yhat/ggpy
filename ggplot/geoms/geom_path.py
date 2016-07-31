@@ -5,6 +5,8 @@ class geom_path(geom_line):
     """
     Sequence of connected (x, y) coordinates
 
+    Parameters
+    ----------
     x:
         x values for (x, y) coordinates
     y:

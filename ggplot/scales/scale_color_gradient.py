@@ -16,11 +16,16 @@ class scale_color_gradient(scale):
 
     Parameters
     ----------
-    name : Name of an existing gradient scheme
-    limits : list of the upper and lower bounds of the gradient
-    low : colour at the lower bound of the gradient
-    mid : colour at the middle of the gradient
-    high : Colour at the upper bound of the gradient
+    name:
+        Name of an existing gradient scheme
+    limis :
+        list of the upper and lower bounds of the gradient
+    low 
+        colour at the lower bound of the gradient
+    mid 
+        colour at the middle of the gradient
+    high:
+        Colour at the upper bound of the gradient
 
     Examples
     --------

@@ -6,10 +6,13 @@ from copy import deepcopy
 
 class scale_fill_funfetti(scale):
     """
+    Make your plots look like funfetti
+
     Parameters
     ----------
     type: string
         One of confetti or sprinkles (defaults to sprinkles)
+        
     Examples
     --------
     >>> from ggplot import *

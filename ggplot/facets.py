@@ -85,6 +85,30 @@ class Facet(object):
         return cols
 
 class facet_wrap(object):
+    """
+    Wrap panels from x and (optionally) y variables to create subplots.
+
+    Parameters
+    -----------
+    x:
+        x facet
+    y:
+        y facet
+    nrow:
+        number of rows in your final plot
+    ncol:
+        number of columns in your final plot
+    scales:
+        how individual panels x and y axes will be scaled. options are:
+            "free" - x and y axis are different for each panel
+            "free_y" - panels have same x axis but different y axis scales
+            "free_x" - panels have same y axis but different x axis scales
+            "fixed" - all panels are the same
+
+    Examples
+    --------
+    """
+
     def __init__(self, x=None, y=None, nrow=None, ncol=None, scales=None):
         self.x_var = x
         self.y_var = y
@@ -100,6 +124,29 @@ class facet_wrap(object):
         return self
 
 class facet_grid(object):
+    """
+    Layout panels from x and (optionally) y variables in a grid format.
+
+    Parameters
+    -----------
+    x:
+        x facet
+    y:
+        y facet
+    nrow:
+        number of rows in your final plot
+    ncol:
+        number of columns in your final plot
+    scales:
+        how individual panels x and y axes will be scaled. options are:
+            "free" - x and y axis are different for each panel
+            "free_y" - panels have same x axis but different y axis scales
+            "free_x" - panels have same y axis but different x axis scales
+            "fixed" - all panels are the same
+
+    Examples
+    --------
+    """
     def __init__(self, x=None, y=None, scales=None):
         self.x_var = x
         self.y_var = y

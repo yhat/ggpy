@@ -23,6 +23,8 @@ def _handle_shorthand(text):
 
 class scale_color_brewer(scale):
     """
+    Use ColorBrewer (http://colorbrewer2.org/) style colors
+    
     Parameters
     ----------
     type: string

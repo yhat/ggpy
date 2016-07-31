@@ -10,7 +10,7 @@ class scale_color_manual(scale):
 
     Parameters
     ----------
-    values : list of colors/strings
+    values: list of colors/strings
         List of colors with length greater than or equal to the number
         of unique discrete items to which you want to apply color.
 
