@@ -53,6 +53,7 @@ class stat_smooth(geom):
     _aes_renames = {'size': 'linewidth', 'linetype': 'linestyle'}
 
     def plot(self, ax, data, _aes):
+        (data, _aes) = self._update_data(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
