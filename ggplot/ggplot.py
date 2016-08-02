@@ -592,6 +592,8 @@ class ggplot(object):
                         if layer.__class__.__name__=="geom_bar":
                             mask = True
                             df = layer.setup_data(self.data, self._aes, facets=self.facets)
+                            if df is None:
+                                continue
                             if self.facets:
                                 facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
                                 for k, v in facet_filter.items():

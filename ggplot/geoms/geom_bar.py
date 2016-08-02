@@ -47,8 +47,10 @@ class geom_bar(geom):
             weight_col = '__weight__'
 
         fill_col = _aes.get('fill')
-        if not fill_col:
-            return
+        if fill_col:
+            fill_col = [fill_col]
+        else:
+            fill_col = []
 
         groupers = [x_col]
         if facets:
@@ -56,7 +58,7 @@ class geom_bar(geom):
                 groupers.append(facets.rowvar)
             if facets.colvar:
                 groupers.append(facets.colvar)
-        dfa = (data[groupers + [fill_col, weight_col]].groupby(groupers + [fill_col]).sum()).reset_index()
+        dfa = (data[groupers + fill_col + [weight_col]].groupby(groupers + fill_col).sum()).reset_index()
         dfb = (data[groupers + [weight_col]].groupby(groupers).sum()).reset_index()
         df = pd.merge(dfa, dfb, on=groupers)
         df.rename(columns={'__weight___x': '__weight__', '__weight___y': '__total_weight__'}, inplace=True)
