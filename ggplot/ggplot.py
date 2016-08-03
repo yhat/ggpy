@@ -164,10 +164,11 @@ class ggplot(object):
                 ax.set_title(name, fontdict={'fontsize': 10})
 
     def apply_limits(self):
-        limits = [(plt.xlim, self.xlimits), (plt.ylim, self.ylimits)]
-        for mpl_func, limit in limits:
-            if limit:
-                mpl_func(limit)
+        for ax in self._iterate_subplots():
+            if self.xlimits:
+                ax.set_xlim(self.xlimits)
+            if self.ylimits:
+                ax.set_ylim(self.ylimits)
 
     def apply_scales(self):
         for scale in self.scales:
