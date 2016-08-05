@@ -1,5 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
+import pandas as pd
 from ..ggplot import ggplot
 from ..aes import aes
 
@@ -32,6 +33,11 @@ class geom(object):
 
     def _rename_parameters(self, params):
         pass
+
+    def _get_levels(self, variable):
+        # sorted(variable.unique()) wouldn't correctly sort Categoricals.
+        # variable.drop_duplicates() is slower than Series(variable.unique()).
+        return list(pd.Series(variable.unique()).sort_values())
 
     def _update_data(self, data, _aes):
         if 'mapping' in self.params:
