@@ -25,14 +25,14 @@ class geom_boxplot(geom):
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}
 
-    def plot(self, ax, data, _aes, x_levels):
+    def plot(self, ax, data, _aes):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
-        x_levels = sorted(x_levels)
         variables = _aes.data
         x = data[variables['x']]
         y = data[variables['y']]
 
+        x_levels = sorted(x.unique())
         xticks = []
         for (i, xvalue) in enumerate(x_levels):
             subset = data[data[variables['x']]==xvalue]
