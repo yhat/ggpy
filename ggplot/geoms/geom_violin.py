@@ -26,7 +26,7 @@ class geom_violin(geom):
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
 
-        x_levels = sorted(data[variables['x']].unique())
+        x_levels = self._get_levels(data[variables['x']])
         xticks = []
         for (i, xvalue) in enumerate(x_levels):
             subset = data[data[variables['x']]==xvalue]
