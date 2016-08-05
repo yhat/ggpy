@@ -23,16 +23,15 @@ class geom_boxplot(geom):
     """
     DEFAULT_AES = {'y': None, 'color': 'black', 'flier_marker': '+'}
     REQUIRED_AES = {'x', 'y'}
-    DEFAULT_PARAMS = {}
+    DEFAULT_PARAMS = {'outliers': True, 'lines': True, 'notch': False,
+                      'median': True, 'box': True}
 
     def plot(self, ax, data, _aes):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
-        x = data[variables['x']]
-        y = data[variables['y']]
 
-        x_levels = sorted(x.unique())
+        x_levels = sorted(data[variables['x']].unique())
         xticks = []
         for (i, xvalue) in enumerate(x_levels):
             subset = data[data[variables['x']]==xvalue]
@@ -43,22 +42,22 @@ class geom_boxplot(geom):
             bounds_25_75 = yvalues.quantile([0.25, 0.75]).values
             bounds_5_95 = yvalues.quantile([0.05, 0.95]).values
 
-            if self.params.get('outliers', True)==True:
+            if self.params['outliers']:
                 mask = ((yvalues > bounds_5_95[1]) | (yvalues < bounds_5_95[0])).values
                 ax.scatter(x=xi[mask], y=yvalues[mask], c=self.params.get('outlier_color', 'black'))
 
-            if self.params.get('lines', True)==True:
+            if self.params['lines']:
                 ax.vlines(x=i, ymin=bounds_25_75[1], ymax=bounds_5_95[1])
                 ax.vlines(x=i, ymin=bounds_5_95[0], ymax=bounds_25_75[0])
 
-            if self.params.get('notch', False)==True:
+            if self.params['notch']:
                 ax.hlines(bounds_5_95[0], i - 0.25/2, i + 0.25/2, linewidth=2)
                 ax.hlines(bounds_5_95[1], i - 0.25/2, i + 0.25/2, linewidth=2)
 
-            if self.params.get('median', True)==True:
+            if self.params['median']:
                 ax.hlines(yvalues.median(), i - 0.25, i + 0.25, linewidth=2)
 
-            if self.params.get('box', True)==True:
+            if self.params['box']:
                 params = {
                     'facecolor': 'white',
                     'edgecolor': 'black',
@@ -74,10 +73,6 @@ class geom_boxplot(geom):
                 )
             else:
                 ax.vlines(x=i, ymin=bounds_25_75[0], ymax=bounds_25_75[1])
-        # q = ax.boxplot(x, vert=True)
-        # plt.setp(q['boxes'], color=params['color'])
-        # plt.setp(q['whiskers'], color=params['color'])
-        # plt.setp(q['fliers'], color=params['color'])
 
         ax.autoscale_view()
 
