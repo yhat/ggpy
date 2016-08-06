@@ -24,7 +24,6 @@ class geom_violin(geom):
     def plot(self, ax, data, _aes, x_levels):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
-        x_levels = sorted(x_levels)
         variables = _aes.data
 
         xticks = []

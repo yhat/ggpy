@@ -608,7 +608,8 @@ class ggplot(object):
                             layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique(),
                                 fill_levels=fill_levels, lookups=df)
                         elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin", "geom_errorbar"):
-                            layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique())
+                            x_levels = list(pd.Series(self.data[self._aes['x']].unique()).sort_values())
+                            layer.plot(ax, facetgroup, self._aes, x_levels=x_levels)
                         else:
                             layer.plot(ax, facetgroup, self._aes)
 
