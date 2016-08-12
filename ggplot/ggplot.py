@@ -569,6 +569,36 @@ class ggplot(object):
         else:
             return uri
 
+    def _prep_layer_for_plotting(self, layer):
+        """
+        Some types of geoms (layer) need to be prepped before calling the plot
+        function on them. This function performs those perperations and then
+        returns a dictionary of **kwargs for the layer.plot function to use.
+        """
+        if layer.__class__.__name__=="geom_bar":
+            mask = True
+            df = layer.setup_data(self.data, self._aes, facets=self.facets)
+            if df is None:
+                continue
+            if self.facets:
+                facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
+                for k, v in facet_filter.items():
+                    mask = (mask) & (df[k]==v)
+                df = df[mask]
+
+            if 'fill' in self._aes:
+                fill_levels = self.data[self._aes['fill']].unique()
+            else:
+                fill_levels = None
+            return dict(x_levels=self.data[self._aes['x']].unique(),fill_levels=fill_levels, lookup=df)
+            layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique(),
+                fill_levels=fill_levels, lookups=df)
+        elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin", "geom_errorbar"):
+            return dict(x_levels=self.data[self._aes['x']].unique())
+        else:
+            layer.plot(ax, facetgroup, self._aes)
+            return dict()
+
     def make(self):
         "Constructs the plot using the methods. This is the 'main' for ggplot"
         plt.close()
@@ -590,27 +620,8 @@ class ggplot(object):
             for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
-                        if layer.__class__.__name__=="geom_bar":
-                            mask = True
-                            df = layer.setup_data(self.data, self._aes, facets=self.facets)
-                            if df is None:
-                                continue
-                            if self.facets:
-                                facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
-                                for k, v in facet_filter.items():
-                                    mask = (mask) & (df[k]==v)
-                                df = df[mask]
-
-                            if 'fill' in self._aes:
-                                fill_levels = self.data[self._aes['fill']].unique()
-                            else:
-                                fill_levels = None
-                            layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique(),
-                                fill_levels=fill_levels, lookups=df)
-                        elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin", "geom_errorbar"):
-                            layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique())
-                        else:
-                            layer.plot(ax, facetgroup, self._aes)
+                        kwargs = self._prep_layer_for_plotting(layer)
+                        layer.plot(ax, facetgroup, self._aes, **kwargs)
 
             self.apply_limits()
             self.add_labels()
