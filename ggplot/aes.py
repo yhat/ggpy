@@ -4,8 +4,10 @@ from __future__ import (absolute_import, division, print_function,
 from six.moves import UserDict
 
 from copy import deepcopy
+import difflib
 
 from patsy.eval import EvalEnvironment
+
 from . import utils
 
 import numpy as np
@@ -100,7 +102,12 @@ class aes(UserDict):
                     new_val = env.eval(item, inner_namespace=data)
                     data[item] = new_val
                 except:
-                    pass
+                    msg = "Invalid column: '%s'" % str(item)
+                    matches = difflib.get_close_matches(item, self.data.values())
+                    msg += "\ndid you mean one of the following:\n"
+                    for match in matches:
+                        msg += "    - %s\n" % match
+                    raise Exception(msg)
         return data
 
     def handle_identity_values(self, df):

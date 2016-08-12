@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
-from patsy.eval import EvalEnvironment
-
 import six
 import numpy as np
 import pandas as pd
@@ -579,7 +577,7 @@ class ggplot(object):
             mask = True
             df = layer.setup_data(self.data, self._aes, facets=self.facets)
             if df is None:
-                continue
+                return False
             if self.facets:
                 facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
                 for k, v in facet_filter.items():
@@ -597,7 +595,6 @@ class ggplot(object):
             x_levels = list(pd.Series(self.data[self._aes['x']].unique()).sort_values())
             return dict(x_levels=x_levels)
         else:
-            layer.plot(ax, facetgroup, self._aes)
             return dict()
 
     def make(self):
@@ -622,6 +619,8 @@ class ggplot(object):
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
                         kwargs = self._prep_layer_for_plotting(layer)
+                        if kwargs==False:
+                            continue
                         layer.plot(ax, facetgroup, self._aes, **kwargs)
 
             self.apply_limits()
