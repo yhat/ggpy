@@ -123,6 +123,13 @@ class ggplot(object):
         plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
+    def show(self):
+        """
+        Builds and displays your plot.
+        """
+        self.make()
+        plt.show()
+
     def _handle_index(self):
         if '__index__' in self._aes.values():
             self.data['__index__'] = self.data.index
