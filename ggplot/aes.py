@@ -103,7 +103,7 @@ class aes(UserDict):
                     data[item] = new_val
                 except:
                     msg = "Invalid column: '%s'" % str(item)
-                    matches = difflib.get_close_matches(item, self.data.values())
+                    matches = difflib.get_close_matches(item, data.columns)
                     msg += "\ndid you mean one of the following:\n"
                     for match in matches:
                         msg += "    - %s\n" % match
