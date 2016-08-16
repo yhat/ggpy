@@ -4,6 +4,8 @@ import math
 import pprint as pp
 from collections import OrderedDict
 
+from .utils import sorted_unique
+
 class Facet(object):
     def __init__(self, data, is_wrap, rowvar=None, colvar=None, nrow=None, ncol=None, scales=None):
         self.rowvar = rowvar
@@ -54,14 +56,14 @@ class Facet(object):
 
     def generate_subplot_index(self, data, rowvar, colvar):
         if rowvar and colvar:
-            for row_idx, row in enumerate(sorted(data[rowvar].unique())):
-                for col_idx, col in enumerate(sorted(data[colvar].unique())):
+            for row in sorted_unique(data[rowvar]):
+                for col in sorted_unique(data[colvar]):
                     yield (row, col)
         elif rowvar:
-            for row_idx, row in enumerate(sorted(data[rowvar].unique())):
+            for row in sorted_unique(data[rowvar]):
                 yield row
         elif colvar:
-            for col_idx, col in enumerate(sorted(data[colvar].unique())):
+            for col in sorted_unique(data[colvar]):
                 yield col
 
     def calculate_ndimensions(self, data, rowvar, colvar):

@@ -96,3 +96,9 @@ def calc_n_bins(series):
     h = (2 * iqr) / (len(series)**(1/3.))
     k = (series.max() - series.min()) / h
     return k
+
+def sorted_unique(series):
+    """Return the unique values of *series*, correctly sorted."""
+    # This handles Categorical data types, which sorted(series.unique()) fails
+    # on. series.drop_duplicates() is slower than Series(series.unique()).
+    return list(pd.Series(series.unique()).sort_values())

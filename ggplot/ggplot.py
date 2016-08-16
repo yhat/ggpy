@@ -15,7 +15,7 @@ from .legend import make_legend
 from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
-from .utils import format_ticks
+from .utils import format_ticks, sorted_unique
 import urllib
 import base64
 import os
@@ -148,10 +148,8 @@ class ggplot(object):
         if self.facets.is_wrap:
             return
         if self.facets.rowvar:
-            for row, name in enumerate(sorted(self.data[self.facets.rowvar].unique())):
-                if self.facets.is_wrap==True:
-                    continue
-                elif self.facets.colvar:
+            for row, name in enumerate(sorted_unique(self.data[self.facets.rowvar])):
+                if self.facets.colvar:
                     ax = self.subplots[row][-1]
                 else:
                     ax = self.subplots[row]
@@ -160,7 +158,7 @@ class ggplot(object):
                 ax.set_ylabel(name, fontsize=10, rotation=-90)
 
         if self.facets.colvar:
-            for col, name in enumerate(sorted(self.data[self.facets.colvar].unique())):
+            for col, name in enumerate(sorted_unique(self.data[self.facets.colvar])):
                 if len(self.subplots.shape) > 1:
                     col = col % self.facets.ncol
                     ax = self.subplots[0][col]
