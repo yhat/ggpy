@@ -15,7 +15,7 @@ from .legend import make_legend
 from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
-from .utils import format_ticks
+from .utils import format_ticks, sorted_unique
 import urllib
 import base64
 import os
@@ -148,10 +148,8 @@ class ggplot(object):
         if self.facets.is_wrap:
             return
         if self.facets.rowvar:
-            for row, name in enumerate(sorted(self.data[self.facets.rowvar].unique())):
-                if self.facets.is_wrap==True:
-                    continue
-                elif self.facets.colvar:
+            for row, name in enumerate(sorted_unique(self.data[self.facets.rowvar])):
+                if self.facets.colvar:
                     ax = self.subplots[row][-1]
                 else:
                     ax = self.subplots[row]
@@ -160,7 +158,7 @@ class ggplot(object):
                 ax.set_ylabel(name, fontsize=10, rotation=-90)
 
         if self.facets.colvar:
-            for col, name in enumerate(sorted(self.data[self.facets.colvar].unique())):
+            for col, name in enumerate(sorted_unique(self.data[self.facets.colvar])):
                 if len(self.subplots.shape) > 1:
                     col = col % self.facets.ncol
                     ax = self.subplots[0][col]
@@ -574,7 +572,7 @@ class ggplot(object):
         else:
             return uri
 
-    def _prep_layer_for_plotting(self, layer):
+    def _prep_layer_for_plotting(self, layer, facetgroup):
         """
         Some types of geoms (layer) need to be prepped before calling the plot
         function on them. This function performs those perperations and then
@@ -595,9 +593,7 @@ class ggplot(object):
                 fill_levels = self.data[self._aes['fill']].unique()
             else:
                 fill_levels = None
-            return dict(x_levels=self.data[self._aes['x']].unique(),fill_levels=fill_levels, lookup=df)
-            layer.plot(ax, facetgroup, self._aes, x_levels=self.data[self._aes['x']].unique(),
-                fill_levels=fill_levels, lookups=df)
+            return dict(x_levels=self.data[self._aes['x']].unique(), fill_levels=fill_levels, lookups=df)
         elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin", "geom_errorbar"):
             x_levels = list(pd.Series(self.data[self._aes['x']].unique()).sort_values())
             return dict(x_levels=x_levels)
@@ -625,7 +621,7 @@ class ggplot(object):
             for _, group in groups:
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
-                        kwargs = self._prep_layer_for_plotting(layer)
+                        kwargs = self._prep_layer_for_plotting(layer, facetgroup)
                         if kwargs==False:
                             continue
                         layer.plot(ax, facetgroup, self._aes, **kwargs)
