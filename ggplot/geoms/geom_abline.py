@@ -23,10 +23,10 @@ class geom_abline(geom):
     --------
     """
 
-    DEFAULT_AES = {'color': 'black', 'linetype': 'solid',
-                   'alpha': None, 'size': 1.0, 'x': None,
-                   'y': None}
-    REQUIRED_AES = {'slope', 'intercept'}
+    DEFAULT_AES = {'slope': 1.0, intercept: 0.0, 'color': 'black', 
+                   'linetype': 'solid', 'alpha': None, 'size': 1.0,
+                   'x': None, 'y': None}
+    REQUIRED_AES = {}
     DEFAULT_PARAMS = {}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth'}
