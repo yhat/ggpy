@@ -29,7 +29,7 @@ class geom_bar(geom):
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x'}
-    DEFAULT_PARAMS = {}
+    DEFAULT_PARAMS = {'position': 'dodge'}
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'color', 'color': 'edgecolor'}
 
@@ -82,7 +82,11 @@ class geom_bar(geom):
 
         params = self._get_plot_args(data, _aes)
 
-        if fill_levels is not None:
+        position = self.params['position']
+        if position not in { 'stack', 'fill', 'dodge' }:
+            raise ValueError('geom_bar: position must be one of stack, fill, dodge')
+
+        if fill_levels is not None and position == 'dodge':
             width = .8 / len(fill_levels)
         else:
             width = .8
@@ -104,7 +108,7 @@ class geom_bar(geom):
             else:
                 fill_x_adjustment = width / 2
 
-            if self.params.get('position') in ('stack', 'fill'):
+            if position != 'dodge':
                 dodge = 0.0
                 fill_x_adjustment = width / 2
                 if fill_levels is None:
