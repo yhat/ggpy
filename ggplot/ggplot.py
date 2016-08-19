@@ -123,11 +123,27 @@ class ggplot(object):
         plt.show()
         return "<ggplot: (%d)>" % self.__hash__()
 
-    def show(self):
+    def show(self, width=None, height=None):
         """
         Builds and displays your plot.
+
+        Parameters
+        ----------
+        width: int, float
+            width of the plot in inches
+        height: int, float
+            height of the plot in inches
         """
         self.make()
+
+        if width or height:
+            w, h = self.fig.get_size_inches()
+            if width:
+                w = width
+            if height:
+                h = height
+            self.fig.set_size_inches(w, h)
+
         plt.show()
 
     def _handle_index(self):
