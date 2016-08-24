@@ -1,6 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
-__version__ = '0.11.1'
+__version__ = '0.11.2'
 
 # For testing purposes we might need to set mpl backend before any
 # other import of matplotlib.
