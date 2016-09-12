@@ -22,7 +22,7 @@ class scale_x_continuous(scale):
     ...     labels=["horrible", "ok", "awesome"])
 
     """
-    VALID_SCALES = ['name', 'limits', 'labels', 'breaks', 'trans']
+    VALID_SCALES = ['name', 'limits', 'labels', 'breaks', 'trans', 'xtick_formatter']
     def __radd__(self, gg):
         #gg = deepcopy(gg)
         if self.name:
@@ -33,4 +33,6 @@ class scale_x_continuous(scale):
             gg.xbreaks = self.breaks
         if not (self.labels is None):
             gg.xtick_labels = self.labels
+        if not (self.xtick_formatter is None):
+            gg.xtick_formatter = self.xtick_formatter
         return gg
