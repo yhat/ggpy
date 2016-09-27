@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 from copy import deepcopy
+import warnings
 
 THEME_PARAMETERS = {
     "axis_line": "?",
@@ -94,16 +95,29 @@ class theme(theme_base):
     >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme(x_axis_text=element_text(color="orange"), y_axis_text=element_text(color="blue"))
     >>> ggplot(mtcars, aes(x='mpg')) + geom_histogram() + theme(axis_text=element_text(size=20), x_axis_text=element_text(color="orange"), y_axis_text=element_text(color="blue"))
     """
-    # this maps theme element names to attributes of a ggplot object
+    # this maps theme element names to attributes of a ggplot object. there are
+    # more than one way to say the same thing
     ATTRIBUTE_MAPPING = dict(
+        # title
         title="title",
         plot_title="title",
-        plot_margin="margins",
         axis_title="title",
+
+        # margins
+        plot_margin="margins",
+
+        # text for x and y axis labels
         axis_title_x="xlab",
         axis_title_y="ylab",
+
         axis_text="axis_text",
+
+        # text for x-axis
+        x_axis_text="x_axis_text",
         axis_text_x="x_axis_text",
+
+        # text for y-axis
+        y_axis_text="y_axis_text",
         axis_text_y="y_axis_text",
     )
     def __init__(self, *args, **kwargs):
@@ -113,8 +127,13 @@ class theme(theme_base):
         if other.__class__.__name__=="ggplot":
             other.theme = self
             for key, value in self.things.items():
-                key = self.ATTRIBUTE_MAPPING.get(key, key)
-                setattr(other, key, value)
+                try:
+                    ggplot_attr_name = self.ATTRIBUTE_MAPPING[key]
+                except:
+                    msg = "%s is an invalid theme parameter" % key
+                    warnings.warn(msg, RuntimeWarning)
+                    continue
+                setattr(other, ggplot_attr_name, value)
             return other
 
         return self

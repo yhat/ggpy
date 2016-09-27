@@ -211,6 +211,8 @@ class ggplot(object):
     def apply_axis_labels(self):
         if self.xlab:
             xlab = self.xlab
+            if xlab.args[2]=="":
+                xlab.args[2] = self._aes.get('x')
         else:
             xlab = self._aes.get('x')
 
@@ -266,6 +268,9 @@ class ggplot(object):
 
         if self.ylab:
             ylab = self.ylab
+            ylab = self.ylab
+            if ylab.args[2]=="":
+                ylab.args[2] = self._aes.get('y')
         else:
             ylab = self._aes.get('y', '')
 
