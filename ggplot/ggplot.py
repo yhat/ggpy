@@ -595,7 +595,9 @@ class ggplot(object):
                 df = df[mask]
 
             if 'fill' in self._aes:
-                fill_levels = self.data[self._aes['fill']].unique().sort()
+                fillcol_raw = self._aes['fill'][:-5]
+                fillcol = self._aes['fill']
+                fill_levels = self.data[[fillcol_raw, fillcol]].sort(fillcol_raw)[fillcol].unique()
             else:
                 fill_levels = None
             return dict(x_levels=self.data[self._aes['x']].unique(), fill_levels=fill_levels, lookups=df)
