@@ -29,7 +29,7 @@ class geom_bar(geom):
     DEFAULT_AES = {'alpha': None, 'color': None, 'fill': '#333333',
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x'}
-    DEFAULT_PARAMS = {}
+    DEFAULT_PARAMS = {"width": 0.8}
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
                     'fill': 'color', 'color': 'edgecolor'}
 
@@ -83,9 +83,9 @@ class geom_bar(geom):
         params = self._get_plot_args(data, _aes)
 
         if fill_levels is not None:
-            width = .8 / len(fill_levels)
+            width = self.params["width"] / len(fill_levels)
         else:
-            width = .8
+            width = self.params["width"]
         padding = width / 2
 
 
