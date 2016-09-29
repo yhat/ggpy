@@ -1,4 +1,6 @@
 from .geom import geom
+import numpy as np
+
 
 class geom_histogram(geom):
     """
@@ -18,9 +20,10 @@ class geom_histogram(geom):
         type of the outer line ('solid', 'dashed', 'dashdot', 'dotted')
     fill:
         color the interior of the bar will be
-
     bins:
         number of bins in histogram
+    binwidth:
+        width of each bin in the histogram. if you specify both bins and binwidth, binwidth will be used
 
     Examples
     --------
@@ -37,8 +40,12 @@ class geom_histogram(geom):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
 
-        params['bins'] = self.params['bins']
         variables = _aes.data
         x = data[variables['x']]
         x = x[x.isnull()==False]
+
+        if 'binwidth' in self.params:
+            params['bins'] = np.arange(np.min(x), np.max(x) + self.params['binwidth'], self.params['binwidth'])
+        else:
+            params['bins'] = self.params['bins']
         ax.hist(x, **params)
