@@ -74,7 +74,10 @@ class stat_smooth(geom):
             x, y, y1, y2 = smoothers.lowess(x, y, span=span)
 
         smoothed_data = pd.DataFrame(dict(x=x, y=y, y1=y1, y2=y2))
-        smoothed_data = smoothed_data.sort('x')
+        try:  # change in Pandas-0.19
+            smoothed_data = smoothed_data.sort_values(by='x')
+        except:  # before Pandas-0.19
+            smoothed_data = smoothed_data.sort('x')
 
         params = self._get_plot_args(data, _aes)
         if 'alpha' not in params:
