@@ -1,6 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 from .theme import theme_base
+from cycler import cycler
 
 class theme_538(theme_base):
     """
