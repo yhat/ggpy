@@ -164,6 +164,27 @@ class TestGgplot(unittest.TestCase):
         p = gg.ggplot(gg.aes(x='x', size='the-size'), df) + gg.scale_y_reverse()
         self.assertTrue(p.scale_y_reverse)
 
+    def test_scale_y_continuous(self):
+        df = pd.DataFrame({'x': range(1001), 'the-size': '+' })
+        p = gg.ggplot(gg.aes(x='x', size='the-size'), df) +\
+            gg.scale_y_continuous(ytick_formatter=\
+                lambda x: "{:,.0f}".format(x) if x >= 0 else "({:,.0f})".format(abs(x)))
+        f1 = p.ytick_formatter
+        f2 = lambda x: "{:,.0f}".format(x) if x >= 0 else "({:,.0f})".format(abs(x))
+        self.assertEqual(f1(1000), f2(1000))
+        self.assertEqual(f1(1000), '1,000')
+        self.assertNotEqual(f1(1000), '1000')
+
+    def test_scale_x_continuous(self):
+        df = pd.DataFrame({'x': range(1001), 'the-size': '+' })
+        p = gg.ggplot(gg.aes(x='x', size='the-size'), df) +\
+            gg.scale_x_continuous(xtick_formatter=\
+                lambda x: "{:,.0f}".format(x) if x >= 0 else "({:,.0f})".format(abs(x)))
+        f1 = p.xtick_formatter
+        f2 = lambda x: "{:,.0f}".format(x) if x >= 0 else "({:,.0f})".format(abs(x))
+        self.assertEqual(f1(1000), f2(1000))
+        self.assertEqual(f1(1000), '1,000')
+        self.assertNotEqual(f1(1000), '1000')
 
     # TODO legend tests
 

@@ -22,7 +22,7 @@ class scale_y_continuous(scale):
     ...     labels=["horrible", "ok", "awesome"])
 
     """
-    VALID_SCALES = ['name', 'limits', 'labels', 'breaks', 'trans']
+    VALID_SCALES = ['name', 'limits', 'labels', 'breaks', 'trans', 'ytick_formatter']
     def __radd__(self, gg):
         # gg = deepcopy(gg)
         if self.name:
@@ -33,4 +33,6 @@ class scale_y_continuous(scale):
             gg.ybreaks = self.breaks
         if not (self.labels is None):
             gg.ytick_labels = self.labels
+        if not (self.ytick_formatter is None):
+            gg.ytick_formatter = self.ytick_formatter
         return gg
