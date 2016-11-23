@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from .geom import geom
 import numpy as np
 
@@ -33,8 +34,12 @@ class geom_histogram(geom):
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x'}
     DEFAULT_PARAMS = {'bins': 10}
-    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
-                    'fill': 'color', 'color': 'edgecolor'}
+    _aes_renames = OrderedDict([
+        ('linetype', 'linestyle'),
+        ('size', 'linewidth'),
+        ('color', 'edgecolor'), # Before fill -> color
+        ('fill', 'color'),
+    ])
 
     def plot(self, ax, data, _aes):
         (data, _aes) = self._update_data(data, _aes)

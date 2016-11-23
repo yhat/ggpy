@@ -1,3 +1,4 @@
+from collections import OrderedDict
 from .geom import geom
 import pandas as pd
 import matplotlib.patches as patches
@@ -30,8 +31,12 @@ class geom_bar(geom):
                    'linetype': 'solid', 'size': 1.0}
     REQUIRED_AES = {'x'}
     DEFAULT_PARAMS = {"width": 0.8}
-    _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth',
-                    'fill': 'color', 'color': 'edgecolor'}
+    _aes_renames = OrderedDict([
+        ('linetype', 'linestyle'),
+        ('size', 'linewidth'),
+        ('color', 'edgecolor'), # Before fill -> color
+        ('fill', 'color'),
+    ])
 
     def setup_data(self, data, _aes, facets=None):
         (data, _aes) = self._update_data(data, _aes)
