@@ -605,7 +605,12 @@ class ggplot(object):
             return dict(x_levels=self.data[self._aes['x']].unique(), fill_levels=fill_levels, lookups=df)
         elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin", "geom_errorbar"):
             x_levels = list(pd.Series(self.data[self._aes['x']].unique()).sort_values())
-            return dict(x_levels=x_levels)
+            # this is interdependent with geom_boxplot and may need refactoring
+            if 'fill' in self._aes:
+                fill_levels = list(pd.Series(self.data[self._aes['fill']].unique()).sort_values())
+            else:
+                fill_levels = list(['white'])
+            return dict(x_levels=x_levels, fill_levels=fill_levels)
         else:
             return dict()
 
