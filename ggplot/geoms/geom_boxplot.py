@@ -57,16 +57,23 @@ class geom_boxplot(geom):
         color of line
     flier_marker:
         type of marker used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
+    fill:
+        a value (length 3 tuples, matplotlib literals) or column to be highlighted in fill
+    width:
+        width of the box (or group of boxes if fill column is supplied)
+    spacing:
+        shrink box width (useful for groups when fill column is supplied)
 
     Examples
     --------
     """
-    DEFAULT_AES = {'y': None, 'color': 'black',
+    DEFAULT_AES = {'y': None,
+                   'color': 'black',
                    'flier_marker': '+',
                    'width':0.5,
                    'spacing':0.01,
                    'fill': 'white'}
-    REQUIRED_AES = {'x', 'y',}
+    REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}
 
     def plot(self, ax, data, _aes, x_levels, fill_levels=None):
