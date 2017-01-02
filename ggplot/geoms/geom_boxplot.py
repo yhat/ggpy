@@ -7,23 +7,24 @@ from pandas import Series
 def _boxplot_(yvalues, i, params_, num_fill_levels=1,
               fill='white', width=0.5, ax=plt.gca()):
     xi = np.repeat(i, len(yvalues))
-    bounds_25_75 = yvalues.quantile([0.25, 0.75]).values
-    bounds_5_95 = yvalues.quantile([0.05, 0.95]).values
+
+    qxlist = [5, 25, 50, 75, 95]
+    qylist = yvalues.quantile(np.asarray(qxlist)/100.0)
 
     if params_.get('outliers', True)==True:
-        mask = ((yvalues > bounds_5_95[1]) | (yvalues < bounds_5_95[0])).values
+        mask = ((yvalues > qylist[0.95]) | (yvalues < qylist[0.05])).values
         ax.scatter(x=xi[mask], y=yvalues[mask], c=params_.get('outlier_color', 'black'))
 
     if params_.get('lines', True)==True:
-        ax.vlines(x=i, ymin=bounds_25_75[1], ymax=bounds_5_95[1])
-        ax.vlines(x=i, ymin=bounds_5_95[0], ymax=bounds_25_75[0])
+        ax.vlines(x=i, ymin=qylist[0.75], ymax=qylist[0.95])
+        ax.vlines(x=i, ymin=qylist[0.05], ymax=qylist[0.25])
 
     if params_.get('notch', False)==True:
-        ax.hlines(bounds_5_95[0], i - width/4.0, i + width/4.0, linewidth=2)
-        ax.hlines(bounds_5_95[1], i - width/4.0, i + width/4.0, linewidth=2)
+        ax.hlines(qylist[0.05], i - width/4.0, i + width/4.0, linewidth=2)
+        ax.hlines(qylist[0.95], i - width/4.0, i + width/4.0, linewidth=2)
 
     if params_.get('median', True)==True:
-        ax.hlines(yvalues.median(), i - width/2.0, i + width/2.0, linewidth=2)
+        ax.hlines(qylist[0.5], i - width/2.0, i + width/2.0, linewidth=2)
 
     if params_.get('box', True)==True:
         params = {
@@ -33,14 +34,14 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
         }
         ax.add_patch(
             patches.Rectangle(
-                (i - width/2.0, bounds_25_75[0]),
+                (i - width/2.0, qylist[0.25]),
                 width,
-                bounds_25_75[1] - bounds_25_75[0],
+                qylist[0.75] - qylist[0.25],
                 **params
             )
         )
     else:
-        ax.vlines(x=i, ymin=bounds_25_75[0], ymax=bounds_25_75[1])
+        ax.vlines(x=i, ymin=qylist[0.25], ymax=qylist[0.75])
     return ax
 
 class geom_boxplot(geom):
