@@ -5,15 +5,29 @@ import numpy as np
 from pandas import Series
 
 def _boxplot_(yvalues, i, params_, num_fill_levels=1,
-              fill='white', width=0.5, ax=plt.gca()):
+              fill='white', edgecolor='black', lw=1.0,
+              width=0.5, ax=plt.gca(),
+              quantiles=False, percentiles=False):
     xi = np.repeat(i, len(yvalues))
 
-    qxlist = [5, 25, 50, 75, 95]
-    qylist = yvalues.quantile(np.asarray(qxlist)/100.0)
+    if not( (percentiles is None) or (percentiles is False)):
+        quantiles=percentiles/100.0
 
-    if params_.get('outliers', True)==True:
-        mask = ((yvalues > qylist[0.95]) | (yvalues < qylist[0.05])).values
-        ax.scatter(x=xi[mask], y=yvalues[mask], c=params_.get('outlier_color', 'black'))
+    if (quantiles is None) or (quantiles is False):
+        qxlist = np.r_[5, 25, 50, 75, 95] / 100.0
+        qylist = yvalues.quantile(qxlist)
+        if params_.get('outliers', True)==True:
+            mask = ((yvalues > qylist[0.95]) | (yvalues < qylist[0.05])).values
+            ax.scatter(x=xi[mask], y=yvalues[mask], c=params_.get('outlier_color', 'black'))
+    else:
+        yvalues = yvalues.groupby(quantiles).first()
+        assert 0.25 in yvalues.keys()
+        assert 0.5 in yvalues.keys()
+        assert 0.75 in yvalues.keys()
+        if params_.get('lines', True):
+            assert 0.05 in yvalues.keys()
+            assert 0.95 in yvalues.keys()
+        qylist = yvalues
 
     if params_.get('lines', True)==True:
         ax.vlines(x=i, ymin=qylist[0.75], ymax=qylist[0.95])
@@ -29,8 +43,8 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
     if params_.get('box', True)==True:
         params = {
             'facecolor': fill,
-            'edgecolor': 'black',
-            'linewidth': 1
+            'edgecolor': edgecolor,
+            'linewidth': lw
         }
         ax.add_patch(
             patches.Rectangle(
@@ -73,7 +87,9 @@ class geom_boxplot(geom):
                    'flier_marker': '+',
                    'width':0.5,
                    'spacing':0.01,
-                   'fill': 'white'}
+                   'fill': 'white',
+                   'percentiles':None,
+                   'quantiles':None}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}
 
@@ -108,7 +124,10 @@ class geom_boxplot(geom):
             _boxplot_(yvalues, xtick_fill, params,
                       num_fill_levels=num_fill_levels,
                       width = width - halfspacing,
-                      fill=params['fill'], ax=ax)
+                      fill=params['fill'],
+                      percentiles = params.get('percentiles', False),
+                      quantiles = params.get('quantiles', False),
+                      ax=ax)
 
         # q = ax.boxplot(x, vert=True)
         # plt.setp(q['boxes'], color=params['color'])
