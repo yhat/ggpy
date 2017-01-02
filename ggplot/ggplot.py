@@ -582,8 +582,11 @@ class ggplot(object):
     def _prep_fill(self, default=None):
         "make sure fill levels are returned in the same order as the grouping variable"
         if 'fill' in self._aes:
-            fillcol_raw = self._aes['fill'].rstrip("_fill")
             fillcol = self._aes['fill']
+            if fillcol not in self.data:
+                return [fillcol]
+            fillcol_raw = self._aes['fill'].rstrip("_fill")
+            #print(fillcol_raw, fillcol)
             fill_levels = self.data[[fillcol_raw, fillcol]].drop_duplicates()
             fill_levels = fill_levels.sort_values(fillcol_raw)[fillcol]
             return fill_levels
