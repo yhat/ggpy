@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
 from pandas import Series
+#from ..aes import aes
+from ..ggplot import ggplot
 
 def _boxplot_(yvalues, i, params_, num_fill_levels=1,
               fill='white', edgecolor='black', lw=1.0,
@@ -92,6 +94,16 @@ class geom_boxplot(geom):
                    'quantiles':None}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}
+
+    def __radd__(self, gg):
+        if isinstance(gg, ggplot):
+            gg.layers += self.layers
+            if 'fill' in self.geom_aes:
+                gg._aes['fill'] = self.geom_aes.pop('fill')
+            return gg
+
+        self.layers.append(gg)
+        return self
 
     def plot(self, ax, data, _aes, x_levels, fill_levels=None):
         fill_levels = fill_levels if fill_levels is not None else ['none']

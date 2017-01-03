@@ -16,6 +16,10 @@ print(ggplot(diamonds, aes(x='clarity', y='price')) + geom_boxplot())
 ggplot(diamonds, aes("color", "price", fill = "cut")) + \
           geom_boxplot(aes(width = 0.6, spacing=0.02) ) + scale_y_log()
 
+# this order should also work now (aes of the ggplot needs to be updated upon __radd__)
+ggplot(diamonds, aes("color", "price")) + \
+          geom_boxplot(aes(fill = "cut", width = 0.6, spacing=0.02,) ) + scale_y_log()
+
 # plotting from percentile summary
 price_summary = diamonds.groupby(['color', 'cut']).quantile([0.0, 0.05, 0.25, 0.5, 0.75, 0.95, 1.0]).reset_index()
 print(ggplot(price_summary, aes("color", "price", fill = "cut")) + 
