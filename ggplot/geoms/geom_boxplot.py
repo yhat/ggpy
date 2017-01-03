@@ -110,9 +110,10 @@ class geom_boxplot(geom):
     def __radd__(self, gg):
         if isinstance(gg, ggplot):
             gg.layers += self.layers
-            for aes_key in ['fill', ]:
-                if aes_key in self.geom_aes:
-                    gg._aes[aes_key] = self.geom_aes.pop(aes_key)
+            if self.geom_aes is not None:
+                for aes_key in ['fill', ]:
+                    if aes_key in self.geom_aes:
+                        gg._aes[aes_key] = self.geom_aes.pop(aes_key)
             return gg
 
         self.layers.append(gg)
