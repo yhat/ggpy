@@ -7,7 +7,7 @@ from pandas import Series
 from ..ggplot import ggplot
 
 def _boxplot_(yvalues, i, params_, num_fill_levels=1,
-              fill='white', edgecolor='black', lw=1.0,
+              fill='white', edgecolor='black', outlier_color='black', lw=1.0,
               width=0.5, ax=plt.gca(),
               quantiles=False, percentiles=False):
     xi = np.repeat(i, len(yvalues))
@@ -20,7 +20,7 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
         qylist = yvalues.quantile(qxlist)
         if params_.get('outliers', True)==True:
             mask = ((yvalues > qylist[0.95]) | (yvalues < qylist[0.05])).values
-            ax.scatter(x=xi[mask], y=yvalues[mask], c=params_.get('outlier_color', 'black'))
+            ax.scatter(x=xi[mask], y=yvalues[mask], c=outlier_color)
     else:
         yvalues = yvalues.groupby(quantiles).first()
         assert 0.25 in yvalues.keys()
@@ -31,16 +31,19 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
             assert 0.95 in yvalues.keys()
         qylist = yvalues
 
+    linekwargs = dict(linewidth=lw, color=edgecolor)
+    med_linekwargs = dict(linewidth=lw*2.0, color=edgecolor)
+
     if params_.get('lines', True)==True:
-        ax.vlines(x=i, ymin=qylist[0.75], ymax=qylist[0.95])
-        ax.vlines(x=i, ymin=qylist[0.05], ymax=qylist[0.25])
+        ax.vlines(x=i, ymin=qylist[0.75], ymax=qylist[0.95], **linekwargs)
+        ax.vlines(x=i, ymin=qylist[0.05], ymax=qylist[0.25], **linekwargs)
 
     if params_.get('notch', False)==True:
-        ax.hlines(qylist[0.05], i - width/4.0, i + width/4.0, linewidth=2)
-        ax.hlines(qylist[0.95], i - width/4.0, i + width/4.0, linewidth=2)
+        ax.hlines(qylist[0.05], i - width/4.0, i + width/4.0, **linekwargs)
+        ax.hlines(qylist[0.95], i - width/4.0, i + width/4.0, **linekwargs)
 
     if params_.get('median', True)==True:
-        ax.hlines(qylist[0.5], i - width/2.0, i + width/2.0, linewidth=2)
+        ax.hlines(qylist[0.5], i - width/2.0, i + width/2.0, **med_linekwargs)
 
     if params_.get('box', True)==True:
         params = {
@@ -70,36 +73,46 @@ class geom_boxplot(geom):
         x values for bins/categories
     y:
         values that will be used for box/whisker calculations
-    color:
-        color of line
-    flier_marker:
-        type of marker used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
     fill:
         a value (length 3 tuples, matplotlib literals) or column to be highlighted in fill
+    color:
+        color of line: standard matplotlib color values or a float within (0.0,1.0) to get darker shades of `fill` parameters for line color
+   outlier_color:
+       color of outlier markers (same value types as `color`)
     width:
         width of the box (or group of boxes if fill column is supplied)
     spacing:
         shrink box width (useful for groups when fill column is supplied)
+    flier_marker:
+        type of marker used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
+    notch:
+        bool; draw notch for 5% and 95% (default: False)
+    outliers:
+        bool; draw outliers
 
     Examples
     --------
     """
     DEFAULT_AES = {'y': None,
                    'color': 'black',
+                   'outlier_color': 'black',
                    'flier_marker': '+',
                    'width':0.5,
                    'spacing':0.01,
                    'fill': 'white',
                    'percentiles':None,
-                   'quantiles':None}
+                   'quantiles':None,
+                   'notch':False,
+                   'outliers':True}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}
 
     def __radd__(self, gg):
         if isinstance(gg, ggplot):
             gg.layers += self.layers
-            if 'fill' in self.geom_aes:
-                gg._aes['fill'] = self.geom_aes.pop('fill')
+            for aes_key in ['fill', ]:
+                if aes_key in self.geom_aes:
+                    gg._aes[aes_key] = self.geom_aes.pop(aes_key)
             return gg
 
         self.layers.append(gg)
@@ -115,6 +128,14 @@ class geom_boxplot(geom):
             if variables['fill'] not in data:
                 # in case when colour does not belong to any layer (is a scalar param.)
                 fill_levels = [variables['fill']]
+        edgecolor = params['color']
+        # interpret a float-valued `color` as a darker shade of `fill`
+        if (type(edgecolor) is float) and (edgecolor <= 1.0) and len(params['fill'])==3:
+            edgecolor = [edgecolor*c for c in params['fill']]
+        outlier_color = params.get('outlier_color', 'black')
+        if (type(outlier_color) is float) and \
+            (outlier_color <= 1.0) and len(params['fill'])==3:
+            outlier_color = [outlier_color*c for c in params['fill']]
 
         width = params.get('width', 0.5)/float(num_fill_levels)
         if len(fill_levels)>1:
@@ -135,10 +156,12 @@ class geom_boxplot(geom):
 
             _boxplot_(yvalues, xtick_fill, params,
                       num_fill_levels=num_fill_levels,
-                      width = width - halfspacing,
+                      width=(width - halfspacing),
                       fill=params['fill'],
-                      percentiles = params.get('percentiles', False),
-                      quantiles = params.get('quantiles', False),
+                      edgecolor=edgecolor,
+                      outlier_color=outlier_color,
+                      percentiles=params.get('percentiles', False),
+                      quantiles=params.get('quantiles', False),
                       ax=ax)
 
         # q = ax.boxplot(x, vert=True)
