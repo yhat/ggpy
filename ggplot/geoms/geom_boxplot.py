@@ -89,6 +89,10 @@ class geom_boxplot(geom):
         bool; draw notch for 5% and 95% (default: False)
     outliers:
         bool; draw outliers
+    percentiles:
+        column name (default=None); if supplied, column `y` is treated as percentiles corresponding to the percentile levels set in this column
+    quantiles:
+        see percentiles argument
 
     Examples
     --------
