@@ -54,13 +54,11 @@ def _simple_box_(x, width, lower_quartile, upper_quartile, ax, **kwargs):
         )
     )
 
-def _boxplot_(yvalues, i, params_, num_fill_levels=1,
-              fill='white', edgecolor='black', outlier_color='black', lw=1.0,
-              width=0.5, ax=None,
+def _boxplot_(yvalues, i, params_, fill='white', edgecolor='black',
+              outlier_color=None, lw=1.0, width=0.5, ax=None,
               quantiles=False, percentiles=False):
     if ax is None:
         ax = plt.gca()
-    xi = np.repeat(i, len(yvalues))
 
     if not( (percentiles is None) or (percentiles is False)):
         quantiles=percentiles/100.0
@@ -69,6 +67,7 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
         qxlist = np.r_[5, 25, 50, 75, 95] / 100.0
         qylist = yvalues.quantile(qxlist)
         if params_.get('outliers', True)==True:
+            xi = np.repeat(i, len(yvalues))
             outlier_color = outlier_color or edgecolor
             mask = ((yvalues > qylist[0.95]) | (yvalues < qylist[0.05])).values
             ax.scatter(x=xi[mask], y=yvalues[mask],
@@ -90,7 +89,7 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
         ax.vlines(x=i, ymin=qylist.loc[0.75], ymax=qylist.loc[0.95], **linekwargs)
         ax.vlines(x=i, ymin=qylist.loc[0.05], ymax=qylist.loc[0.25], **linekwargs)
 
-    if params_.get('whiskerbar', False)==True:
+    if params_['whiskerbar']:
         ax.hlines(qylist[0.05], i - width/4.0, i + width/4.0, **linekwargs)
         ax.hlines(qylist[0.95], i - width/4.0, i + width/4.0, **linekwargs)
 
@@ -207,10 +206,14 @@ class geom_boxplot(geom):
                 # in case when colour does not belong to any layer (is a scalar param.)
                 fill_levels = [variables['fill']]
         edgecolor = params['color']
-        # interpret a float-valued `color` as a darker shade of `fill`
-        if (type(edgecolor) is float) and (edgecolor <= 1.0) and len(params['fill'])==3:
-            edgecolor = [edgecolor*c for c in params['fill']]
-        outlier_color = params.get('outlier_color', 'black')
+        # interpret a float-valued `color` as a darker(+) / lighter(-) shade of `fill`
+        if (type(edgecolor) is float) and len(params['fill'])==3 and \
+                    abs(edgecolor) <= 1.0:
+                t = 1.0 if edgecolor<0 else 0.0
+                p = edgecolor if edgecolor>0 else -edgecolor
+                edgecolor = [(t-c)*p + c for c in params['fill']]
+
+        outlier_color = params['outlier_color']
         if (type(outlier_color) is float) and \
             (outlier_color <= 1.0) and len(params['fill'])==3:
             outlier_color = [outlier_color*c for c in params['fill']]
@@ -233,7 +236,6 @@ class geom_boxplot(geom):
             xtick_fill = xtick - offset + fill_x_step
 
             _boxplot_(yvalues, xtick_fill, params,
-                      num_fill_levels=num_fill_levels,
                       width=(width - halfspacing),
                       fill=params['fill'],
                       edgecolor=edgecolor,
