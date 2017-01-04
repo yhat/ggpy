@@ -5,11 +5,61 @@ import numpy as np
 from pandas import Series
 #from ..aes import aes
 from ..ggplot import ggplot
+#from matplotlib.pyplot import boxplot
+from matplotlib.patches import Polygon, PathPatch, Path
+
+def _notched_box_(x, width, lower_quartile, median_, upper_quartile, nsamples,
+                ax=None, notchwidth=0.5, **kwargs):
+    if ax is None:
+        ax=plt.gca()
+
+    left = x - 0.5*width
+    right = x + 0.5*width
+
+    narrow_left = x - 0.5*notchwidth*width
+    narrow_right = x + 0.5*notchwidth*width
+
+    IQR = upper_quartile-lower_quartile
+    if nsamples>0:
+        notch_delta = 1.58 * IQR / np.sqrt(nsamples)
+    else:
+        notch_delta = 0.0
+
+    upper_notch = median_ + notch_delta
+    lower_notch = median_ - notch_delta
+
+    xy = np.asarray([[left, lower_quartile],
+                     [left, lower_notch],
+                     [narrow_left, median_],
+                     [left, upper_notch],
+                     [left, upper_quartile],
+                     [right, upper_quartile],
+                     [right, upper_notch],
+                     [narrow_right, median_],
+                     [right, lower_notch],
+                     [right, lower_quartile],
+                     [left, lower_quartile]])
+    polygon = PathPatch(Path(xy), **kwargs)
+    ax.add_patch(polygon)
+    ax.autoscale_view()
+    return ax
+
+def _simple_box_(x, width, lower_quartile, upper_quartile, ax, **kwargs):
+    ax.add_patch(
+        patches.Rectangle(
+            (x - 0.5*width, lower_quartile),
+            width,
+            upper_quartile - lower_quartile,
+            **kwargs
+        )
+    )
 
 def _boxplot_(yvalues, i, params_, num_fill_levels=1,
               fill='white', edgecolor='black', outlier_color='black', lw=1.0,
-              width=0.5, ax=plt.gca(),
+              width=0.5, ax=None,
               quantiles=False, percentiles=False):
+    if ax is None:
+        ax = plt.gca()
     xi = np.repeat(i, len(yvalues))
 
     if not( (percentiles is None) or (percentiles is False)):
@@ -19,8 +69,10 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
         qxlist = np.r_[5, 25, 50, 75, 95] / 100.0
         qylist = yvalues.quantile(qxlist)
         if params_.get('outliers', True)==True:
+            outlier_color = outlier_color or edgecolor
             mask = ((yvalues > qylist[0.95]) | (yvalues < qylist[0.05])).values
-            ax.scatter(x=xi[mask], y=yvalues[mask], c=outlier_color)
+            ax.scatter(x=xi[mask], y=yvalues[mask],
+                       c=outlier_color,)
     else:
         yvalues = yvalues.groupby(quantiles).first()
         assert 0.25 in yvalues.keys()
@@ -35,32 +87,46 @@ def _boxplot_(yvalues, i, params_, num_fill_levels=1,
     med_linekwargs = dict(linewidth=lw*2.0, color=edgecolor)
 
     if params_.get('lines', True)==True:
-        ax.vlines(x=i, ymin=qylist[0.75], ymax=qylist[0.95], **linekwargs)
-        ax.vlines(x=i, ymin=qylist[0.05], ymax=qylist[0.25], **linekwargs)
+        ax.vlines(x=i, ymin=qylist.loc[0.75], ymax=qylist.loc[0.95], **linekwargs)
+        ax.vlines(x=i, ymin=qylist.loc[0.05], ymax=qylist.loc[0.25], **linekwargs)
 
-    if params_.get('notch', False)==True:
+    if params_.get('whiskerbar', False)==True:
         ax.hlines(qylist[0.05], i - width/4.0, i + width/4.0, **linekwargs)
         ax.hlines(qylist[0.95], i - width/4.0, i + width/4.0, **linekwargs)
 
-    if params_.get('median', True)==True:
-        ax.hlines(qylist[0.5], i - width/2.0, i + width/2.0, **med_linekwargs)
-
-    if params_.get('box', True)==True:
-        params = {
-            'facecolor': fill,
-            'edgecolor': edgecolor,
-            'linewidth': lw
-        }
-        ax.add_patch(
-            patches.Rectangle(
-                (i - width/2.0, qylist[0.25]),
-                width,
-                qylist[0.75] - qylist[0.25],
-                **params
-            )
-        )
+    #if params_.get('notch', False)==True:
+    if params_['notch']:
+        if (quantiles is not None) and (quantiles is not False):
+            if "n" in qylist.index:
+                nsamples = qylist.loc["n"]
+            elif "N" in qylist.index:
+                nsamples = qylist.loc["N"]
+            else:
+                nsamples = -1
+        else:
+            nsamples = len(yvalues)
+        _notched_box_(i, width, qylist.loc[0.25], qylist.loc[0.5], qylist.loc[0.75],
+                      nsamples, ax=ax, facecolor=fill, edgecolor=edgecolor,
+                      alpha=params_["alpha"],
+                      notchwidth=params_["notchwidth"], linewidth=lw)
     else:
-        ax.vlines(x=i, ymin=qylist[0.25], ymax=qylist[0.75])
+        if params_.get('box', True)==True:
+            _simple_box_(i, width, qylist.loc[0.25], qylist.loc[0.75], ax,
+                **{'facecolor': fill,
+                   'edgecolor': edgecolor,
+                   'linewidth': lw})
+
+    if params_['median']:
+        if not params_['notch']:
+            ax.hlines(qylist.loc[0.5], i - width/2.0, i + width/2.0, **med_linekwargs)
+        else:
+            ax.hlines(qylist.loc[0.5],
+                      i - 0.5*width*params_["notchwidth"],
+                      i + 0.5*width*params_["notchwidth"],
+                      **med_linekwargs)
+    else:
+        ax.vlines(x=i, ymin=qylist.loc[0.25], ymax=qylist.loc[0.75])
+
     return ax
 
 class geom_boxplot(geom):
@@ -76,7 +142,7 @@ class geom_boxplot(geom):
     fill:
         a value (length 3 tuples, matplotlib literals) or column to be highlighted in fill
     color:
-        color of line: standard matplotlib color values or a float within (0.0,1.0) to get darker shades of `fill` parameters for line color
+        color of line: standard matplotlib color values or a float within (0.0,1.0) to get darker shades of `fill` parameter for line color
    outlier_color:
        color of outlier markers (same value types as `color`)
     width:
@@ -86,9 +152,11 @@ class geom_boxplot(geom):
     flier_marker:
         type of marker used ('o', '^', 'D', 'v', 's', '*', 'p', '8', "_", "|", "_")
     notch:
-        bool; draw notch for 5% and 95% (default: False)
+        draw notches for median +/- 1.58 * IQR / sqrt(N), which gives roughly 95% confidence interval for medians; see McGill et al. (1978) for more details.
+    whiskerbar:
+        bool; draw whisker bars for 5% and 95% (default: False)
     outliers:
-        bool; draw outliers
+        bool; draw outliers (default = True)
     percentiles:
         column name (default=None); if supplied, column `y` is treated as percentiles corresponding to the percentile levels set in this column
     quantiles:
@@ -99,14 +167,19 @@ class geom_boxplot(geom):
     """
     DEFAULT_AES = {'y': None,
                    'color': 'black',
-                   'outlier_color': 'black',
+                   'outlier_color': None,
                    'flier_marker': '+',
                    'width':0.5,
+                   "notchwidth": 0.5,
+                   'median':True,
                    'spacing':0.01,
                    'fill': 'white',
                    'percentiles':None,
                    'quantiles':None,
                    'notch':False,
+                   'lines':True,
+                   'whiskerbar':False,
+                   'alpha': None,
                    'outliers':True}
     REQUIRED_AES = {'x', 'y'}
     DEFAULT_PARAMS = {}
