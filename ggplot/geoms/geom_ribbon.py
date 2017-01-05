@@ -1,6 +1,7 @@
 from .geom import geom
 from ..utils import is_date
 import numpy as np
+from ..ggplot import ggplot
 
 class geom_ribbon(geom):
     """
@@ -35,6 +36,21 @@ class geom_ribbon(geom):
     DEFAULT_PARAMS = {}
 
     _aes_renames = {'linetype': 'linestyle', 'size': 'linewidth', 'fill': 'facecolor', 'color': 'edgecolor'}
+
+
+    def __radd__(self, gg):
+        if isinstance(gg, ggplot):
+            gg.layers += self.layers
+            if self.geom_aes is not None:
+                for aes_key in ['fill', ]:
+                    if aes_key in self.geom_aes:
+                        gg._aes[aes_key] = self.geom_aes.pop(aes_key)
+            return gg
+
+        self.layers.append(gg)
+        return self
+
+
     def plot(self, ax, data, _aes):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
