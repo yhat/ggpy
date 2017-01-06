@@ -53,9 +53,6 @@ class ggplot(object):
         self._aes = aesthetics
         self.data = data.copy()
         self._handle_index()
-        self.data = self._aes._evaluate_expressions(self.data)
-        self.data = self._aes.handle_identity_values(self.data)
-
 
         self.layers = []
 
@@ -353,6 +350,9 @@ class ggplot(object):
 
     def _construct_plot_data(self):
         "Splits up the main data based on discrete aesthetics into sub-data frames"
+        #parsing aes relocated here from __init__ to allow for aes expressions to be supplied in subsequent geom_*()
+        self.data = self._aes._evaluate_expressions(self.data)
+        self.data = self._aes.handle_identity_values(self.data)
         data = self.data
         discrete_aes = self._aes._get_discrete_aes(data)
         mappers = {}
