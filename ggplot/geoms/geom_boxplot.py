@@ -177,10 +177,10 @@ def _boxplot_(yvalues, x=0, fill='w', edgecolor='k',
     else:
         ax.vlines(x, ymin=boxplot_stats["lower"], ymax=boxplot_stats["upper"])
     #plot the whiskers
-    ax = _whiskers_(x, width, boxplot_stats, whiskerbar=whiskerbar, **linekwargs)
+    ax = _whiskers_(x, width, boxplot_stats, whiskerbar=whiskerbar, ax=ax, **linekwargs)
     #plot the outliers
     if outliers:
-        ax.scatter([x]*len(outlier_list), outlier_list, color=outlier_color, marker=outlier_marker )
+        ax.scatter([x]*len(outlier_list), outlier_list, color=outlier_color, marker=outlier_marker)
     return ax, boxplot_stats
 
 
@@ -197,10 +197,9 @@ def _get_shade_(edgecolor, main_color, default="black"):
                 except:
                     edgecolor = default
     # if whatever fails above:
-    if (type(edgecolor) is float):
-            edgecolor = default
+    if (type(edgecolor) is float) or edgecolor is None:
+            edgecolor = ColorConverter().to_rgb(default)
     return edgecolor
-
 
 
 class geom_boxplot(geom):
@@ -286,7 +285,7 @@ class geom_boxplot(geom):
                 fill_levels = [variables['fill']]
         edgecolor = params['color']
         # interpret a float-valued `color` as a darker(+) / lighter(-) shade of `fill`
-        edgecolor = _get_shade_(params['color'], params['fill'], default=DEFAULT_AES["color"])
+        edgecolor = _get_shade_(params['color'], params['fill'], default=self.DEFAULT_AES["color"])
         outlier_color = _get_shade_(params['outlier_color'], params['fill'], default=edgecolor)
 
         # get other plotting parameters
