@@ -7,6 +7,7 @@ from pandas import Series
 from ..ggplot import ggplot
 #from matplotlib.pyplot import boxplot
 from matplotlib.patches import Polygon, PathPatch, Path
+from matplotlib.colors import ColorConverter
 
 def stat_boxplot(ydata, coef = 1.5, notch=False, whiskers="Tukey"):
     """compute statistics for box plot
@@ -183,6 +184,25 @@ def _boxplot_(yvalues, x=0, fill='w', edgecolor='k',
     return ax, boxplot_stats
 
 
+def _get_shade_(edgecolor, main_color, default="black"):
+    "interpret a float-valued `color` as a darker(+) / lighter(-) shade of `fill`"
+    if (type(edgecolor) is float):
+        if abs(edgecolor) <= 1.0:
+            if len(main_color)==3:
+                t = 1.0 if edgecolor<0 else 0.0
+                p = edgecolor if edgecolor>0 else -edgecolor
+                try:
+                    main_color = ColorConverter().to_rgb(main_color)
+                    edgecolor = [(t-c)*p + c for c in main_color]
+                except:
+                    edgecolor = default
+    # if whatever fails above:
+    if (type(edgecolor) is float):
+            edgecolor = default
+    return edgecolor
+
+
+
 class geom_boxplot(geom):
     """
     Box and whiskers chart
@@ -266,18 +286,8 @@ class geom_boxplot(geom):
                 fill_levels = [variables['fill']]
         edgecolor = params['color']
         # interpret a float-valued `color` as a darker(+) / lighter(-) shade of `fill`
-        if (type(edgecolor) is float) and len(params['fill'])==3 and \
-                    abs(edgecolor) <= 1.0:
-                t = 1.0 if edgecolor<0 else 0.0
-                p = edgecolor if edgecolor>0 else -edgecolor
-                edgecolor = [(t-c)*p + c for c in params['fill']]
-
-        outlier_color = params['outlier_color']
-        if (type(outlier_color) is float) and \
-            (outlier_color <= 1.0) and len(params['fill'])==3:
-            outlier_color = [outlier_color*c for c in params['fill']]
-        elif outlier_color is None:
-            outlier_color = edgecolor
+        edgecolor = _get_shade_(params['color'], params['fill'], default=DEFAULT_AES["color"])
+        outlier_color = _get_shade_(params['outlier_color'], params['fill'], default=edgecolor)
 
         # get other plotting parameters
         plotting_kwarg_keys = ["notch", "notchwidth", "whiskers", "whiskerbar",
@@ -287,13 +297,12 @@ class geom_boxplot(geom):
             if pk in params:
                 plotting_kwarg[pk] = params[pk]
 
-        # compute width
+        # compute width adjusted for number of `fill` values
         width = params.get('width', 0.5)/float(num_fill_levels)
         if len(fill_levels)>1:
             halfspacing = 0.5*params.get('spacing', 0.01)
         else:
             halfspacing = 0.0
-
 
         xticks = []
         fill_layer_number = np.where(Series(fill_levels) == params['fill'])[0][0]
