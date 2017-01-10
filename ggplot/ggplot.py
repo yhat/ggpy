@@ -579,6 +579,20 @@ class ggplot(object):
         else:
             return uri
 
+    def _prep_fill(self, default=None):
+        "make sure fill levels are returned in the same order as the grouping variable"
+        if 'fill' in self._aes:
+            fillcol = self._aes['fill']
+            if fillcol not in self.data:
+                return [fillcol]
+            fillcol_raw = self._aes['fill'].rstrip("_fill")
+            #print(fillcol_raw, fillcol)
+            fill_levels = self.data[[fillcol_raw, fillcol]].drop_duplicates()
+            fill_levels = fill_levels.sort_values(fillcol_raw)[fillcol]
+            return fill_levels
+        else:
+            return default
+
     def _prep_layer_for_plotting(self, layer, facetgroup):
         """
         Some types of geoms (layer) need to be prepped before calling the plot
@@ -596,16 +610,14 @@ class ggplot(object):
                     mask = (mask) & (df[k]==v)
                 df = df[mask]
 
-            if 'fill' in self._aes:
-                fillcol_raw = self._aes['fill'][:-5]
-                fillcol = self._aes['fill']
-                fill_levels = self.data[[fillcol_raw, fillcol]].sort(fillcol_raw)[fillcol].unique()
-            else:
-                fill_levels = None
-            return dict(x_levels=self.data[self._aes['x']].unique(), fill_levels=fill_levels, lookups=df)
+            fill_levels = self._prep_fill(default=None)
+            return dict(x_levels=self.data[self._aes['x']].unique(),
+                        fill_levels=fill_levels, lookups=df)
         elif layer.__class__.__name__ in ("geom_boxplot", "geom_violin", "geom_errorbar"):
             x_levels = list(pd.Series(self.data[self._aes['x']].unique()).sort_values())
-            return dict(x_levels=x_levels)
+            # this is interdependent with geom_boxplot and may need refactoring
+            fill_levels = self._prep_fill(default=list(['white']))
+            return dict(x_levels=x_levels, fill_levels=fill_levels)
         else:
             return dict()
 
