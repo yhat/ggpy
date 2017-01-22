@@ -78,7 +78,7 @@ def make_legend(ax, legend_mapping):
             # TODO: this is supposed to make the label bold
             # labels.append(spacer + r'\textbf{' + colname + '}')
             labels.append(spacer + colname)
-            for key in sorted(legend_mapping[aesthetic]['lookup'].keys()):
+            for key in legend_mapping[aesthetic]['lookup'].keys():
                 value = legend_mapping[aesthetic]['lookup'][key]
                 legend_item = make_aesthetic_legend(aesthetic, value)
                 items.append(legend_item)

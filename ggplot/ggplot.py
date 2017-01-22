@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
+from collections import OrderedDict
 import six
 import numpy as np
 import pandas as pd
@@ -357,16 +358,16 @@ class ggplot(object):
         discrete_aes = self._aes._get_discrete_aes(data)
         mappers = {}
         for aes_type, colname in discrete_aes:
-            mapper = {}
+            mapper = OrderedDict()
             if aes_type in self.scale_identity:
-                for item in sorted(data[colname].unique()):
+                for item in sorted_unique(data[colname]):
                     mapper[item] = item
             else:
                 mapping = self._get_mapping(aes_type, colname)
                 if mapping is None:
                     continue
 
-                for item in sorted(data[colname].unique()):
+                for item in sorted_unique(data[colname]):
                     mapper[item] = next(mapping)
 
             mappers[aes_type] = { "name": colname, "lookup": mapper }
