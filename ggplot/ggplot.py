@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
+from collections import OrderedDict
 import six
 import numpy as np
 import pandas as pd
@@ -357,16 +358,16 @@ class ggplot(object):
         discrete_aes = self._aes._get_discrete_aes(data)
         mappers = {}
         for aes_type, colname in discrete_aes:
-            mapper = {}
+            mapper = OrderedDict()
             if aes_type in self.scale_identity:
-                for item in sorted(data[colname].unique()):
+                for item in sorted_unique(data[colname]):
                     mapper[item] = item
             else:
                 mapping = self._get_mapping(aes_type, colname)
                 if mapping is None:
                     continue
 
-                for item in sorted(data[colname].unique()):
+                for item in sorted_unique(data[colname]):
                     mapper[item] = next(mapping)
 
             mappers[aes_type] = { "name": colname, "lookup": mapper }
@@ -385,7 +386,7 @@ class ggplot(object):
             quantiles_actual = quantiles = data[colname].quantile([0., .2, 0.4, 0.5, 0.6, 0.75, 1.0])
             # TODO: NOT SURE IF THIS ACTUALLY WORKS WELL. could get a divide by 0 error
             quantiles = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
-            mappers['color'] = { "name": colname, "lookup": {} }
+            mappers['color'] = { "name": colname, "lookup": OrderedDict() }
             colors = cmap(quantiles)
             for i, q in enumerate(quantiles_actual):
                 mappers['color']['lookup'][q] = colors[i]
@@ -398,7 +399,7 @@ class ggplot(object):
             quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
             mappers['alpha'] = {
                 "name": colname,
-                "lookup": dict(zip(quantiles.values, quantiles_scaled.values))
+                "lookup": OrderedDict(zip(quantiles.values, quantiles_scaled.values))
             }
             data[colname] = (data[colname] - data[colname].min()) / data[colname].max()
             discrete_aes.append(('alpha', colname))
@@ -410,7 +411,7 @@ class ggplot(object):
             quantiles_scaled = (quantiles - quantiles.min()) / (quantiles.max()) # will be bug if max is 0
             mappers['size'] = {
                 "name": colname,
-                "lookup":  dict(zip(quantiles.values, 100 * quantiles_scaled.values))
+                "lookup":  OrderedDict(zip(quantiles.values, 100 * quantiles_scaled.values))
             }
             data[colname] = 100 * (data[colname] - data[colname].min()) / data[colname].max()
             discrete_aes.append(('size', colname))
