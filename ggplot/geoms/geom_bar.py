@@ -11,6 +11,8 @@ class geom_bar(geom):
     ----------
     x:
         x values for bins/categories
+    weight:
+        heights of the bars
     color:
         color of the outer line
     alpha:
