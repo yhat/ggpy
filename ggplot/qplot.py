@@ -115,9 +115,9 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
     if "y" in log:
         p += scale_y_log()
     if xlab:
-        p += xlabel(xlab)
+        p += xlab(xlab)
     if ylab:
-        p += ylabel(ylab)
+        p += ylab(ylab)
     if main:
         p += ggtitle(main)
     return p
