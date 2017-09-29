@@ -27,8 +27,13 @@ class geom_vline(geom):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
-        x = self.params.get('x')
-
+        x = self.params.get('xintercept')
+        # for backwards compatibility, allow setting 'x'
+        if x is None:
+            x = self.params.get('x')    
+        if x is None:
+            raise ValueError("xintercept is required for vline")
+        
         if is_iterable(x):
             for xi in x:
                 ax.axvline(xi, **params)
