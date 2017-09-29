@@ -12308,9 +12308,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">yintercept</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">))</span> <span class="o">+</span> \
     <span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">geom_vline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">4.5</span><span class="p">)</span>
+    <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="mf">4.5</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12551,9 +12551,9 @@ QmCC
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">yintercept</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">))</span> <span class="o">+</span> \
     <span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">geom_vline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+    <span class="n">geom_vline</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12789,9 +12789,9 @@ NgAAFETZBgCAgvx/0Q7fTBSy+L0AAAAASUVORK5CYII=
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">yintercept</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">))</span> <span class="o">+</span> \
     <span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">geom_vline</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
+    <span class="n">geom_vline</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">xintercept</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 </pre></div>
 
 </div>
@@ -13066,9 +13066,9 @@ GEQhBwAAAAyikAMAAAAGUcgBAAAAgyjkAAAAgEH/H+kg5HiyzX2kAAAAAElFTkSuQmCC
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">diamonds</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">))</span> <span class="o">+</span> \
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">ggplot</span><span class="p">(</span><span class="n">diamonds</span><span class="p">,</span> <span class="n">aes</span><span class="p">(</span><span class="n">xintercept</span><span class="o">=</span><span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="n">yintercept</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">))</span> <span class="o">+</span> \
     <span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-    <span class="n">geom_vline</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;turquoise&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span> <span class="o">+</span> \
+    <span class="n">geom_vline</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;turquoise&#39;</span><span class="p">,</span> <span class="n">xintercept</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span> <span class="o">+</span> \
     <span class="n">facet_wrap</span><span class="p">(</span><span class="s2">&quot;clarity&quot;</span><span class="p">)</span>
 </pre></div>
 
