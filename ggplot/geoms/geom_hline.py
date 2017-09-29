@@ -28,7 +28,13 @@ class geom_hline(geom):
         (data, _aes) = self._update_data(data, _aes)
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
-        y = self.params.get('y')
+        y = self.params.get('yintercept')
+        # for backwards compatibility, allow setting 'y'
+        if y is None:
+            y = self.params.get('y')    
+        if y is None:
+            raise ValueError("yintercept is required for hline")
+        
         if is_iterable(y):
             for yi in y:
                 ax.axhline(yi, **params)
