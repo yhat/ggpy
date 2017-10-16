@@ -1,24 +1,24 @@
 # `ggplot` documentation
 
 ### Quickstart
-- [Intro to ggplot](./how-to/Intro to ggplot.ipynb)
+- [Intro to ggplot](./how-to/Intro%20to%20ggplot.ipynb)
 - [Gallery](./Gallery.ipynb)
 
 ### How To
-- [Annotating Plots - Titles and Labels](./how-to/Annotating Plots - Titles and Labels.ipynb)
-- [Building Faceted (or Trellised) Plots](./how-to/Building Faceted (or Trellised) Plots.ipynb)
-- [Color Swatches](./how-to/Color Swatches.ipynb)
-- [Customizing Colors](./how-to/Customizing Colors.ipynb)
-- [Customizing your x and y axis - Scaling and Coordinates](./how-to/Customizing your x and y axis - Scaling and Coordinates.ipynb)
-- [How to Make a Histogram](./how-to/How to Make a Histogram.ipynb)
-- [How to make xkcd style graphs](./how-to/How to make xkcd style graphs.ipynb)
-- [Layering Plots](./how-to/Layering Plots.ipynb)
-- [Look and Feel - Themes](./how-to/Look and Feel - Themes.ipynb)
-- [Making Multiple Plots](./how-to/Making Multiple Plots.ipynb)
-- [Making a Scatter Plot](./how-to/Making a Scatter Plot.ipynb)
-- [Plotting two variables as lines on the same graph](./how-to/Plotting two variables as lines on the same graph.ipynb)
-- [Saving Plots to a File](./how-to/Saving Plots to a File.ipynb)
-- [Visualizing Distributions](./how-to/Visualizing Distributions.ipynb)
+- [Annotating Plots - Titles and Labels](./how-to/Annotating%20Plots%20-%20Titles%20and%20Labels.ipynb)
+- [Building Faceted (or Trellised) Plots](./how-to/Building%20Faceted%20(or%20Trellised)%20Plots.ipynb)
+- [Color Swatches](./how-to/Color%20Swatches.ipynb)
+- [Customizing Colors](./how-to/Customizing%20Colors.ipynb)
+- [Customizing your x and y axis - Scaling and Coordinates](./how-to/Customizing%20your%20x%20and%20y%20axis%20-%20Scaling%20and%20Coordinates.ipynb)
+- [How to Make a Histogram](./how-to/How%20to%20Make%20a%20Histogram.ipynb)
+- [How to make xkcd style graphs](./how-to/How%20to%20make%20xkcd%20style%20graphs.ipynb)
+- [Layering Plots](./how-to/Layering%20Plots.ipynb)
+- [Look and Feel - Themes](./how-to/Look%20and%20Feel%20-%20Themes.ipynb)
+- [Making Multiple Plots](./how-to/Making%20Multiple%20Plots.ipynb)
+- [Making a Scatter Plot](./how-to/Making%20a%20Scatter%20Plot.ipynb)
+- [Plotting two variables as lines on the same graph](./how-to/Plotting%20two%20variables%20as%20lines%20on%20the%20same%20graph.ipynb)
+- [Saving Plots to a File](./how-to/Saving%20Plots%20to%20a%20File.ipynb)
+- [Visualizing Distributions](./how-to/Visualizing%20Distributions.ipynb)
 
 ### Plotting
 - [aesthetics](./plotting/aesthetics.ipynb)
