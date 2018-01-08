@@ -6,6 +6,7 @@ import matplotlib as mpl
 from matplotlib.colors import LinearSegmentedColormap
 
 import six
+import six.moves.urllib_parse as urllib
 import numpy as np
 import pandas as pd
 import warnings
@@ -16,7 +17,6 @@ from .themes import theme_gray
 from .themes import element_text
 from . import discretemappers
 from .utils import format_ticks, sorted_unique
-import urllib
 import base64
 import os
 
@@ -570,10 +570,10 @@ class ggplot(object):
         height: int, float
             height of the plot in inches
         """
-        imgdata = six.StringIO()
+        imgdata = six.BytesIO()
         self.save(imgdata, width=width, height=height, dpi=dpi)
         imgdata.seek(0)  # rewind the data
-        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.buf))
+        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.getvalue()))
         if as_tag==True:
             return '<img src = "%s"/>' % uri
         else:
