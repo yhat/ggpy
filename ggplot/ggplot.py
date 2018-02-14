@@ -573,7 +573,7 @@ class ggplot(object):
         imgdata = six.BytesIO()
         self.save(imgdata, width=width, height=height, dpi=dpi)
         imgdata.seek(0)  # rewind the data
-        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.buf))
+        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.read()))
         if as_tag==True:
             return '<img src = "%s"/>' % uri
         else:
