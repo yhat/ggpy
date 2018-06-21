@@ -78,7 +78,7 @@ def is_iterable(obj):
         return False
 
 date_types = (
-    pd.tslib.Timestamp,
+    pd.Timestamp,
     pd.DatetimeIndex,
     pd.Period,
     pd.PeriodIndex,
