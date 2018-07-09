@@ -51,7 +51,6 @@ class geom_text(geom):
         if is_date(x.iloc[0]):
             raise Exception("Can't do geom_text with a x-axis that is a date")
         else:
-            ax.plot(x, y)
             for (xi, yi, li) in zip(x, y, labels):
                 xi += self.params.get('hjust', 0.)
                 yi += self.params.get('vjust', 0.)
