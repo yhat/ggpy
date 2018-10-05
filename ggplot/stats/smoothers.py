@@ -11,7 +11,7 @@ import scipy.stats as stats
 import datetime
 
 date_types = (
-    pd.tslib.Timestamp,
+    pd.Timestamp,
     pd.DatetimeIndex,
     pd.Period,
     pd.PeriodIndex,
