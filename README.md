@@ -1,9 +1,18 @@
-# ggplot
+# ggplot - a maintained fork
 
-<img src="./examples/example-34d773b9-ec68-40b1-999b-7bb07c208be9.png" width="400px" />
-<img src="./examples/example-8f4fbffe-2999-42b0-9c34-de6f0b205733.png" width="400px" />
+## Why this fork?
+`ggplot` is no longer maintained by its owner and still has a bunch of issues which remain unsolved. Some of these include incompatibility with newer versions of `pandas` and Python 3.
 
-### What is it?
+Many projects still rely on `ggplot` and so here is a working copy of `ggplot` which is readily maintained and is open to updates and fixes.
+
+## Installation
+
+```bash
+$ pip3 install git+https://github.com/sushinoya/ggpy
+```
+
+
+## What is ggpy?
 `ggplot` is a Python implementation of the grammar of graphics. It is not intended
 to be a feature-for-feature port of [`ggplot2 for R`](https://github.com/hadley/ggplot2)--though 
 there is much greatness in `ggplot2`, the Python world could stand to benefit 
@@ -19,31 +28,3 @@ ggplot(diamonds, aes(x='price', color='clarity')) + \
     facet_wrap('cut')
 ```
 ![](./docs/example.png)
-
-### Installation
-```bash
-$ pip install -U ggplot
-# or 
-$ conda install -c conda-forge ggplot
-# or
-pip install git+https://github.com/yhat/ggplot.git
-```
-
-### Examples
-Examples are the best way to learn. There is a Jupyter Notebook full of them. 
-There are also notebooks that show how to do particular things with ggplot 
-(i.e. [make a scatter plot](./docs/how-to/Making%20a%20Scatter%20Plot.ipynb) or [make a histogram](./docs/how-to/Making%20a%20Scatter%20Plot.ipynb)).
-
-- [docs](./docs)
-- [gallery](./docs/Gallery.ipynb)
-- [various examples](./examples.md)
-
-
-### What happened to the old version that didn't work?
-It's gone--the windows, the doors, [everything](https://www.youtube.com/watch?v=YuxCKv_0GZc). 
-Just kidding, [you can find it here](https://github.com/yhat/ggplot/tree/v0.6.6), though I'm not sure why you'd want to look at it. The data grouping and manipulation bits were re-written
-(so they actually worked) with things like facets in mind.
-
-### Contributing
-Thanks to all of the ggplot [contributors](./contributors.md#contributors)!
-See *[contributing.md](./contributing.md)*.
