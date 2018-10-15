@@ -9,9 +9,10 @@ from .scales.scale_log import scale_x_log, scale_y_log
 import pandas as pd
 import six
 
+
 def qplot(x, y=None, color=None, size=None, fill=None, data=None,
-          geom="auto", stat=[], position=[], xlim=None, ylim=None, log="",
-          main=None, xlabel=None, ylabel="", asp=None):
+        geom="auto", stat=[], position=[], xlim=None, ylim=None, log="",
+        main=None, xlabel=None, ylabel="", asp=None):
     """
     Parameters
     ----------
@@ -67,8 +68,8 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
     >>> print qplot('mpg', data=mtcars, geom="hist", main="hist")
     >>> print qplot('mpg', data=mtcars, geom="histogram", main="histogram")
     >>> print qplot('cyl', 'mpg', data=mtcars, geom="bar", main="bar")
-    >>> print qplot('mpg', 'drat', data=mtcars, xlabel= "x lab", main="xlab")
-    >>> print qplot('mpg', 'drat', data=mtcars, ylabel = "y lab", main="ylab")
+    >>> print qplot('mpg', 'drat', data=mtcars, xlabel="x lab", main="xlab")
+    >>> print qplot('mpg', 'drat', data=mtcars, ylabel="y lab", main="ylab")
     """
 
     if x is not None and not isinstance(x, six.string_types):
