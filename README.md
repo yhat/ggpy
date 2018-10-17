@@ -1,16 +1,16 @@
-# ggplot - a maintained fork
+# ggplot - a working, maintained fork
 
 ## Why this fork?
-`ggplot` is no longer maintained by its owner and still has a bunch of issues which remain unsolved. Some of these include incompatibility with newer versions of `pandas` and Python 3.
+`ggplot` is a great python library. However, it is no longer maintained by its owner and still has a bunch of issues which remain unsolved. Some of these include incompatibility with newer versions of `pandas` and Python 3.
 
-Many projects still rely on `ggplot` and so here is a working copy of `ggplot` which is readily maintained and is open to updates and fixes.
+Many projects still rely on `ggplot` and many have to either move to alternatives or manually update `ggpy`'s code after installing it  to fix compatibility issues. To get a better context of the issue you can refer to [#654 Is this project dead?](https://github.com/yhat/ggpy/issues/654)
+
+This fork is a working copy of `ggplot` which is readily maintained and is open to updates and fixes so that developers do not have to make fixes manually.
 
 ## Installation
-
 ```bash
 $ pip3 install git+https://github.com/sushinoya/ggpy
 ```
-
 
 ## What is ggpy?
 `ggplot` is a Python implementation of the grammar of graphics. It is not intended
