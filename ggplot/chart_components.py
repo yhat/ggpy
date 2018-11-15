@@ -82,8 +82,8 @@ class ylim(object):
     --------
     >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylim(0, 5)
     """
-    def __init__(self, low = None, high = None):
-        if low != None :
+    def __init__(self, low=None, high=None):
+        if low is not None:
             try:
                 _ = low - 0
             except TypeError:

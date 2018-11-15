@@ -3,15 +3,15 @@ from __future__ import (absolute_import, division, print_function,
 
 from .ggplot import ggplot
 from .aes import aes
-from .chart_components import ggtitle, xlim, ylim, xlab, ylab, labs
-from .geoms import geom_point, geom_bar, geom_histogram, geom_line # , geom_boxplot
+from .chart_components import ggtitle, xlim, ylim, xlab, ylab
+from .geoms import geom_point, geom_bar, geom_histogram, geom_line  #geom_boxplot
 from .scales.scale_log import scale_x_log, scale_y_log
 import pandas as pd
 import six
 
 
 def qplot(x, y=None, color=None, size=None, fill=None, data=None,
-        geom="auto", stat=[], position=[], xlim=None, ylim=None, log="",
+        geom="auto", stat=[], position=[], xlimit=None, ylimit=None, log="",
         main=None, xlabel=None, ylabel="", asp=None):
     """
     Parameters
@@ -34,9 +34,9 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
         specifies which statistics to use
     position: list
         gives position adjustment to use
-    xlim: tuple
+    xlimit: tuple
         limits on x axis; i.e. (0, 10)
-    ylim: tuple, None
+    ylimit: tuple, None
         limits on y axis; i.e. (0, 10)
     log: string
         which variables to log transform ("x", "y", or "xy")
@@ -99,7 +99,7 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
         "point": geom_point,
     }
     # taking our best guess
-    if geom=="auto":
+    if geom == "auto":
         if y is None:
             geom = geom_histogram
         else:
@@ -116,6 +116,10 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
         p += xlab(xlabel)
     if ylabel:
         p += ylab(ylabel)
+    if xlimit:
+        p += xlim(*tuple(xlimit))
+    if ylimit:
+        p += ylim(*tuple(ylimit))
     if main:
         p += ggtitle(main)
     return p
