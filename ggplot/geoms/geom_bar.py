@@ -111,13 +111,13 @@ class geom_bar(geom):
                     height = 1.0
                     ypos = 0
                 else:
-                    mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']]==fillval)
+                    mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']] == fillval)
                     height = lookups[mask]['__calc_weight__'].sum()
                     mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']] < fillval)
                     ypos = lookups[mask]['__calc_weight__'].sum()
             else:
                 if fill_levels is not None:
-                    dodge = (width * fill_idx)
+                    dodge = width * fill_idx
                 else:
                     dodge = width
                 ypos = 0.0

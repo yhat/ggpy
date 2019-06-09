@@ -8,10 +8,9 @@ import difflib
 
 from patsy.eval import EvalEnvironment
 
-from . import utils
-
 import numpy as np
 import pandas as pd
+
 
 class aes(UserDict):
     """
@@ -72,7 +71,7 @@ class aes(UserDict):
         self.__eval_env__ = EvalEnvironment.capture(1)
 
     def __deepcopy__(self, memo):
-        '''deepcopy support for ggplot'''
+        """deepcopy support for ggplot"""
         result = aes()
         for key, item in self.__dict__.items():
             # don't make a deepcopy of the env!

@@ -1,12 +1,12 @@
+from __future__ import print_function
 from ggplot import *
 import os
-import sys
 import string
 import datetime
 import pandas as pd
 import numpy as np
 import random
-import re
+
 
 np.random.seed(10)
 random.seed(10)
@@ -153,4 +153,4 @@ test("facet_wrap with continuous x and y scales", ggplot(diamonds, aes(x='carat'
 test("facet_grid with color brewer", ggplot(diamonds, aes(x='carat', y='price', shape='cut', color='clarity')) + geom_point() + scale_color_brewer() + facet_grid(x='color'))
 
 html += "\n\t</body>\n</html>"
-print html
+print(html)

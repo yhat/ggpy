@@ -1,21 +1,21 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
+import datetime
 import matplotlib.cbook as cbook
 import numpy as np
 import pandas as pd
-import datetime
 
 
 def format_ticks(ticks):
     are_ints = True
     for t in ticks:
         try:
-            if int(t)!=t:
+            if int(t) != t:
                 are_ints = False
         except:
             return ticks
 
-    if are_ints==True:
+    if are_ints:
         return [int(t) for t in ticks]
 
     return ticks
@@ -59,16 +59,11 @@ def is_categorical(obj):
         - booleans
     """
     try:
-        float(obj.iloc[0])
-        return False
+        k = float(obj.iloc[0])
+        return is_sequence_of_strings(k) or is_sequence_of_booleans(k)
     except:
         return True
 
-    if is_sequence_of_strings(obj):
-        return True
-    if is_sequence_of_booleans(obj):
-        return True
-    return False
 
 def is_iterable(obj):
     try:
@@ -77,8 +72,9 @@ def is_iterable(obj):
     except:
         return False
 
+
 date_types = (
-    pd.tslib.Timestamp,
+    pd.Timestamp,
     pd.DatetimeIndex,
     pd.Period,
     pd.PeriodIndex,
@@ -86,16 +82,19 @@ date_types = (
     datetime.time
 )
 
+
 def is_date(x):
     return isinstance(x, date_types)
 
+
 def calc_n_bins(series):
-    "https://en.wikipedia.org/wiki/Histogram#Number_of_bins_and_width"
-    q75, q25 = np.percentile(series, [75 , 25])
+    """https://en.wikipedia.org/wiki/Histogram#Number_of_bins_and_width"""
+    q75, q25 = np.percentile(series, [75, 25])
     iqr = q75 - q25
     h = (2 * iqr) / (len(series)**(1/3.))
     k = (series.max() - series.min()) / h
     return k
+
 
 def sorted_unique(series):
     """Return the unique values of *series*, correctly sorted."""

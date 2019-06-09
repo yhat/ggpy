@@ -140,7 +140,7 @@ class ylab(object):
 
     Examples
     --------
-    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylab("Count\n(# of cars)")
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylab('''Count\n(# of cars)''')
     """
     def __init__(self, ylab):
         if ylab is None:
@@ -169,7 +169,7 @@ class labs(object):
 
     Examples
     --------
-    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + labs("Miles / gallon", "Count\n(# of cars)", "MPG Plot")
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + labs("Miles / gallon", '''Count\n(# of cars)''', "MPG Plot")
     """
     def __init__(self, x=None, y=None, title=None):
         self.x = x
