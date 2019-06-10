@@ -600,7 +600,7 @@ class ggplot(object):
             if 'fill' in self._aes:
                 fillcol_raw = self._aes['fill'][:-5]
                 fillcol = self._aes['fill']
-                fill_levels = self.data[[fillcol_raw, fillcol]].sort(fillcol_raw)[fillcol].unique()
+                fill_levels = self.data[[fillcol_raw, fillcol]].sort_values(by=fillcol_raw)[fillcol].unique()
             else:
                 fill_levels = None
             return dict(x_levels=self.data[self._aes['x']].unique(), fill_levels=fill_levels, lookups=df)
