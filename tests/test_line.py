@@ -1,3 +1,4 @@
+from __future__ import print_function
 from ggplot import *
 import pandas as pd
 import numpy as np
@@ -11,5 +12,5 @@ df = pd.DataFrame({
     'y': np.arange(100)
 })
 
-print ggplot(df, aes(x='x', y='y')) + geom_line()
-print ggplot(df, aes(x='x', y='y')) + geom_path()
+print(ggplot(df, aes(x='x', y='y')) + geom_line())
+print(ggplot(df, aes(x='x', y='y')) + geom_path())

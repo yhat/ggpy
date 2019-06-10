@@ -27,8 +27,8 @@ class geom_violin(geom):
         variables = _aes.data
 
         xticks = []
-        for (i, xvalue) in enumerate(x_levels):
-            subset = data[data[variables['x']]==xvalue]
+        for i, xvalue in enumerate(x_levels):
+            subset = data[data[variables['x']] == xvalue]
             yi = subset[variables['y']].values
 
             # so this is weird, apparently violinplot is *the only plot that

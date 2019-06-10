@@ -23,6 +23,7 @@ import os
 if os.environ.get("GGPLOT_DEV"):
     from PIL import Image
 
+
 class ggplot(object):
     """
     ggplot is the base layer or object that you use to define
@@ -192,13 +193,13 @@ class ggplot(object):
                     warnings.warn(msg, RuntimeWarning)
 
     def apply_coords(self):
-        if self.coords=="equal":
+        if self.coords == "equal":
             for ax in self._iterate_subplots():
                 min_val = np.min([np.min(ax.get_yticks()), np.min(ax.get_xticks())])
                 max_val = np.max([np.max(ax.get_yticks()), np.max(ax.get_xticks())])
                 ax.set_xticks(np.linspace(min_val, max_val, 7))
                 ax.set_yticks(np.linspace(min_val, max_val, 7))
-        elif self.coords=="flip":
+        elif self.coords == "flip":
             if 'x' in self._aes.data and 'y' in self._aes.data:
                 x = self._aes.data['x']
                 y = self._aes.data['y']
@@ -337,17 +338,17 @@ class ggplot(object):
         from "a" => "#4682B4".
         """
         mapping = None
-        if aes_type=="color":
+        if aes_type == "color":
             mapping = discretemappers.color_gen(self.data[colname].nunique(), colors=self.manual_color_list)
-        elif aes_type=="fill":
+        elif aes_type == "fill":
             mapping = discretemappers.color_gen(self.data[colname].nunique(), colors=self.manual_fill_list)
-        elif aes_type=="shape":
+        elif aes_type == "shape":
             mapping = discretemappers.shape_gen()
-        elif aes_type=="linetype":
+        elif aes_type == "linetype":
             mapping = discretemappers.linetype_gen()
-        elif aes_type=="size":
+        elif aes_type == "size":
             mapping = discretemappers.size_gen(self.data[colname].unique())
-        elif aes_type=="group":
+        elif aes_type == "group":
             mapping = discretemappers.identity_gen(self.data[colname].unique())
         return mapping
 
@@ -425,11 +426,11 @@ class ggplot(object):
         "Creates figure and axes for m x n facet grid/wrap"
         sharex, sharey = True, True
         if self.facets:
-            if self.facets.scales=="free":
+            if self.facets.scales == "free":
                 sharex, sharey = False, False
-            elif self.facets.scales=="free_x":
+            elif self.facets.scales == "free_x":
                 sharex, sharey = False, True
-            elif self.facets.scales=="free_y":
+            elif self.facets.scales == "free_y":
                 sharex, sharey = True, False
 
         facet_params = dict(sharex=sharex, sharey=sharey)
@@ -438,7 +439,7 @@ class ggplot(object):
         facet_params['nrows'] = nrow
         facet_params['ncols'] = ncol
 
-        if self.coords=="polar":
+        if self.coords == "polar":
             facet_params['subplot_kw'] = { "polar": True }
 
         fig, axs = plt.subplots(**facet_params)
@@ -463,7 +464,8 @@ class ggplot(object):
 
         col_variable = self.facets.colvar
         row_variable = self.facets.rowvar
-        if self.facets.is_wrap==True:
+        font = {'fontsize': 10}
+        if self.facets.is_wrap:
             groups = [row_variable, col_variable]
             groups = [g for g in groups if g]
             for (i, (name, subgroup)) in enumerate(group.groupby(groups)):
@@ -472,12 +474,11 @@ class ggplot(object):
                 #  this only happens when a field is being used both as a facet parameter AND as a discrete aesthetic (i.e. shape)
                 row, col = self.facets.facet_map[name]
 
-                if len(self.subplots.shape)==1:
+                if len(self.subplots.shape) == 1:
                     ax = self.subplots[i]
                 else:
                     ax = self.get_subplot(row, col)
 
-                font = { 'fontsize': 10 }
                 yield (ax, subgroup)
 
             for item in self.facets.generate_subplot_index(self.data, self.facets.rowvar, self.facets.colvar):
@@ -510,7 +511,7 @@ class ggplot(object):
             for (_, (colname, subgroup)) in enumerate(group.groupby(col_variable)):
                 row, col = self.facets.facet_map[colname]
                 ax = self.subplots[col]
-                if self.facets.is_wrap==True:
+                if self.facets.is_wrap:
                     ax.set_title("%s=%s" % (col_variable, colname))
                 else:
                     ax.set_title(colname, fontdict={'fontsize': 10})
@@ -520,7 +521,7 @@ class ggplot(object):
             for (row, (rowname, subgroup)) in enumerate(group.groupby(row_variable)):
                 row, col = self.facets.facet_map[rowname]
 
-                if self.facets.is_wrap==True:
+                if self.facets.is_wrap:
                     ax = self.subplots[row]
                     ax.set_title("%s=%s" % (row_variable, rowname))
                 else:
@@ -570,11 +571,11 @@ class ggplot(object):
         height: int, float
             height of the plot in inches
         """
-        imgdata = six.StringIO()
+        imgdata = six.BytesIO()
         self.save(imgdata, width=width, height=height, dpi=dpi)
         imgdata.seek(0)  # rewind the data
-        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.buf))
-        if as_tag==True:
+        uri = 'data:image/png;base64,' + urllib.quote(base64.b64encode(imgdata.read()))
+        if as_tag:
             return '<img src = "%s"/>' % uri
         else:
             return uri
@@ -585,7 +586,7 @@ class ggplot(object):
         function on them. This function performs those perperations and then
         returns a dictionary of **kwargs for the layer.plot function to use.
         """
-        if layer.__class__.__name__=="geom_bar":
+        if layer.__class__.__name__ == "geom_bar":
             mask = True
             df = layer.setup_data(self.data, self._aes, facets=self.facets)
             if df is None:
@@ -593,13 +594,13 @@ class ggplot(object):
             if self.facets:
                 facet_filter = facetgroup[self.facets.facet_cols].iloc[0].to_dict()
                 for k, v in facet_filter.items():
-                    mask = (mask) & (df[k]==v)
+                    mask = mask & (df[k] == v)
                 df = df[mask]
 
             if 'fill' in self._aes:
                 fillcol_raw = self._aes['fill'][:-5]
                 fillcol = self._aes['fill']
-                fill_levels = self.data[[fillcol_raw, fillcol]].sort(fillcol_raw)[fillcol].unique()
+                fill_levels = self.data[[fillcol_raw, fillcol]].sort_values(by=fillcol_raw)[fillcol].unique()
             else:
                 fill_levels = None
             return dict(x_levels=self.data[self._aes['x']].unique(), fill_levels=fill_levels, lookups=df)
@@ -610,7 +611,7 @@ class ggplot(object):
             return dict()
 
     def make(self):
-        "Constructs the plot using the methods. This is the 'main' for ggplot"
+        """Constructs the plot using the methods. This is the 'main' for ggplot"""
         plt.close()
         with mpl.rc_context():
             self.apply_theme()
@@ -619,8 +620,8 @@ class ggplot(object):
                 self.fig, self.subplots = self.make_facets()
             else:
                 subplot_kw = {}
-                if self.coords=="polar":
-                    subplot_kw = { "polar": True }
+                if self.coords == "polar":
+                    subplot_kw = {"polar": True}
                 self.fig, self.subplots = plt.subplots(subplot_kw=subplot_kw)
 
             self.apply_scales()
@@ -631,7 +632,7 @@ class ggplot(object):
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
                         kwargs = self._prep_layer_for_plotting(layer, facetgroup)
-                        if kwargs==False:
+                        if not kwargs:
                             continue
                         layer.plot(ax, facetgroup, self._aes, **kwargs)
 

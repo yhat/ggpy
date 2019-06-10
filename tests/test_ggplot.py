@@ -127,32 +127,32 @@ class TestGgplot(unittest.TestCase):
     def test_scale_alpha_identity(self):
         df = pd.DataFrame({'x': range(10), 'the-alpha': '+' })
         p = gg.ggplot(gg.aes(x='x', alpha='the-alpha'), df) + gg.scale_alpha_identity()
-        self.assertTrue((p.data['the-alpha']==df['the-alpha']).all())
+        self.assertTrue((p.data['the-alpha'] == df['the-alpha']).all())
 
     def test_scale_color_identity(self):
         df = pd.DataFrame({'x': range(10), 'the-color': 'blue' })
         p = gg.ggplot(gg.aes(x='x', color='the-color'), df) + gg.scale_color_identity()
-        self.assertTrue((p.data['the-color']==df['the-color']).all())
+        self.assertTrue((p.data['the-color'] == df['the-color']).all())
 
     def test_scale_fill_identity(self):
         df = pd.DataFrame({'x': range(10), 'the-fill': '+' })
         p = gg.ggplot(gg.aes(x='x', fill='the-fill'), df) + gg.scale_fill_identity()
-        self.assertTrue((p.data['the-fill']==df['the-fill']).all())
+        self.assertTrue((p.data['the-fill'] == df['the-fill']).all())
 
     def test_scale_linetype_identity(self):
         df = pd.DataFrame({'x': range(10), 'the-linetype': '+' })
         p = gg.ggplot(gg.aes(x='x', linetype='the-linetype'), df) + gg.scale_linetype_identity()
-        self.assertTrue((p.data['the-linetype']==df['the-linetype']).all())
+        self.assertTrue((p.data['the-linetype'] == df['the-linetype']).all())
 
     def test_scale_shape_identity(self):
         df = pd.DataFrame({'x': range(10), 'the-shape': '+' })
         p = gg.ggplot(gg.aes(x='x', shape='the-shape'), df) + gg.scale_shape_identity()
-        self.assertTrue((p.data['the-shape']==df['the-shape']).all())
+        self.assertTrue((p.data['the-shape'] == df['the-shape']).all())
 
     def test_scale_size_identity(self):
         df = pd.DataFrame({'x': range(10), 'the-size': '+' })
         p = gg.ggplot(gg.aes(x='x', size='the-size'), df) + gg.scale_size_identity()
-        self.assertTrue((p.data['the-size']==df['the-size']).all())
+        self.assertTrue((p.data['the-size'] == df['the-size']).all())
 
     def test_scale_x_reverse(self):
         df = pd.DataFrame({'x': range(10), 'the-size': '+' })

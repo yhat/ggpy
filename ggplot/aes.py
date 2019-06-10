@@ -8,10 +8,9 @@ import difflib
 
 from patsy.eval import EvalEnvironment
 
-from . import utils
-
 import numpy as np
 import pandas as pd
+
 
 class aes(UserDict):
     """
@@ -72,7 +71,7 @@ class aes(UserDict):
         self.__eval_env__ = EvalEnvironment.capture(1)
 
     def __deepcopy__(self, memo):
-        '''deepcopy support for ggplot'''
+        """deepcopy support for ggplot"""
         result = aes()
         for key, item in self.__dict__.items():
             # don't make a deepcopy of the env!
@@ -122,7 +121,7 @@ class aes(UserDict):
         for aes_type, column in self.data.items():
             if aes_type in ['x', 'y']:
                 continue
-            elif aes_type=="group":
+            elif aes_type == "group":
                 discrete_aes.append((aes_type, column))
             elif column not in non_numeric_columns:
                 continue

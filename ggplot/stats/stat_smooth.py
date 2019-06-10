@@ -86,7 +86,7 @@ class stat_smooth(geom):
             params['alpha'] = 0.2
 
         order = np.argsort(x)
-        if self.params.get('se', True)==True:
+        if self.params.get('se', True):
             if is_date(smoothed_data.x.iloc[0]):
                 dtype = smoothed_data.x.iloc[0].__class__
                 x = np.array([i.toordinal() for i in smoothed_data.x])
@@ -95,6 +95,6 @@ class stat_smooth(geom):
                 ax.set_xticklabels(new_ticks)
             else:
                 ax.fill_between(smoothed_data.x, smoothed_data.y1, smoothed_data.y2, **params)
-        if self.params.get('fit', True)==True:
+        if self.params.get('fit', True):
             del params['alpha']
             ax.plot(smoothed_data.x, smoothed_data.y, **params)
