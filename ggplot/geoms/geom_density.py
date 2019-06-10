@@ -49,6 +49,6 @@ class geom_density(geom):
         params = self._get_plot_args(data, _aes)
         variables = _aes.data
         x = data[variables['x']]
-        x = x[x.isnull()==False]
+        x = x[x.isnull() is False]
         x, y = self._calculate_density(x)
         ax.plot(x, y, **params)

@@ -121,7 +121,7 @@ class aes(UserDict):
         for aes_type, column in self.data.items():
             if aes_type in ['x', 'y']:
                 continue
-            elif aes_type=="group":
+            elif aes_type == "group":
                 discrete_aes.append((aes_type, column))
             elif column not in non_numeric_columns:
                 continue

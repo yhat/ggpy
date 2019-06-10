@@ -50,7 +50,7 @@ class theme_base(object):
         pass
 
     def __radd__(self, other):
-        if other.__class__.__name__=="ggplot":
+        if other.__class__.__name__ == "ggplot":
             other.theme = self
             return other
 
@@ -124,7 +124,7 @@ class theme(theme_base):
         self.things = deepcopy(kwargs)
 
     def __radd__(self, other):
-        if other.__class__.__name__=="ggplot":
+        if other.__class__.__name__ == "ggplot":
             other.theme = self
             for key, value in self.things.items():
                 try:

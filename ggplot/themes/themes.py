@@ -1,15 +1,18 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
+
+from copy import deepcopy, copy
+
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from cycler import cycler
+
 
 class theme(object):
     def __init__(self):
         self._rcParams = {}
 
     def __radd__(self, other):
-        if other.__class__.__name__=="ggplot":
+        if other.__class__.__name__ == "ggplot":
             other.theme = self
             return other
 

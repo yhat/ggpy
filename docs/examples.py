@@ -103,7 +103,7 @@ p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 df = pd.DataFrame({"x": np.arange(1000)})
 df['y_low'] = df.x * 0.9
 df['y_high'] = df.x * 1.1
-df['thing'] = ['a' if i%2==0 else 'b' for i in df.x]
+df['thing'] = ['a' if i % 2 == 0 else 'b' for i in df.x]
 p = ggplot(df, aes(x='x', ymin='y_low', ymax='y_high')) + geom_area()
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 # # area w/ facet
@@ -131,7 +131,7 @@ p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
 df = pd.DataFrame({"x": np.arange(100)})
 df['y'] = df.x * 10
-df['z'] = ["a" if x%2==0 else "b" for x in df.x]
+df['z'] = ["a" if x % 2 == 0 else "b" for x in df.x]
 #
 # # polar coords
 p = ggplot(df, aes(x='x', y='y')) + geom_point() + coord_polar()
@@ -158,7 +158,7 @@ p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #
 # # # x dates formatting faceted
-pageviews['z'] = ["a" if i%2==0 else "b" for i in range(len(pageviews))]
+pageviews['z'] = ["a" if i % 2 == 0 else "b" for i in range(len(pageviews))]
 p = ggplot(pageviews, aes(x='date_hour', y='pageviews')) + geom_line() + scale_x_date(labels=date_format('%B %-d, %Y')) + facet_grid(y='z')
 p.save("./examples/example-" + str(uuid.uuid4()) + ".png")
 #

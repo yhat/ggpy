@@ -43,7 +43,7 @@ class geom_area(geom):
         if self.last_y is None:
             self.last_y = pd.Series(np.repeat(0, len(data)))
         ymin = self.last_y
-        if self.DEFAULT_PARAMS['position']=="stack":
+        if self.DEFAULT_PARAMS['position'] == "stack":
             ymax = self.last_y.reset_index(drop=True) + data[variables['y']].reset_index(drop=True)
         else:
             ymax = data[variables['y']]

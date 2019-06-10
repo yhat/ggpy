@@ -69,10 +69,10 @@ df = pd.DataFrame({
     "g": ["a", "a", "a", "a"] + ["b", "b", "b", "b"]
 })
 
-test("geom_polygon basic", ggplot(df[df.g=="a"], aes(x='x', y='y')) + geom_polygon())
+test("geom_polygon basic", ggplot(df[df.g == "a"], aes(x='x', y='y')) + geom_polygon())
 test("geom_polygon fill", ggplot(df, aes(x='x', y='y', fill='g')) + geom_polygon())
 test("geom_polygon color", ggplot(df, aes(x='x', y='y', color='g')) + geom_polygon())
-test("geom_polygon with alpha parameter", ggplot(df[df.g=="b"], aes(x='x', y='y')) + geom_polygon(alpha=0.25))
+test("geom_polygon with alpha parameter", ggplot(df[df.g == "b"], aes(x='x', y='y')) + geom_polygon(alpha=0.25))
 test("geom_polygon linetype and size parameters", ggplot(df, aes(x='x', y='y', color='g')) + geom_polygon(linetype='dashed', size=10))
 
 # geom_errorbar

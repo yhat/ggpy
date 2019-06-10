@@ -59,8 +59,8 @@ def is_categorical(obj):
         - booleans
     """
     try:
-        k = float(obj.iloc[0])
-        return is_sequence_of_strings(k) or is_sequence_of_booleans(k)
+        float(obj.iloc[0])
+        return is_sequence_of_strings(obj) or is_sequence_of_booleans(obj)
     except:
         return True
 

@@ -10,4 +10,4 @@ df = pd.DataFrame({
 
 print(ggplot(df, aes(x='x', y='y', fill='g')) + geom_polygon())
 print(ggplot(df, aes(x='x', y='y', color='g')) + geom_polygon())
-print(ggplot(df[df.g=="b"], aes(x='x', y='y')) + geom_polygon(alpha=0.25, linetype='dashed'))
+print(ggplot(df[df.g == "b"], aes(x='x', y='y')) + geom_polygon(alpha=0.25, linetype='dashed'))

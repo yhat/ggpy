@@ -37,8 +37,8 @@ class geom_step(geom):
         y = data[variables['y']]
 
         nulls = (x.isnull() | y.isnull())
-        x = x[nulls==False]
-        y = y[nulls==False]
+        x = x[nulls is False]
+        y = y[nulls is False]
 
         xs = [None] * (2 * (len(x)-1))
         ys = [None] * (2 * (len(x)-1))

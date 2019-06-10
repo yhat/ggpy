@@ -44,17 +44,17 @@ def linetype_legend(linetype):
     return plt.Line2D([0],[0], color='black', linestyle=linetype)
 
 def make_aesthetic_legend(aesthetic, value):
-    if aesthetic=='color':
+    if aesthetic == 'color':
         return color_legend(value)
-    elif aesthetic=='fill':
+    elif aesthetic == 'fill':
         return color_legend(value)
-    elif aesthetic=='size':
+    elif aesthetic == 'size':
         return size_legend(value)
-    elif aesthetic=='alpha':
+    elif aesthetic == 'alpha':
         return alpha_legend(value)
-    elif aesthetic=='shape':
+    elif aesthetic == 'shape':
         return shape_legend(value)
-    elif aesthetic=='linetype':
+    elif aesthetic == 'linetype':
         return linetype_legend(value)
     else:
         print(aesthetic + " not found")

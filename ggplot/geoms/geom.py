@@ -59,7 +59,7 @@ class geom(object):
         for key, value in _aes.items():
             if value not in data:
                 mpl_params[key] = value
-            elif data[value].nunique()==1:
+            elif data[value].nunique() == 1:
                 mpl_params[key] = data[value].iloc[0]
             else:
                 mpl_params[key] = data[value]

@@ -20,7 +20,7 @@ class Facet(object):
         # assign subplot indices to rowvars and columnvars
         self.ndim = ndim = self.calculate_ndimensions(data, rowvar, colvar)
 
-        if is_wrap==True:
+        if is_wrap:
             if self.nrow:
                 self.ncol = ncol = int(math.ceil(ndim / float(self.nrow)))
                 self.nrow = nrow = int(self.nrow)
@@ -47,9 +47,9 @@ class Facet(object):
                     value = next(facet_values)
                 except Exception as e:
                     continue
-                if ncol==1:
+                if ncol == 1:
                     self.facet_map[value] = (row, None)
-                elif nrow==1:
+                elif nrow == 1:
                     self.facet_map[value] = (None, col)
                 else:
                     self.facet_map[value] = (row, col)
@@ -119,11 +119,12 @@ class facet_wrap(object):
         self.scales = scales
 
     def __radd__(self, gg):
-        if gg.__class__.__name__=="ggplot":
+        if gg.__class__.__name__ == "ggplot":
             gg.facets = Facet(gg.data, True, self.x_var, self.y_var, nrow=self.nrow, ncol=self.ncol, scales=self.scales)
             return gg
 
         return self
+
 
 class facet_grid(object):
     """
@@ -155,7 +156,7 @@ class facet_grid(object):
         self.scales = scales
 
     def __radd__(self, gg):
-        if gg.__class__.__name__=="ggplot":
+        if gg.__class__.__name__ == "ggplot":
             gg.facets = Facet(gg.data, False, self.x_var, self.y_var, scales=self.scales)
             return gg
         return self

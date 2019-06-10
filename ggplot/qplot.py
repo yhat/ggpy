@@ -101,7 +101,7 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
         "point": geom_point,
     }
     # taking our best guess
-    if geom=="auto":
+    if geom == "auto":
         if y is None:
             geom = geom_histogram
         else:

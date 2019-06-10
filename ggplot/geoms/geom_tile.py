@@ -55,7 +55,7 @@ class geom_tile(geom):
         counts = data[[weight, variables['x'] + "_cut", variables['y'] + "_cut"]].groupby([variables['x'] + "_cut", variables['y'] + "_cut"]).count().fillna(0)
         weighted = data[[weight, variables['x'] + "_cut", variables['y'] + "_cut"]].groupby([variables['x'] + "_cut", variables['y'] + "_cut"]).sum().fillna(0)
 
-        if self.params['interpolate']==False:
+        if self.params['interpolate'] is False:
             def get_xy():
                 for x in x_bins:
                     for y in y_bins:
