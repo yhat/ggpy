@@ -3,17 +3,16 @@ from __future__ import (absolute_import, division, print_function,
 
 from .ggplot import ggplot
 from .aes import aes
-from .chart_components import ggtitle, xlim, ylim, xlab, ylab, labs
-from .geoms import geom_point, geom_bar, geom_histogram, geom_line # , geom_boxplot
+from .chart_components import ggtitle, xlim, ylim, xlab, ylab
+from .geoms import geom_point, geom_bar, geom_histogram, geom_line  #geom_boxplot
 from .scales.scale_log import scale_x_log, scale_y_log
 import pandas as pd
-import numpy as np
 import six
 
 
 def qplot(x, y=None, color=None, size=None, fill=None, data=None,
-        geom="auto", stat=[], position=[], xlim=None, ylim=None, log="",
-        main=None, xlab=None, ylab="", asp=None):
+        geom="auto", stat=[], position=[], xlimit=None, ylimit=None, log="",
+        main=None, xlabel=None, ylabel="", asp=None):
     """
     Parameters
     ----------
@@ -35,17 +34,17 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
         specifies which statistics to use
     position: list
         gives position adjustment to use
-    xlim: tuple
+    xlimit: tuple
         limits on x axis; i.e. (0, 10)
-    ylim: tuple, None
+    ylimit: tuple, None
         limits on y axis; i.e. (0, 10)
     log: string
         which variables to log transform ("x", "y", or "xy")
     main: string
         title for the plot
-    xlab: string
+    xlabel: string
         title for the x axis
-    ylab: string
+    ylabel: string
         title for the y axis
     asp: string
         the y/x aspect ratio
@@ -69,8 +68,8 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
     >>> print qplot('mpg', data=mtcars, geom="hist", main="hist")
     >>> print qplot('mpg', data=mtcars, geom="histogram", main="histogram")
     >>> print qplot('cyl', 'mpg', data=mtcars, geom="bar", main="bar")
-    >>> print qplot('mpg', 'drat', data=mtcars, xlab= "x lab", main="xlab")
-    >>> print qplot('mpg', 'drat', data=mtcars, ylab = "y lab", main="ylab")
+    >>> print qplot('mpg', 'drat', data=mtcars, xlabel="x lab", main="xlab")
+    >>> print qplot('mpg', 'drat', data=mtcars, ylabel="y lab", main="ylab")
     """
 
     if x is not None and not isinstance(x, six.string_types):
@@ -79,7 +78,6 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
     if y is not None and not isinstance(y, six.string_types):
         data['y'] = y
         y = 'y'
-
 
     aes_elements = {"x": x}
     if y:
@@ -114,10 +112,14 @@ def qplot(x, y=None, color=None, size=None, fill=None, data=None,
         p += scale_x_log()
     if "y" in log:
         p += scale_y_log()
-    if xlab:
-        p += xlabel(xlab)
-    if ylab:
-        p += ylabel(ylab)
+    if xlabel:
+        p += xlab(xlabel)
+    if ylabel:
+        p += ylab(ylabel)
+    if xlimit:
+        p += xlim(*tuple(xlimit))
+    if ylimit:
+        p += ylim(*tuple(ylimit))
     if main:
         p += ggtitle(main)
     return p
