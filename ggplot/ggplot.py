@@ -632,7 +632,7 @@ class ggplot(object):
                 for ax, facetgroup in self.get_facet_groups(group):
                     for layer in self.layers:
                         kwargs = self._prep_layer_for_plotting(layer, facetgroup)
-                        if kwargs is False:
+                        if not kwargs:
                             continue
                         layer.plot(ax, facetgroup, self._aes, **kwargs)
 

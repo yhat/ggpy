@@ -42,7 +42,7 @@ class geom_histogram(geom):
 
         variables = _aes.data
         x = data[variables['x']]
-        x = x[x.isnull() is False]
+        x = x[x.isnull()  == False]
 
         if 'binwidth' in self.params:
             params['bins'] = np.arange(np.min(x), np.max(x) + self.params['binwidth'], self.params['binwidth'])
