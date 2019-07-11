@@ -91,9 +91,9 @@ class geom_bar(geom):
 
         xticks = []
         for i, x_level in enumerate(x_levels):
-            mask = data[variables['x']]==x_level
+            mask = data[variables['x']] == x_level
             row = data[mask]
-            if len(row)==0:
+            if len(row) == 0:
                 xticks.append(i)
                 continue
 
@@ -111,19 +111,19 @@ class geom_bar(geom):
                     height = 1.0
                     ypos = 0
                 else:
-                    mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']]==fillval)
+                    mask = (lookups[variables['x']] == x_level) & (lookups[variables['fill']] == fillval)
                     height = lookups[mask]['__calc_weight__'].sum()
-                    mask = (lookups[variables['x']]==x_level) & (lookups[variables['fill']] < fillval)
+                    mask = (lookups[variables['x']] == x_level) & (lookups[variables['fill']] < fillval)
                     ypos = lookups[mask]['__calc_weight__'].sum()
             else:
                 if fill_levels is not None:
-                    dodge = (width * fill_idx)
+                    dodge = width * fill_idx
                 else:
                     dodge = width
                 ypos = 0.0
                 height = row[weight_col].sum()
 
-            xy = (dodge + i  - fill_x_adjustment, ypos)
+            xy = (dodge + i - fill_x_adjustment, ypos)
 
             ax.add_patch(patches.Rectangle(xy, width, height, **params))
             if fill_levels is not None:

@@ -1,9 +1,11 @@
+from __future__ import print_function
 from ggplot import *
 import numpy as np
 import pandas as pd
 
+
 p = ggplot(meat, aes(x='date', y='beef')) + geom_step()
-print p
+print(p)
 
 
 df = pd.DataFrame({
@@ -14,10 +16,10 @@ df = pd.DataFrame({
 
 df.y = df.y.cumsum()
 p = ggplot(df, aes(x='x', y='y')) + geom_step()
-print p
+print(p)
 
 p = ggplot(df, aes(x='x', y='y', color='z')) + geom_step()
-print p
+print(p)
 
 p = ggplot(df, aes(x='x', y='y')) + geom_step() + facet_wrap("z")
-print p
+print(p)

@@ -30,7 +30,7 @@ class scale_color_gradient(scale):
     Examples
     --------
     >>> from ggplot import *
-    >>> diamons_premium = diamonds[diamonds.cut=='Premium']
+    >>> diamons_premium = diamonds[diamonds.cut == 'Premium']
     >>> gg = ggplot(diamons_premium, aes(x='depth', y='carat', colour='price')) + \\
     ...     geom_point()
     >>> print(gg + scale_colour_gradient(low='red', mid='white', high='blue', limits=[4000,6000]) + \\

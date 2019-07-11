@@ -1,9 +1,11 @@
+from __future__ import print_function
 from ggplot import *
+
 
 p = ggplot(mtcars, aes(x='wt', y='mpg', label='name', color='factor(cyl)')) + geom_text()
 
-print p
-print p + geom_point()
+print(p)
+print(p + geom_point())
 
 # import matplotlib.pyplot as plt
 # from ggplot import mtcars

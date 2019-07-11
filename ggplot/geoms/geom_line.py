@@ -37,8 +37,8 @@ class geom_line(geom):
         y = data[variables['y']]
 
         nulls = (x.isnull() | y.isnull())
-        x = x[nulls==False]
-        y = y[nulls==False]
+        x = x[nulls  == False]
+        y = y[nulls  == False]
 
         if self.is_path:
             pass

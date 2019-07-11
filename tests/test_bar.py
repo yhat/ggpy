@@ -1,3 +1,4 @@
+from __future__ import print_function
 from ggplot import *
 import pandas as pd
 import numpy as np
@@ -11,56 +12,56 @@ df = pd.DataFrame({
 })
 
 p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='stack') + facet_wrap('vs')
-print p + scale_fill_yhat()
+print(p + scale_fill_yhat())
 
 p = ggplot(df, aes(x='x', weight='wt')) + geom_bar(color='teal') + scale_fill_identity()
-print p
+print(p)
 
 p = ggplot(df, aes(x='x', weight='wt', fill='filler')) + geom_bar() + scale_fill_identity()
-print p
+print(p)
 
 
 p = ggplot(df, aes(x='x', weight='wt', fill='filler')) + geom_bar(position='fill') + scale_fill_identity()
-print p
+print(p)
 
 
 # mtcars.cyl = mtcars.cyl.astype(str)
 # mtcars.gear = mtcars.gear.astype(str)
 p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='stack') + facet_wrap('vs')
-print p
+print(p)
 
 p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='stack') + facet_wrap('vs', 'am')
-print p
+print(p)
 
 
 # p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='fill')
-# print p
+# print(p)
 #
 # p = ggplot(df, aes(x='x', fill='filler')) + geom_bar(position='fill') + scale_fill_identity() + facet_wrap('thingy')
-# print p
+# print(p)
 
 # p = ggplot(df, aes(x='x', fill='filler')) + geom_bar(position='fill') + facet_wrap('thingy')
-# print p
+# print(p)
 
 # p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(gear)')) + geom_bar(position='fill')
-# print p
+# print(p)
 #
 # p = ggplot(mtcars, aes(x='factor(cyl)', fill='factor(vs)')) + geom_bar(position='fill')
-# print p
+# print(p)
 
 # p = ggplot(df, aes(x='x', weight='wt', fill='filler')) + geom_bar() + scale_fill_identity()
-# print p
+# print(p)
 #
 # p = ggplot(df, aes(x='x', fill='filler')) + geom_bar() + scale_fill_identity()
-# print p
+# print(p)
 
 # p = ggplot(df, aes(x='x', weight='wt')) + geom_bar()
-# print p
+# print(p)
 #
 # p = ggplot(df, aes(x='x')) + geom_bar()
-# print p
+# print(p)
 # p = ggplot(diamonds, aes(x='clarity', fill='cut')) + geom_bar()
-# print p
+# print(p)
 #
 # p = ggplot(diamonds, aes(x='clarity', fill='cut')) + geom_bar(position='fill') + facet_wrap('cut')
-# print p
+# print(p)
