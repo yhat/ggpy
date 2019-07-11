@@ -1,11 +1,16 @@
+from __future__ import print_function
 import os
 import sys
+
 import imgdiff
 import tempfile
 import operator
 import math
 from PIL import Image
 import pandas as pd
+
+if sys.version[0] == 3:
+  from functools import reduce
 
 rundir1 = sys.argv[1]
 rundir2 = sys.argv[2]
@@ -59,4 +64,4 @@ for img in images:
 html += "\n" + "<div class='row' style='padding-left: 25%; width: 75%;'>" + pd.DataFrame(table)[['name', 'mse']].to_html(classes='table table-bordered') + "</div>\n"
 html += test_results
 html += "\n</body>"
-print html
+print(html)

@@ -46,13 +46,13 @@ class xlim(object):
     >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + xlim(0, 20)
     """
     def __init__(self, low = None, high = None):
-        if low != None :
+        if low is not None:
             try:
                 _ = low - 0
             except TypeError:
                 raise Exception("The 'low' argument to", self.__class__.__name__,
                                 "must be of a numeric type or None")
-        if high != None :
+        if high is not None:
             try:
                 _ = high - 0
             except TypeError:
@@ -82,14 +82,14 @@ class ylim(object):
     --------
     >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylim(0, 5)
     """
-    def __init__(self, low=None, high=None):
+    def __init__(self, low = None, high = None):
         if low is not None:
             try:
                 _ = low - 0
             except TypeError:
                 raise Exception("The 'low' argument to", self.__class__.__name__,
                                 "must be of a numeric type or None")
-        if high != None :
+        if high is not None:
             try:
                 _ = high - 0
             except TypeError:
@@ -140,7 +140,7 @@ class ylab(object):
 
     Examples
     --------
-    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylab("Count\n(# of cars)")
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + ylab('''Count\n(# of cars)''')
     """
     def __init__(self, ylab):
         if ylab is None:
@@ -169,7 +169,7 @@ class labs(object):
 
     Examples
     --------
-    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + labs("Miles / gallon", "Count\n(# of cars)", "MPG Plot")
+    >>> ggplot(mpg, aes(x='hwy')) + geom_hisotgram() + labs("Miles / gallon", '''Count\n(# of cars)''', "MPG Plot")
     """
     def __init__(self, x=None, y=None, title=None):
         self.x = x

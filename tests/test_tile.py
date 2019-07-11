@@ -1,3 +1,4 @@
+from __future__ import print_function
 from ggplot import *
 import pandas as pd
 import numpy as np
@@ -8,9 +9,9 @@ df = pd.DataFrame(dict(
     y=np.random.normal(0, 1, 1000),
     w=np.random.uniform(-1, 1, 1000)
 ))
-print df.head()
+print(df.head())
 p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_tile(interpolate=True)
-print p
+print(p)
 
 # p = ggplot(df, aes(x='x', y='y', fill='w')) + geom_bin2d()
 # print p

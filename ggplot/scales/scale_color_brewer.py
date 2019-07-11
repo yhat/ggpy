@@ -1,7 +1,7 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
+
 from .scale import scale
-from copy import deepcopy
 import brewer2mpl
 
 
@@ -73,7 +73,15 @@ class scale_color_brewer(scale):
             # only one color used
             n_colors = 3
 
-        bmap = brewer2mpl.get_map(palette, ctype, n_colors)
+        try:
+          bmap = brewer2mpl.get_map(palette, ctype, n_colors)
+        except ValueError as e:
+          if not str(e).startswith('Invalid number for map type'):
+            raise e
+          palettes = brewer2mpl.COLOR_MAPS[_handle_shorthand(ctype).lower().capitalize()][palette]
+          n_colors = int(max(str(k) for k in palettes))
+          bmap = brewer2mpl.get_map(palette, ctype, n_colors)
+
         gg.manual_color_list = bmap.hex_colors
 
         return gg

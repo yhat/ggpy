@@ -1,7 +1,6 @@
 from __future__ import (absolute_import, division, print_function,
                         unicode_literals)
 import numpy as np
-from pandas import Timestamp
 import pandas as pd
 import statsmodels.api as sm
 from statsmodels.nonparametric.smoothers_lowess import lowess as smlowess
@@ -19,8 +18,8 @@ date_types = (
     datetime.time
 )
 _isdate = lambda x: isinstance(x, date_types)
-SPAN = 2/3.
-ALPHA = 0.05 # significance level for confidence interval
+SPAN = 2 / 3.
+ALPHA = 0.05  # significance level for confidence interval
 
 def _snakify(txt):
     txt = txt.strip().lower()
@@ -49,8 +48,8 @@ def lm(x, y, alpha=ALPHA):
     predict_ci_upp      = df['predict_ci_95%_upp'].values
 
     if x_is_date:
-        x = [Timestamp.fromordinal(int(i)) for i in x]
-    return (x, fittedvalues, predict_mean_ci_low, predict_mean_ci_upp)
+        x = [pd.Timestamp.fromordinal(int(i)) for i in x]
+    return x, fittedvalues, predict_mean_ci_low, predict_mean_ci_upp
 
 def lowess(x, y, span=SPAN):
     "returns y-values estimated using the lowess function in statsmodels."
@@ -67,13 +66,13 @@ def lowess(x, y, span=SPAN):
     y = pd.Series(result[::,1])
     lower, upper = stats.t.interval(span, len(x), loc=0, scale=2)
     std = np.std(y)
-    y1 = pd.Series(lower * std +  y)
-    y2 = pd.Series(upper * std +  y)
+    y1 = pd.Series(lower * std + y)
+    y2 = pd.Series(upper * std + y)
 
     if x_is_date:
-        x = [Timestamp.fromordinal(int(i)) for i in x]
+        x = [pd.Timestamp.fromordinal(int(i)) for i in x]
 
-    return (x, y, y1, y2)
+    return x, y, y1, y2
 
 def mavg(x,y, window):
     "compute moving average"
@@ -87,5 +86,5 @@ def mavg(x,y, window):
     y2 = y + std_err
 
     if x_is_date:
-        x = [Timestamp.fromordinal(int(i)) for i in x]
-    return (x, y, y1, y2)
+        x = [pd.Timestamp.fromordinal(int(i)) for i in x]
+    return x, y, y1, y2
