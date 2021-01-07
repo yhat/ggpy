@@ -1,3 +1,5 @@
+A more recent version of a python module with a similar functionality is updated at https://github.com/has2k1/plotnine
+
 # ggplot
 
 <img src="./examples/example-34d773b9-ec68-40b1-999b-7bb07c208be9.png" width="400px" />
