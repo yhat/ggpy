@@ -9,7 +9,7 @@ not intended to be a feature-for-feature port of
 ```ggplot2 for R`` <https://github.com/hadley/ggplot2>`__--though there
 is much greatness in ``ggplot2``, the Python world could stand to
 benefit from it. So there **will be feature overlap**, but not
-neccessarily mimicry (after all, R is a little weird).
+necessarily mimicry (after all, R is a little weird).
 
 You can do cool things like this:
 

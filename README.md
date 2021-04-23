@@ -7,7 +7,7 @@
 `ggplot` is a Python implementation of the grammar of graphics. It is not intended
 to be a feature-for-feature port of [`ggplot2 for R`](https://github.com/hadley/ggplot2)--though 
 there is much greatness in `ggplot2`, the Python world could stand to benefit 
-from it. So there __will be feature overlap__, but not neccessarily mimicry 
+from it. So there __will be feature overlap__, but not necessarily mimicry 
 (after all, R is a little weird).
 
 You can do cool things like this:
